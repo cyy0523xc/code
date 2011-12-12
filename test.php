@@ -19,7 +19,7 @@ function isImmoderation($you){
 }
 function isAggressive($you){
 }
-function isEnjoyChallenge($you){
+function isEnjoyChallenge($you){ 
 }
 function isInnovation($you){
 }
