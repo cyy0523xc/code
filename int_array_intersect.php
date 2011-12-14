@@ -1,5 +1,36 @@
 <?php
 
+function intersect ($a, $b)
+{
+    $result = array();
+
+    $length_a = count($a);
+    $length_b = count($b);
+
+    for ($i = 0, $j = 0; $i < $length_a && $j < $length_b; null)
+    {
+        if ($a[$i] < $b[$j] && ++ $i)
+        {
+            continue;
+        }
+
+        if ($a[$i] > $b[$j] && ++ $j)
+        {
+            continue;
+        }
+
+        $result[] = $a[$i];
+
+        if (isset($a[$next = $i + 1]) && $a[$next] != $a[$i])
+        {
+            ++ $j;
+        }
+        ++ $i;
+    }
+
+    return $result;
+};
+
 function int_array_intersect ()
 {
     if (func_num_args() < 2)
@@ -17,44 +48,13 @@ function int_array_intersect ()
         }
     }
     
-    $intersect = function  ($a, $b)
-    {
-        $result = array();
-        
-        $length_a = count($a);
-        $length_b = count($b);
-        
-        for ($i = 0, $j = 0; $i < $length_a && $j < $length_b; null)
-        {
-            if ($a[$i] < $b[$j] && ++ $i)
-            {
-                continue;
-            }
-            
-            if ($a[$i] > $b[$j] && ++ $j)
-            {
-                continue;
-            }
-            
-            $result[] = $a[$i];
-            
-            if (isset($a[$next = $i + 1]) && $a[$next] != $a[$i])
-            {
-                ++ $j;
-            }
-            ++ $i;
-        }
-        
-        return $result;
-    };
-    
     $result = array_shift($args);
     sort($result);
     
     foreach ($args as $arg)
     {
         sort($arg);
-        $result = $intersect($result, $arg);
+        $result = intersect($result, $arg);
     }
     
     return $result;
@@ -80,5 +80,14 @@ $result = int_array_intersect($param_a, $param_b);
 $time = microtime(true) - $time;
 
 echo "int_array_intersect: {$time}\n";
+
+
+$time = microtime(true);
+
+$result = array_intersect($param_a, $param_b);
+
+$time = microtime(true) - $time;
+
+echo "array_intersect: {$time}\n";
 
 ?>
