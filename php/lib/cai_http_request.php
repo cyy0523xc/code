@@ -90,6 +90,7 @@ class CaiHttpRequest extends CaiBase
      */
     public static function get($url, $timeout = self::TIMEOUT)
     {
+        $__url = $url;
         $url = parse_url($url);
     
         if (!isset($url['port']))
@@ -106,11 +107,11 @@ class CaiHttpRequest extends CaiBase
         $eol = "\r\n";
     
         $headers = array();
-        $headers[] = "GET " . $url . " HTTP/1.0";
+        $headers[] = "GET " . $__url . " HTTP/1.0";
         $headers[] = "Host: " . $url['host'];
         $headers[] = "Connection:Close" . $eol . $eol;
     
-        $headers = implode($eol, $headers);
+        echo $headers = implode($eol, $headers);
         $fp = fsockopen($url['host'], $url['port'], $errno, $errstr, $timeout);
         if ($fp)
         {
