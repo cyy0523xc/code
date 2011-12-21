@@ -1,6 +1,10 @@
 <?php
-
-class CaiHttpRequest
+/**
+ * 网络请求相关的库函数
+ * @author cyy0523xc@gmail.com
+ *
+ */
+class CaiHttpRequest extends CaiBase
 {
     
     const TIMEOUT = 2;
