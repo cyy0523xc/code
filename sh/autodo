@@ -1,0 +1,145 @@
+#!/bin/bash
+# 自动化一些常用的任务
+# History：
+# 2012.03.20 Alex
+# 
+
+root_path="/home/ymserver/vhost/"
+git_path=("common" "module" "analytics" "anticheat" "ad_now" "banner" "wall" "spot", "stat")
+log_file="/tmp/sh_autodo.log"
+
+help()
+{
+    cat <<HELP
+autodo -- 自动化任务
+
+USAGE：
+
+OPTIONS：
+-h help test
+-g git gateway
+-r git gateway_gray
+-t git gateway_test
+-p git pull and git checkout
+-b branch
+-w cd /home/ymserver/vhost/gateway/static/wall/ && git pull
+-m php make & install
+
+EXAMPLE:
+autodo -hgrt -p (git) -b (git branch)
+
+HELP
+    exit 0
+}
+
+params_check()
+{
+    if [ 2 != $# -a $1 != $2 ]; then
+        echo "Error auto_git params number is not equel 3"
+        exit 0
+    fi
+}
+
+
+# @param string $1 操作的代码库类型：gateway, gateway_test, gateway_gray
+# @param int    $2 是否需要切换到其他分支, 0|1
+# @param string $3 需要切换到的分支
+autogit()
+{
+    params_check $# 3
+
+    log "GIT BEGIN: $(date)"
+    for dir in ${git_path[*]};
+    do
+        log ""
+        path="$root_path$1/$dir"
+
+        if [ ! -d $path ]; then
+            echo "$path is not a dir";
+            continue
+        fi
+
+        log "当前目录是：" 
+        cd $path
+        log $(pwd)
+
+        log $(git checkout master)
+        log $(git pull)
+        
+        if [ 1 = $2 ]; then
+            log $(git checkout $3)
+        fi 
+
+    done
+
+    log "GIT END.";
+}
+
+# @param string $1 git库
+# @param string $2 切换的目标分支
+gitpull()
+{
+    params_check $# 2
+
+    echo "GIT BEGIN: $(date)"
+    for dir in ${git_path[*]};
+    do
+        path="$root_path$1/$dir"
+
+        if [ ! -d $path ]; then
+            echo "$path is not a dir";
+            continue
+        fi
+
+        echo ""
+        echo "当前目录是：" 
+        cd $path
+        echo $(pwd)
+        
+        git checkout master
+        git pull
+        git checkout $2
+    done
+
+}
+
+
+
+# @param string $1
+log()
+{
+    echo $1
+    echo $(date)    $1 >> "$log_file.$(date +%Y%m%d)"
+}
+
+branch="";
+while getopts hgtrb:p:w opt;
+do
+    case $opt in
+        h) help
+            ;;
+        g) autogit "gateway" 1 "local"
+            ;;
+        t) autogit "gateway_test" 0 ""
+            ;;
+        r) autogit "gateway_gray" 0 ""
+            ;;
+        b) branch=$OPTARG
+            ;;
+        p) gitpull $OPTARG $branch
+            ;;
+        w) cd "/home/ymserver/vhost/gateway/static/wall/"
+            log $(pwd)
+            log $(git pull)
+            ;;
+        m) echo "******** BEGIN  **********"
+            sudo make
+            sudo make install
+            sudo service nginx reload
+            echo "OVER!!"
+            ;;
+        ?) echo "Error, please use -h for help"
+            ;;
+
+    esac
+done

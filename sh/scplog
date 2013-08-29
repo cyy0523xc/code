@@ -1,0 +1,1 @@
+scp -P 36000 ymserver@log:$1 $2

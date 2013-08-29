@@ -1,0 +1,113 @@
+#!/bin/bash
+
+echo ""
+echo "common"
+cd /home/ymserver/vhost/gateway/common
+git checkout master
+git pull origin master
+git checkout local
+git merge master
+git push origin local
+
+echo ""
+echo "module"
+cd /home/ymserver/vhost/gateway/module
+git checkout master
+git pull origin master
+git checkout local
+git merge master
+git push origin local
+
+echo ""
+echo "ad_now"
+cd /home/ymserver/vhost/gateway/ad_now
+git checkout master
+git pull origin master
+git checkout local
+git merge master
+git push origin local
+
+echo ""
+echo "anticheat"
+cd /home/ymserver/vhost/gateway/anticheat
+git checkout master
+git pull origin master
+git checkout local
+git merge master
+git push origin local
+
+echo ""
+echo "banner"
+cd /home/ymserver/vhost/gateway/banner
+git checkout master
+git pull origin master
+git checkout local
+git merge master
+git push origin local
+
+echo ""
+echo "stat"
+cd /home/ymserver/vhost/gateway/stat
+git checkout master
+git pull origin master
+git checkout local
+git merge master
+git push origin local
+
+echo ""
+echo "wall"
+cd /home/ymserver/vhost/gateway/wall_new/
+git checkout master
+git pull origin master
+git checkout local
+git merge master
+git push origin local
+
+echo ""
+echo "Jailbreak Center"
+cd /home/ymserver/vhost/gateway/app/jc/
+git checkout master
+git pull origin master
+git checkout local
+git merge master
+git push origin local
+
+echo ""
+echo "Ecom"
+cd /home/ymserver/vhost/gateway/app/ecom/
+git checkout master
+git pull origin master
+git checkout local
+git merge master
+git push origin local
+
+echo ""
+echo "internal"
+cd /home/ymserver/vhost/gateway/api-internal/
+git checkout master
+git pull origin master
+git checkout local
+git merge master
+git push origin local
+
+echo ""
+echo "gateway-push"
+cd /home/ymserver/vhost/gateway/gateway_push/
+git checkout master
+git pull origin master
+git checkout local
+git merge master
+git push origin local
+
+echo ""
+echo "spot"
+cd /home/ymserver/vhost/gateway/spot/
+git checkout master
+git pull origin master
+git checkout local
+git merge master
+git push origin local
+
+
+
+

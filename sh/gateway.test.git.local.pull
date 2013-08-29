@@ -1,0 +1,44 @@
+#!/bin/bash
+
+echo ""
+echo "common"
+cd /home/ymserver/vhost/gateway_test/common
+git checkout local
+git pull origin local
+
+echo ""
+echo "module"
+cd /home/ymserver/vhost/gateway_test/module
+git checkout local
+git pull origin local
+
+echo ""
+echo "ad_now"
+cd /home/ymserver/vhost/gateway_test/ad_now
+git checkout local
+git pull origin local
+
+echo ""
+echo "anticheat"
+cd /home/ymserver/vhost/gateway_test/anticheat
+git checkout local
+git pull origin local
+
+echo ""
+echo "banner"
+cd /home/ymserver/vhost/gateway_test/banner
+git checkout local
+git pull origin local
+
+echo ""
+echo "stat"
+cd /home/ymserver/vhost/gateway_test/stat
+git checkout local
+git pull origin local
+
+echo ""
+echo "jailbreak center"
+cd /home/ymserver/vhost/gateway_test/app/jc
+git checkout local
+git pull origin local
+
