@@ -1,80 +1,152 @@
 <?php
-
-class sina
-{
-/*
-   一个简单的新浪微搏curl模拟登录类. 来源: http://chenall.net/post/sina_curl_login/
-   使用方法:
-
-   http函数是一个简单的curl封装函数,需要自己去实现,
-   http函数原型如下:
-       http($url,$post_data = null)
-       返回网页内容.
-   第一个参数$url,就是要访问的url地址,$post_data是post数据,如果为空,则代表GET访问.
-
-   1.使用加密后密码登录 加密方法: sha1(sha1($pass))
-       $sina = new sina($username,$sha1pass)
-   2.直接使用原始密码登录
-       $sina = new sina($username,$sha1pass,0)
-   执行之后如果$sina->status非空,则登录成功,否则登录失败.
-   登录成功之后,你就可以直接继续使用http函数来访问其它内容.
-   使用 unset($sina) 会自动注销登录.
-*/
-   public $status;
-   function __construct($su,$sp,$flags = 1) {
-       $this->status = $this->login($su,$sp,$flags);
-   }
-
-   function __destruct()
-   {
-       //注销登录
-       $this->logout();
-   }
-
-   function logout()
-   {
-       http("http://weibo.com/logout.php");
-       unset($this->status);
-   }
-   /*不需要了,只要不设置HTTP函数中不设置CURLOPT_COOKIESESSION参数就行了,要设可以设为false.
-   function ResetCookie()//重置相关cookie
-   {
-       global $cookie_file;
-       $str = file_get_contents($cookie_file);
-       $t = time()+3600;//设置cookie有效时间一个小时
-       $str = preg_replace("/\t0\t/", "\t".$t."\t", $str);
-       $f = fopen($cookie_file,"w");
-       fwrite($f,$str);
-       fclose($f);
-   }
-   */
-
-   function login($su,$sp,$flags = 0)
-   {
-       $su = urlencode(base64_encode($su));
-       $data = http("http://login.sina.com.cn/sso/prelogin.php?entry=miniblog&client=ssologin.js&user=".$su);
-       if (empty($data))
-           return null;
-       //$data = substr($data,35,-1);
-       $data = json_decode($data);
-       if ($data->retcode != 0)
-           return null;
-       if ($flags == 0)
-           $sp = sha1(sha1($sp));
-       $sp .= strval($data->servertime).$data->nonce;
-       $sp = sha1($sp);
-       $data = "url=http%3A%2F%2Fweibo.com%2Fajaxlogin.php%3F&returntype=META&ssosimplelogin=1&su=".$su.'&service=miniblog&servertime='.$data->servertime."&nonce=".$data->nonce.'&pwencode=wsse&sp='.$sp;
-       $data = http("http://login.sina.com.cn/sso/login.php?client=ssologin.js",$data);
-       //$this->ResetCookie();
-       if (preg_match("/location\.replace\('(.*)'\)/",$data,$url))
-       {
-           $data = http($url[1]);
-           //$this->ResetCookie();
-           $data = json_decode(substr($data,1,-2));
-           if ($data->result == true)
-               return $data->userinfo;
-       }
-       return null;
-   }
+/**
+ * 用于模拟新浪微博登录! by CJ ( http://www.summerbluet.com ) 
+ */
+  
+/** 定义项目路径 */
+define('PROJECT_ROOT_PATH' , dirname(__FILE__));
+define('COOKIE_PATH' , PROJECT_ROOT_PATH );
+  
+// 通用时间戳
+define('TIMESTAMP', time());
+  
+// 出现问题的时候可以开启, 调试用的, 会在当前文件夹下面创建 LOG 文件
+define('DEBUG', false);
+  
+/** 用来做模拟登录的新浪帐号 */
+$username = ""; 
+$password = "";
+  
+/* Fire Up */
+$weiboLogin = new weiboLogin( $username, $password );
+exit($weiboLogin->showTestPage( 'http://weibo.com/at/comment' ));
+  
+class weiboLogin {
+      
+    private $cookiefile;
+    private $username;
+    private $password;
+      
+    function __construct( $username, $password ) 
+    {
+        ( $username =='' ||  $password=='' ) && exit( "请填写用户名密码" );
+          
+        $this->cookiefile = COOKIE_PATH.'/cookie_sina_'.substr(base64_encode($username), 0, 10);
+        $this->username = $username;
+        $this->password = $password;
+    }
+      
+    /**
+     * CURL请求
+     * @param String $url 请求地址
+     * @param Array $data 请求数据
+     */
+    function curlRequest($url, $data = false)
+    {
+        $ch = curl_init();
+          
+        $option = array(
+                            CURLOPT_URL => $url, 
+                            CURLOPT_HEADER => 0, 
+                            CURLOPT_HTTPHEADER => array('Accept-Language: zh-cn','Connection: Keep-Alive','Cache-Control: no-cache'), 
+                            CURLOPT_USERAGENT => "Mozilla/5.0 (Windows NT 6.1; WOW64) AppleWebKit/537.1 (KHTML, like Gecko) Chrome/21.0.1180.79 Safari/537.1", 
+                            CURLOPT_FOLLOWLOCATION => TRUE, 
+                            CURLOPT_MAXREDIRS => 4, 
+                            CURLOPT_RETURNTRANSFER => TRUE,
+                            CURLOPT_COOKIEJAR => $this->cookiefile,
+                            CURLOPT_COOKIEFILE => $this->cookiefile
+                        );
+          
+        if ( $data ) {
+            $option[CURLOPT_POST] = 1;
+            $option[CURLOPT_POSTFIELDS] = $data;
+        }
+          
+        curl_setopt_array($ch, $option);
+        $response = curl_exec($ch);
+          
+        if (curl_errno($ch) > 0) {
+            exit("CURL ERROR:$url " . curl_error($ch));
+        }
+        curl_close($ch);
+        return $response;
+    }
+      
+    /**  @desc CURL 模拟新浪登录 */
+    function doSinaLogin()
+    {
+        // Step 1 : Get tickit
+        $preLoginData = $this->curlRequest('http://login.sina.com.cn/sso/prelogin.php?entry=weibo&callback=sinaSSOController.preloginCallBack&su=' .
+                base64_encode($this->username) . '&client=ssologin.js(v1.3.16)');
+        preg_match('/sinaSSOController.preloginCallBack\((.*)\)/', $preLoginData, $preArr);
+        $jsonArr = json_decode($preArr[1], true);
+          
+        $this->debug('debug_1_Tickit', $preArr[1]);
+          
+        if (is_array($jsonArr)) {
+            // Step 2 : Do Certification 
+            $postArr = array( 'entry' => 'weibo',
+                    'gateway' => 1,
+                    'from' => '',
+                    'vsnval' => '',
+                    'savestate' => 7,
+                    'useticket' => 1,
+                    'ssosimplelogin' => 1,
+                    'su' => base64_encode(urlencode($this->username)),
+                    'service' => 'miniblog',
+                    'servertime' => $jsonArr['servertime'],
+                    'nonce' => $jsonArr['nonce'],
+                    'pwencode' => 'wsse',
+                    'sp' => sha1(sha1(sha1($this->password)) . $jsonArr['servertime'] . $jsonArr['nonce']),
+                    'encoding' => 'UTF-8',
+                    'url' => 'http://weibo.com/ajaxlogin.php?framelogin=1&callback=parent.sinaSSOController.feedBackUrlCallBack',
+                    'returntype' => 'META');
+      
+            $loginData = $this->curlRequest('http://login.sina.com.cn/sso/login.php?client=ssologin.js(v1.3.19)', $postArr);
+              
+            $this->debug('debug_2_Certification_raw', $loginData);
+                  
+            // Step 3 : SSOLoginState
+            if ($loginData) {
+      
+                $matchs = $loginResultArr  =array();
+                preg_match('/replace\(\'(.*?)\'\)/', $loginData, $matchs);
+                  
+                $this->debug('debug_3_Certification_result', $matchs[1]); 
+                  
+                $loginResult = $this->curlRequest( $matchs[1] );
+                preg_match('/feedBackUrlCallBack\((.*?)\)/', $loginResult, $loginResultArr);
+                  
+                $userInfo = json_decode($loginResultArr[1],true);
+                  
+                $this->debug('debug_4_UserInfo', $loginResultArr[1]); 
+            } else {
+                exit('Login sina fail.');
+            }
+        } else {
+            exit('Server tickit fail');
+        }
+    }
+      
+    /**  测试登录情况, 调用参考 */
+    function showTestPage( $url ) {
+        $file_holder = $this->curlRequest( $url );
+          
+        // 如果未登录情况, 登录后再尝试
+        $isLogin = strpos( $file_holder, 'class="user_name"');
+        if ( !$isLogin ){
+            unset($file_holder);
+            $this->doSinaLogin();
+            $file_holder = $this->curlRequest( $url );
+        }
+        return $file_holder ;
+    }   
+      
+    /**  调试 */
+    function debug( $file_name, $data ) {
+        if ( DEBUG ) {
+            file_put_contents( $file_name.'.txt', $data );
+        }
+    }
+      
 }
-?>
