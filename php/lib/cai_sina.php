@@ -11,11 +11,11 @@ define('COOKIE_PATH' , PROJECT_ROOT_PATH );
 define('TIMESTAMP', time());
   
 // 出现问题的时候可以开启, 调试用的, 会在当前文件夹下面创建 LOG 文件
-define('DEBUG', false);
-  
+define('DEBUG', true);
+
 /** 用来做模拟登录的新浪帐号 */
-$username = ""; 
-$password = "";
+$username = $argv[1]; 
+$password = $argv[2];
   
 /* Fire Up */
 $weiboLogin = new weiboLogin( $username, $password );
@@ -108,17 +108,17 @@ class weiboLogin {
                   
             // Step 3 : SSOLoginState
             if ($loginData) {
-      
+                
                 $matchs = $loginResultArr  =array();
-                preg_match('/replace\(\'(.*?)\'\)/', $loginData, $matchs);
-                  
+                preg_match('/replace\([\'\"](.*?)[\'\"]\)/', $loginData, $matchs);
+                
                 $this->debug('debug_3_Certification_result', $matchs[1]); 
-                  
+                
                 $loginResult = $this->curlRequest( $matchs[1] );
                 preg_match('/feedBackUrlCallBack\((.*?)\)/', $loginResult, $loginResultArr);
-                  
+                
                 $userInfo = json_decode($loginResultArr[1],true);
-                  
+                
                 $this->debug('debug_4_UserInfo', $loginResultArr[1]); 
             } else {
                 exit('Login sina fail.');
