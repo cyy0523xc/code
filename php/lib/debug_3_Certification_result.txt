@@ -1,1 +1,0 @@
-http://weibo.com/ajaxlogin.php?framelogin=1&callback=parent.sinaSSOController.feedBackUrlCallBack&retcode=4403&reason=%B1%A7%C7%B8%A3%A1%B5%C7%C2%BC%CA%A7%B0%DC%A3%AC%C7%EB%C9%D4%BA%F2%D4%D9%CA%D4
