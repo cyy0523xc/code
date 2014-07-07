@@ -9,7 +9,12 @@ sudo apt-get install guake
 
 sudo apt-get install freemind
 
+sudo apt-get install gnome-do
+
+sudo apt-get install terminator
+
 sudo apt-get install tmux
+
 
 
 # install pinta
