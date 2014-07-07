@@ -3,6 +3,10 @@
 sudo mkdir /home/code
 sudo chown -Rh alex:alex /home/code
 
+# config
+git config --global user.email 'cyy0523xc@gmail.com'
+git config --global user.name  "alex cai"
+
 cd /home/code 
 
 # github
