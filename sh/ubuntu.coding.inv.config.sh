@@ -1,7 +1,7 @@
 #!/bin/bash
 
 sudo mkdir /home/code
-chmod -R alex:alex /home/code
+sudo chown -Rh alex:alex /home/code
 
 cd /home/code 
 
