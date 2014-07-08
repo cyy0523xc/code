@@ -1,5 +1,11 @@
 #!/bin/bash
 
+# elasticsearch自动安装脚本
+# 
+# elasticsearch的版本：1.2.1 
+# kibana的版本：3.1.0 
+
+# 目录，可以指定其他的目录
 cd /home/alex/programs/
 
 # elasticsearch
