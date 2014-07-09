@@ -5,6 +5,8 @@ wget https://raw.github.com/ma6174/vim/master/setup.sh -O ma6174_vim_setup.sh &&
 
 sudo apt-get install curl
 
+sudo apt-get install gitk
+
 sudo apt-get install guake
 
 sudo apt-get install freemind
