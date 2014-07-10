@@ -24,6 +24,10 @@ echo "kibana tar OK"
 
 cd elasticsearch-1.2.1/
 
+# marvel
+bin/plugin -i elasticsearch/marvel/latest
+echo "marvel OK"
+
 # es2unix
 curl -s download.elasticsearch.org/es2unix/es > /home/alex/programs/elasticsearch-1.2.1/bin/es 
 chmod +x bin/es
@@ -31,7 +35,7 @@ echo "es2unix OK"
 
 # jetty
 # @see https://github.com/sonian/elasticsearch-jetty
-elasticsearch-1.2.1/bin/plugin -url https://oss-es-plugins.s3.amazonaws.com/elasticsearch-jetty/elasticsearch-jetty-1.2.1.zip -install elasticsearch-jetty-1.2.1
+bin/plugin -url https://oss-es-plugins.s3.amazonaws.com/elasticsearch-jetty/elasticsearch-jetty-1.2.1.zip -install elasticsearch-jetty-1.2.1
 echo ""
 echo "# jetty config"
 echo "http.type: com.sonian.elasticsearch.http.jetty.JettyHttpServerTransportModule" >> config/elasticsearch.yml
