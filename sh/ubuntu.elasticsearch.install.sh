@@ -9,7 +9,7 @@
 cd /home/alex/programs/
 
 # elasticsearch
-wget https://download.elasticsearch.org/elasticsearch/elasticsearch/elasticsearch-1.2.1.tar.gz
+wget https://download.elasticsearch.org/elasticsearch/elasticsearch/elasticsearch-1.2.2.tar.gz
 echo "elasticsearch download OK"
 
 tar -vxf elasticsearch*.tar.gz
@@ -22,14 +22,14 @@ echo "kibana download OK"
 tar -vxf kibana*tar.gz
 echo "kibana tar OK"
 
-cd elasticsearch-1.2.1/
+cd elasticsearch-1.2.2/
 
 # marvel
 bin/plugin -i elasticsearch/marvel/latest
 echo "marvel OK"
 
 # es2unix
-curl -s download.elasticsearch.org/es2unix/es > /home/alex/programs/elasticsearch-1.2.1/bin/es 
+curl -s download.elasticsearch.org/es2unix/es > bin/es 
 chmod +x bin/es
 echo "es2unix OK"
 
