@@ -1,5 +1,13 @@
 #!/bin/bash
 
+# 自定义bashrc
+echo "" >> ~/.bashrc 
+echo "# 自定义bashrc" >> ~/.bashrc
+echo "." $(pwd)/ubuntu.bashrc.sh  >> ~/.bashrc
+
+
+# ******************   GIT   ************************
+
 sudo mkdir /home/code
 sudo chown -Rh alex:alex /home/code
 
@@ -27,8 +35,5 @@ git clone git@git.ibbd.net:caiyingyao/raw.git
 git clone git@git.ibbd.net:ibbd/juketong-intl.git
 git clone git@git.ibbd.net:ibbd/juketong-cafe-deco.git
 git clone git@git.ibbd.net:ibbd/ibbdcrm-tasks.git
-
-
-
 
 

@@ -35,7 +35,7 @@ HELP
 params_check()
 {
     if [ 2 != $# -a $1 != $2 ]; then
-        echo "Error auto_git params number is not equel 3"
+        echo "Error auto_git params number is not equel $2"
         exit 0
     fi
 }
