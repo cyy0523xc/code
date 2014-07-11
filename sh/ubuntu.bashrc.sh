@@ -47,8 +47,11 @@ ibbd_git_init() {
     mkdir $1
     cd $1
     git init
-    touch README
-    git add README
+    touch README.md
+    echo "# 项目：$1" >> README.md
+    echo "  Created at " $(date) >> README.md
+    echo "  Gitlab: git@git.ibbd.net:${groupname}/$1\.git"
+    git add README.md
     git commit -m 'first commit'
     git remote add origin git@git.ibbd.net:${groupname}/$1\.git
     git push -u origin master
@@ -56,4 +59,10 @@ ibbd_git_init() {
     echo ""
     echo "project $1 is OK!"
 }
+
+# 输出一个字符串的md5值
+cyy_md5() {
+    echo $1 | md5sum
+}
+
 
