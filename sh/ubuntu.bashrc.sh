@@ -3,10 +3,12 @@
 # 自定义bashrc
 # 在~/.bashrc中被引用
 
+# 服务器快速登陆
 alias ssh179='ssh root@112.124.47.179'
 alias ssh195='ssh root@115.29.166.195'
 alias ssh35='ssh root@42.120.21.35'
 
+# javascript和css文件压缩
 alias yuic="java -jar /home/code/ibbd/cyy-doc/tools/yuicompressor-2.4.7.jar "
 
 # elasticsearch
@@ -24,10 +26,12 @@ esget() {
     echo ""
 }
 
+# cd github目录
 cd_github_code() {
     cd /home/code/github/
 }
 
+# cd开发目录
 cd_ibbd_code() {
     cd /home/code/ibbd/ 
 }
