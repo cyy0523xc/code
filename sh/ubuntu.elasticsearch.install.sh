@@ -8,6 +8,7 @@
 # wget https://raw.githubusercontent.com/cyy0523xc/code/master/sh/ubuntu.elasticsearch.install.sh
 #
 # 目录，可以指定其他的目录
+# NOTICES: 如果目录不同，则注意修改这里
 cd /home/alex/programs/
 
 # elasticsearch
