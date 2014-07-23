@@ -2,9 +2,11 @@
 
 # elasticsearch自动安装脚本
 # 
-# elasticsearch的版本：1.2.1 
+# elasticsearch的版本：1.2.2 
 # kibana的版本：3.1.0 
-
+#
+# wget https://raw.githubusercontent.com/cyy0523xc/code/master/sh/ubuntu.elasticsearch.install.sh
+#
 # 目录，可以指定其他的目录
 cd /home/alex/programs/
 
