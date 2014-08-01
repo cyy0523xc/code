@@ -26,6 +26,12 @@ esget() {
     echo ""
 }
 
+esput() {
+    echo ""
+    curl -XPUT "http://localhost:9200/$1/$2/" -d "$3" | python -m json.tool
+
+}
+
 # cd github目录
 cd_github_code() {
     cd /home/code/github/
