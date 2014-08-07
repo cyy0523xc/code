@@ -381,11 +381,11 @@ node.name: "alex-pc-es-1.2.2"
 
 ################################## jetty ################################
 
-http.type: com.sonian.elasticsearch.http.jetty.JettyHttpServerTransportModule
-sonian.elasticsearch.http.jetty:
-    config: jetty.xml,jetty-ssl.xml,jetty-hash-auth.xml,jetty-restrict-writes.xml
-    ssl_port: 9443
-    #keystore_password: "OBF:1nc01vuz1w8f1w1c1rbu1rac1w261w9b1vub1ndq"
+#http.type: com.sonian.elasticsearch.http.jetty.JettyHttpServerTransportModule
+#sonian.elasticsearch.http.jetty:
+#    config: jetty.xml,jetty-ssl.xml,jetty-hash-auth.xml,jetty-restrict-writes.xml
+#    ssl_port: 9443
+#    keystore_password: "OBF:1nc01vuz1w8f1w1c1rbu1rac1w261w9b1vub1ndq"
     #keystore_password: "OBF:2d720279adbe1eb9a14fc18b8e55186352f9bfe00c"
-    keystore_password: "OBF:1u2a1toa1w8v1tok1u30"
+    #keystore_password: "OBF:1u2a1toa1w8v1tok1u30"
 
