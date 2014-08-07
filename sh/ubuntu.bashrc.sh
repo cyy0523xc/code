@@ -47,13 +47,13 @@ cd_ibbd_code() {
 #   $1: project name
 #   $2: group name, the default value is "ibbd"
 ibbd_git_init() {
-    if [2 == $#]; then
+    if [ 2 -eq $# ]; then
         groupname=$2
     else
         groupname="ibbd"
     fi
 
-    cd_github_code
+    cd_ibbd_code
     mkdir $1
     cd $1
     git init

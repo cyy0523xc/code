@@ -2,7 +2,7 @@
 
 # elasticsearch自动安装脚本
 # 
-# elasticsearch的版本：1.2.2 
+# elasticsearch的版本：1.3.1 
 # kibana的版本：3.1.0 
 #
 # wget https://raw.githubusercontent.com/cyy0523xc/code/master/sh/ubuntu.elasticsearch.install.sh | bash ubuntu.elasticsearch.install.sh
@@ -22,8 +22,8 @@ if ! [ -f $filename ]; then
 fi
 
 # elasticsearch
-filename="elasticsearch-1.2.2.tar.gz"
-dirname="elasticsearch-1.2.2"
+filename="elasticsearch-1.3.1.tar.gz"
+dirname="elasticsearch-1.3.1"
 if ! [ -f $filename ]; then
     wget https://download.elasticsearch.org/elasticsearch/elasticsearch/$filename
     echo "elasticsearch download OK"
