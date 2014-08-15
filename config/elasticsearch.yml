@@ -201,15 +201,18 @@ node.name: "alex-pc-es-1.2.2"
 # Set the bind address specifically (IPv4 or IPv6):
 #
 #network.bind_host: 192.168.0.1
+#network.bind_host: 192.168.1.112
 
 # Set the address other nodes will use to communicate with this node. If not
 # set, it is automatically derived. It must point to an actual IP address.
 #
 #network.publish_host: 192.168.0.1
+#network.publish_host: 192.168.1.112
 
 # Set both 'bind_host' and 'publish_host':
 #
 #network.host: 192.168.0.1
+#network.host: 192.168.1.112
 
 # Set a custom port for the node to node communication (9300 by default):
 #
