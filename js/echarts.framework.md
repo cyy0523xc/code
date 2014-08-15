@@ -191,6 +191,36 @@
 
 ```
 
+### 地图
+
+```
+// 下面是两个产品在各地的销量
+{
+    legend: [iphone4', 'iphone5'],
+    value: [
+        [
+            {name: '北京',value: 10},
+            {name: '天津',value: 20},
+            {name: '上海',value: 30},
+            {name: '广东',value: 70},
+            {name: '台湾',value: 30},
+            {name: '香港',value: 20},
+            {name: '澳门',value: 50}
+        ],        
+        [
+            {name: '河北',value: 20},
+            {name: '重庆',value: 30},
+            {name: '湖南',value: 70},
+            {name: '广西',value: 30},
+            {name: '山西',value: 20},
+        ]        
+    ]
+}
+
+```
+
+
+
 ### 关系网络
 
 ```
