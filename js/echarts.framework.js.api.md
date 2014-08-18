@@ -13,11 +13,11 @@ http://echarts.baidu.com/doc/example/themeDesigner.html
 
 ```
 <!-- 
-deeao-chart：我们定义的图形标签
-chart-type： 【必须】图形类型（如line，bar等），如果有多种类型。
+deeao-chart: 我们定义的图形标签
+chart-type:  【必须】图形类型（如line，bar等），如果有多种类型。
              例如折线图与柱形图混搭，则用逗号分隔，如：bar,bar,line
 data-url:    【必须】数据的url接口，图上的数据由该接口返回
-onclick：    【可选】onclick事件，例如地图上，点击其中一个省份，则显示具体省份的数据。
+onclick:     【可选】onclick事件，例如地图上，点击其中一个省份，则显示具体省份的数据。
 -->
 <deeao-chart chart-type="line" data-url="/dashboard/ajax_sales_component" onclick="handle_function()">
 ```
