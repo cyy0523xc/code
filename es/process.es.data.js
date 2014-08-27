@@ -430,15 +430,18 @@ var aggs_data = aggs.filter_ym.range_division.buckets;
 var res = [];
 var xAxis = [];
 
+// 结果数组初始化
 for (var label_i in legend_labels) {
     res[label_i] = [];
 }
 
+// 处理aggs data
 for (var col_i in aggs_data) {
     var col = aggs_data[col_i];
-    xAxis[col_i] = col.key;
     var tmp_data = col.terms_type.buckets;
     var tmp_index = 0;
+    xAxis[col_i] = col.key;
+
     for (var label_i in legend_labels) {
         res[tmp_index][col_i] = 0;
         for (var col_item_i in tmp_data) {
@@ -452,15 +455,17 @@ for (var col_i in aggs_data) {
     }
 }
 
+json2str(xAxis);
 json2str(res);
 
+// 输出json字符串
 function json2str(o) {
     var arr = [];
     var fmt = function(s) {
         if (typeof s == 'object' && s != null) return json2str(s);
         return /^(string|number)$/.test(typeof s) ? "'" + s + "'" : s;
-
     }
+
     for (var i in o) arr.push("'" + i + "':" + fmt(o[i]));
     return '{' + arr.join(',') + '}';
 }
