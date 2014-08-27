@@ -1,0 +1,20 @@
+{
+    "aggs": {
+        "filter_name": {
+            "filter": {
+                "term": {
+                    "year": 2014,
+                    "month": 3
+                }
+            },
+
+            "aggs": {
+                "sum_name": {
+                    "sum": {
+                        "field": "TotalGrossSales"
+                    }
+                }
+            }
+        }
+    }
+}

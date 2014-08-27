@@ -23,15 +23,27 @@ data-url:    【必须】数据的url接口，图上的数据由该接口返回
 width:       【必须】宽度
 height:      【必须】高度
 title:       【可选】标题
-onclick:     【可选】onclick事件，例如地图上，点击其中一个省份，则显示具体省份的数据。
+id:          【可选】ID，js可以根据该值来定位该元素，并做相应的扩展。
 -->
-<deeao-chart chart-type="line" data-url="/dashboard/ajax_sales_component" width="100" height="100" title="图形标题" onclick="handle_function()">
+<deeao-chart id="chart-id-line" chart-type="line" data-url="/dashboard/ajax_sales_component" width="100" height="100" title="图形标题"> 
 </deeao-chart>
 ```
 
 ### 图形生成基类
 
-这个类是框架最关键的部分，追求的目标：友好，健壮，易用，易扩展。处理的主要功能：
+这个类是框架最关键的部分，追求的目标：友好，健壮，易用，易扩展。
+
+主要功能：
+
+- 绑定主题（主题和框架是分离的，主题可以做独立的设计和开发）
+- 解释 *deeao-chart* 标签及其属性
+- 封装异步请求接口
+- 登陆相关步骤封装
+- 数据处理封装
+- 正在加载及异常处理
+
+
+解释过程的主要流程：
 
 - 先查找所有的 *deeao-chart* 标签，解析其中的属性
 - 根据 *data-url* 去加载数据，处理异常情况

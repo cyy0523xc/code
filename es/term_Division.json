@@ -1,0 +1,17 @@
+{
+    "aggs": {
+        "terms_name": {
+            "terms": {
+                "field": "Division"
+            },
+
+            "aggs": {
+                "stats_name": {
+                    "stats": {
+                        "field": "TotalGrossSales"
+                    }
+                }
+            }
+        }
+    }
+}

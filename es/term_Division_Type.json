@@ -1,0 +1,25 @@
+{
+    "aggs": {
+        "terms_name": {
+            "terms": {
+                "field": "Division"
+            },
+
+            "aggs": {
+                "terms_type_name": {
+                    "terms": {
+                        "field": "Type"
+                    },
+
+                    "aggs": {
+                        "sum_name": {
+                            "sum": {
+                                "field": "TotalGrossSales"
+                            }
+                        }
+                    }
+                }
+            }
+        }
+    }
+}
