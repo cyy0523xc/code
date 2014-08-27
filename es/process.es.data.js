@@ -1,3 +1,6 @@
+// 处理es的结果集
+// @author Alex
+
 var aggs = {
     "filter_ym" : {
         "range_division" : {
