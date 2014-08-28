@@ -2,11 +2,21 @@
     "aggs": {
         "filter_name": {
             "filter": {
-                "term": {
-                    "year": 2014,
-                    "month": 3
-                }
+                "and": [
+                    {
+                        "term": {
+                            "year": 2014
+                        }
+                    },
+
+                    {
+                        "term": {
+                            "month": 4
+                        }
+                    }
+                ]
             },
+
 
             "aggs": {
                 "sum_name": {

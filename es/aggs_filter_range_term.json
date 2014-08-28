@@ -2,10 +2,20 @@
     "aggs": {
         "filter_ym": {
             "filter": {
-                "term": {
-                    "year": 2014,
-                    "month": 4
-                }
+                "and": [
+                    {
+                        "term": {
+                            "year": 2014
+                        }
+                    },
+
+                    {
+                        "range": {
+                            "month": {"gte": 2}
+                        }
+                    }
+
+                ]
             },
 
             "aggs": {

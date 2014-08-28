@@ -4,36 +4,29 @@
             "filter": {
                 "and": [
                     {
-                        "term": {
-                            "year": 2014
-                        }
+                        "term": {"year": 2014}
                     },
-
                     {
-                        "term": {
-                            "month": 4
-                        }
+                        "term": {"month": 4}
                     }
                 ]
             },
 
             "aggs": {
                 "terms_division": {
-                    "terms": {
-                        "field": "Division"
-                    },
+                    "terms": {"field": "Division"},
 
                     "aggs": {
                         "terms_type": {
-                            "terms": {
-                                "field": "Type"
-                            },
+                            "terms": {"field": "Type"},
 
                             "aggs": {
                                 "sum_sales": {
-                                    "sum": {
-                                        "field": "TotalGrossSales"
-                                    }
+                                    "sum": {"field": "TotalGrossSales"}
+                                },
+
+                                "avg_price": {
+                                    "avg": {"field": "Price"}
                                 }
                             }
                         }
