@@ -3,254 +3,441 @@
 
 var aggs = {
     "filter_ym" : {
+        "doc_count" : 18260,
         "range_division" : {
             "buckets" : [
                 {
+                "to" : 50,
+                "key" : "*-50.0",
+                "to_as_string" : "50.0",
+                "doc_count" : 6368,
                 "terms_type" : {
                     "buckets" : [
                         {
-                        "key" : "20-BEVERAGE OTHER",
-                        "doc_count" : 9414,
                         "sum_sales" : {
-                            "value" : 16352798.71
-                        }
+                            "value" : 3917233.43
+                        },
+                        "doc_count" : 3610,
+                        "key" : "20-BEVERAGE OTHER"
                     },
                     {
+                        "key" : "30-BEVERAGE WINE",
                         "sum_sales" : {
-                            "value" : 12285225.43
+                            "value" : 460138.13
                         },
-                        "doc_count" : 2161,
+                        "doc_count" : 258
+                    },
+                    {
+                        "doc_count" : 808,
+                        "sum_sales" : {
+                            "value" : 1752127.39
+                        },
                         "key" : "40-BEVERAGE BEER"
                     },
                     {
+                        "key" : "50-BEVERAGE COFFEE & TEA",
+                        "doc_count" : 1310,
                         "sum_sales" : {
-                            "value" : 1374046.71
-                        },
-                        "doc_count" : 1447,
-                        "key" : "50-BEVERAGE COFFEE & TEA"
-                    },
-                    {
-                        "doc_count" : 1256,
-                        "sum_sales" : {
-                            "value" : 3664399.71
-                        },
-                        "key" : "30-BEVERAGE WINE"
+                            "value" : 1171568.2
+                        }
                     },
                     {
                         "key" : "60-OPEN BEVERAGE",
-                        "doc_count" : 1029,
                         "sum_sales" : {
-                            "value" : 233416.18
+                            "value" : 55457.75
+                        },
+                        "doc_count" : 382
+                    }
+                    ]
+                }
+            },
+            {
+                "terms_type" : {
+                    "buckets" : [
+                        {
+                        "doc_count" : 5804,
+                        "sum_sales" : {
+                            "value" : 12435565.28
+                        },
+                        "key" : "20-BEVERAGE OTHER"
+                    },
+                    {
+                        "key" : "30-BEVERAGE WINE",
+                        "sum_sales" : {
+                            "value" : 3204261.58
+                        },
+                        "doc_count" : 998
+                    },
+                    {
+                        "key" : "40-BEVERAGE BEER",
+                        "sum_sales" : {
+                            "value" : 10533098.04
+                        },
+                        "doc_count" : 1353
+                    },
+                    {
+                        "key" : "50-BEVERAGE COFFEE & TEA",
+                        "doc_count" : 137,
+                        "sum_sales" : {
+                            "value" : 202478.51
                         }
+                    },
+                    {
+                        "sum_sales" : {
+                            "value" : 177958.43
+                        },
+                        "doc_count" : 647,
+                        "key" : "60-OPEN BEVERAGE"
                     }
                     ]
                 },
-                "doc_count" : 15307,
-                "to_as_string" : "100.0",
+                "from_as_string" : "50.0",
+                "from" : 50,
+                "doc_count" : 8939,
                 "to" : 100,
-                "key" : "*-100.0"
+                "key" : "50.0-100.0",
+                "to_as_string" : "100.0"
             },
             {
-                "from" : 100,
-                "key" : "100.0-200.0",
-                "to" : 200,
                 "from_as_string" : "100.0",
                 "terms_type" : {
                     "buckets" : [
                         {
-                        "doc_count" : 495,
                         "sum_sales" : {
-                            "value" : 784990.74
+                            "value" : 498760.74
                         },
-                        "key" : "20-BEVERAGE OTHER"
-                    },
-                    {
-                        "key" : "60-OPEN BEVERAGE",
-                        "sum_sales" : {
-                            "value" : 92591.93
-                        },
-                        "doc_count" : 146
-                    },
-                    {
-                        "sum_sales" : {
-                            "value" : 227173.95
-                        },
-                        "doc_count" : 124,
-                        "key" : "30-BEVERAGE WINE"
-                    },
-                    {
-                        "key" : "40-BEVERAGE BEER",
-                        "doc_count" : 86,
-                        "sum_sales" : {
-                            "value" : 281261.78
-                        }
-                    },
-                    {
-                        "sum_sales" : {
-                            "value" : 1005
-                        },
-                        "doc_count" : 4,
-                        "key" : "50-BEVERAGE COFFEE & TEA"
-                    }
-                    ]
-                },
-                "doc_count" : 855,
-                "to_as_string" : "200.0"
-            },
-            {
-                "terms_type" : {
-                    "buckets" : [
-                        {
-                        "doc_count" : 278,
-                        "sum_sales" : {
-                            "value" : 633476.74
-                        },
-                        "key" : "30-BEVERAGE WINE"
-                    },
-                    {
-                        "sum_sales" : {
-                            "value" : 441299.74
-                        },
-                        "doc_count" : 128,
+                        "doc_count" : 352,
                         "key" : "20-BEVERAGE OTHER"
                     },
                     {
                         "sum_sales" : {
-                            "value" : 336581.64
+                            "value" : 123540
                         },
-                        "doc_count" : 93,
-                        "key" : "60-OPEN BEVERAGE"
+                        "doc_count" : 103,
+                        "key" : "30-BEVERAGE WINE"
                     },
                     {
                         "key" : "40-BEVERAGE BEER",
                         "sum_sales" : {
-                            "value" : 37058.65
+                            "value" : 249478.87
                         },
-                        "doc_count" : 18
+                        "doc_count" : 58
                     },
                     {
                         "key" : "50-BEVERAGE COFFEE & TEA",
-                        "doc_count" : 9,
                         "sum_sales" : {
-                            "value" : 7803.6
-                        }
-                    }
-                    ]
-                },
-                "doc_count" : 526,
-                "from_as_string" : "200.0",
-                "to_as_string" : "300.0",
-                "from" : 200,
-                "to" : 300,
-                "key" : "200.0-300.0"
-            },
-            {
-                "from" : 300,
-                "to" : 400,
-                "key" : "300.0-400.0",
-                "from_as_string" : "300.0",
-                "doc_count" : 704,
-                "terms_type" : {
-                    "buckets" : [
-                        {
-                        "key" : "30-BEVERAGE WINE",
-                        "sum_sales" : {
-                            "value" : 1387427.68
+                            "value" : 1005
                         },
-                        "doc_count" : 529
-                    },
-                    {
-                        "key" : "60-OPEN BEVERAGE",
-                        "doc_count" : 105,
-                        "sum_sales" : {
-                            "value" : 547677.14
-                        }
+                        "doc_count" : 4
                     },
                     {
                         "sum_sales" : {
-                            "value" : 45428.55
+                            "value" : 71245.27
                         },
-                        "doc_count" : 38,
-                        "key" : "20-BEVERAGE OTHER"
-                    },
-                    {
-                        "doc_count" : 32,
-                        "sum_sales" : {
-                            "value" : 35299.34
-                        },
-                        "key" : "40-BEVERAGE BEER"
-                    }
-                    ]
-                },
-                "to_as_string" : "400.0"
-            },
-            {
-                "to" : 500,
-                "key" : "400.0-500.0",
-                "from" : 400,
-                "to_as_string" : "500.0",
-                "from_as_string" : "400.0",
-                "terms_type" : {
-                    "buckets" : [
-                        {
-                        "key" : "30-BEVERAGE WINE",
-                        "sum_sales" : {
-                            "value" : 533529.52
-                        },
-                        "doc_count" : 239
-                    },
-                    {
-                        "sum_sales" : {
-                            "value" : 227077.14
-                        },
-                        "doc_count" : 71,
+                        "doc_count" : 85,
                         "key" : "60-OPEN BEVERAGE"
-                    },
-                    {
-                        "key" : "40-BEVERAGE BEER",
-                        "doc_count" : 6,
-                        "sum_sales" : {
-                            "value" : 8216.76
-                        }
-                    },
-                    {
-                        "sum_sales" : {
-                            "value" : 43509.5
-                        },
-                        "doc_count" : 4,
-                        "key" : "20-BEVERAGE OTHER"
                     }
                     ]
                 },
-                "doc_count" : 320
+                "from" : 100,
+                "doc_count" : 602,
+                "key" : "100.0-150.0",
+                "to" : 150,
+                "to_as_string" : "150.0"
             },
             {
-                "to" : 600,
-                "key" : "500.0-600.0",
-                "from" : 500,
-                "to_as_string" : "600.0",
+                "to_as_string" : "200.0",
+                "key" : "150.0-200.0",
+                "to" : 200,
+                "doc_count" : 253,
+                "from" : 150,
                 "terms_type" : {
                     "buckets" : [
                         {
-                        "doc_count" : 87,
+                        "key" : "20-BEVERAGE OTHER",
                         "sum_sales" : {
-                            "value" : 118519.17
+                            "value" : 286230
+                        },
+                        "doc_count" : 143
+                    },
+                    {
+                        "doc_count" : 21,
+                        "sum_sales" : {
+                            "value" : 103633.95
                         },
                         "key" : "30-BEVERAGE WINE"
                     },
                     {
+                        "key" : "40-BEVERAGE BEER",
+                        "doc_count" : 28,
                         "sum_sales" : {
-                            "value" : 553575.82
-                        },
-                        "doc_count" : 21,
-                        "key" : "60-OPEN BEVERAGE"
+                            "value" : 31782.91
+                        }
                     },
                     {
+                        "sum_sales" : {
+                            "value" : 21346.66
+                        },
+                        "doc_count" : 61,
+                        "key" : "60-OPEN BEVERAGE"
+                    }
+                    ]
+                },
+                "from_as_string" : "150.0"
+            },
+            {
+                "from_as_string" : "200.0",
+                "terms_type" : {
+                    "buckets" : [
+                        {
+                        "doc_count" : 72,
+                        "sum_sales" : {
+                            "value" : 370905.46
+                        },
+                        "key" : "20-BEVERAGE OTHER"
+                    },
+                    {
+                        "key" : "30-BEVERAGE WINE",
+                        "sum_sales" : {
+                            "value" : 34834.06
+                        },
+                        "doc_count" : 56
+                    },
+                    {
+                        "sum_sales" : {
+                            "value" : 15411.33
+                        },
+                        "doc_count" : 11,
+                        "key" : "40-BEVERAGE BEER"
+                    },
+                    {
+                        "key" : "60-OPEN BEVERAGE",
+                        "doc_count" : 43,
+                        "sum_sales" : {
+                            "value" : 97015.41
+                        }
+                    }
+                    ]
+                },
+                "doc_count" : 182,
+                "from" : 200,
+                "to_as_string" : "250.0",
+                "key" : "200.0-250.0",
+                "to" : 250
+            },
+            {
+                "from" : 250,
+                "doc_count" : 344,
+                "terms_type" : {
+                    "buckets" : [
+                        {
+                        "sum_sales" : {
+                            "value" : 70394.28
+                        },
+                        "doc_count" : 56,
+                        "key" : "20-BEVERAGE OTHER"
+                    },
+                    {
+                        "key" : "30-BEVERAGE WINE",
+                        "sum_sales" : {
+                            "value" : 598642.68
+                        },
+                        "doc_count" : 222
+                    },
+                    {
+                        "sum_sales" : {
+                            "value" : 21647.32
+                        },
+                        "doc_count" : 7,
+                        "key" : "40-BEVERAGE BEER"
+                    },
+                    {
+                        "doc_count" : 9,
+                        "sum_sales" : {
+                            "value" : 7803.6
+                        },
+                        "key" : "50-BEVERAGE COFFEE & TEA"
+                    },
+                    {
+                        "key" : "60-OPEN BEVERAGE",
+                        "doc_count" : 50,
+                        "sum_sales" : {
+                            "value" : 239566.23
+                        }
+                    }
+                    ]
+                },
+                "from_as_string" : "250.0",
+                "to" : 300,
+                "key" : "250.0-300.0",
+                "to_as_string" : "300.0"
+            },
+            {
+                "from_as_string" : "300.0",
+                "terms_type" : {
+                    "buckets" : [
+                        {
+                        "sum_sales" : {
+                            "value" : 33069.26
+                        },
+                        "doc_count" : 24,
+                        "key" : "20-BEVERAGE OTHER"
+                    },
+                    {
+                        "key" : "30-BEVERAGE WINE",
+                        "sum_sales" : {
+                            "value" : 582715.37
+                        },
+                        "doc_count" : 263
+                    },
+                    {
+                        "sum_sales" : {
+                            "value" : 3570.67
+                        },
+                        "doc_count" : 6,
+                        "key" : "40-BEVERAGE BEER"
+                    },
+                    {
+                        "key" : "60-OPEN BEVERAGE",
+                        "doc_count" : 57,
+                        "sum_sales" : {
+                            "value" : 244902.12
+                        }
+                    }
+                    ]
+                },
+                "doc_count" : 350,
+                "from" : 300,
+                "to_as_string" : "350.0",
+                "key" : "300.0-350.0",
+                "to" : 350
+            },
+            {
+                "key" : "350.0-400.0",
+                "to" : 400,
+                "to_as_string" : "400.0",
+                "from" : 350,
+                "doc_count" : 354,
+                "from_as_string" : "350.0",
+                "terms_type" : {
+                    "buckets" : [
+                        {
+                        "key" : "20-BEVERAGE OTHER",
+                        "doc_count" : 14,
+                        "sum_sales" : {
+                            "value" : 12359.29
+                        }
+                    },
+                    {
+                        "key" : "30-BEVERAGE WINE",
+                        "doc_count" : 266,
+                        "sum_sales" : {
+                            "value" : 804712.31
+                        }
+                    },
+                    {
+                        "sum_sales" : {
+                            "value" : 31728.67
+                        },
+                        "doc_count" : 26,
+                        "key" : "40-BEVERAGE BEER"
+                    },
+                    {
+                        "doc_count" : 48,
+                        "sum_sales" : {
+                            "value" : 302775.02
+                        },
+                        "key" : "60-OPEN BEVERAGE"
+                    }
+                    ]
+                }
+            },
+            {
+                "to" : 450,
+                "key" : "400.0-450.0",
+                "to_as_string" : "450.0",
+                "terms_type" : {
+                    "buckets" : [
+                        {
+                        "doc_count" : 4,
+                        "sum_sales" : {
+                            "value" : 43509.5
+                        },
+                        "key" : "20-BEVERAGE OTHER"
+                    },
+                    {
+                        "key" : "30-BEVERAGE WINE",
+                        "doc_count" : 116,
+                        "sum_sales" : {
+                            "value" : 264559.94
+                        }
+                    },
+                    {
+                        "sum_sales" : {
+                            "value" : 212081.64
+                        },
+                        "doc_count" : 51,
+                        "key" : "60-OPEN BEVERAGE"
+                    }
+                    ]
+                },
+                "from_as_string" : "400.0",
+                "from" : 400,
+                "doc_count" : 171
+            },
+            {
+                "to_as_string" : "500.0",
+                "to" : 500,
+                "key" : "450.0-500.0",
+                "doc_count" : 149,
+                "from" : 450,
+                "from_as_string" : "450.0",
+                "terms_type" : {
+                    "buckets" : [
+                        {
+                        "key" : "30-BEVERAGE WINE",
+                        "doc_count" : 123,
+                        "sum_sales" : {
+                            "value" : 268969.58
+                        }
+                    },
+                    {
+                        "key" : "40-BEVERAGE BEER",
+                        "sum_sales" : {
+                            "value" : 8216.76
+                        },
+                        "doc_count" : 6
+                    },
+                    {
+                        "doc_count" : 20,
+                        "sum_sales" : {
+                            "value" : 14995.5
+                        },
+                        "key" : "60-OPEN BEVERAGE"
+                    }
+                    ]
+                }
+            },
+            {
+                "key" : "500.0-*",
+                "from" : 500,
+                "doc_count" : 548,
+                "from_as_string" : "500.0",
+                "terms_type" : {
+                    "buckets" : [
+                        {
                         "key" : "20-BEVERAGE OTHER",
                         "sum_sales" : {
-                            "value" : 17500
+                            "value" : 351794.98
                         },
-                        "doc_count" : 3
+                        "doc_count" : 86
+                    },
+                    {
+                        "key" : "30-BEVERAGE WINE",
+                        "sum_sales" : {
+                            "value" : 724187.42
+                        },
+                        "doc_count" : 312
                     },
                     {
                         "sum_sales" : {
@@ -258,164 +445,19 @@ var aggs = {
                         },
                         "doc_count" : 1,
                         "key" : "40-BEVERAGE BEER"
-                    }
-                    ]
-                },
-                "doc_count" : 112,
-                "from_as_string" : "500.0"
-            },
-            {
-                "from" : 600,
-                "key" : "600.0-700.0",
-                "to" : 700,
-                "terms_type" : {
-                    "buckets" : [
-                        {
-                        "key" : "30-BEVERAGE WINE",
-                        "doc_count" : 58,
-                        "sum_sales" : {
-                            "value" : 80945.09
-                        }
-                    },
-                    {
-                        "doc_count" : 13,
-                        "sum_sales" : {
-                            "value" : 10742.76
-                        },
-                        "key" : "60-OPEN BEVERAGE"
-                    }
-                    ]
-                },
-                "doc_count" : 71,
-                "from_as_string" : "600.0",
-                "to_as_string" : "700.0"
-            },
-            {
-                "from_as_string" : "700.0",
-                "terms_type" : {
-                    "buckets" : [
-                        {
-                        "sum_sales" : {
-                            "value" : 89017.47
-                        },
-                        "doc_count" : 37,
-                        "key" : "30-BEVERAGE WINE"
                     },
                     {
                         "sum_sales" : {
-                            "value" : 223422
+                            "value" : 1505223.67
                         },
-                        "doc_count" : 8,
-                        "key" : "60-OPEN BEVERAGE"
-                    },
-                    {
-                        "doc_count" : 3,
-                        "sum_sales" : {
-                            "value" : 3825
-                        },
-                        "key" : "20-BEVERAGE OTHER"
-                    }
-                    ]
-                },
-                "doc_count" : 48,
-                "to_as_string" : "800.0",
-                "from" : 700,
-                "key" : "700.0-800.0",
-                "to" : 800
-            },
-            {
-                "to" : 900,
-                "key" : "800.0-900.0",
-                "from" : 800,
-                "to_as_string" : "900.0",
-                "from_as_string" : "800.0",
-                "doc_count" : 45,
-                "terms_type" : {
-                    "buckets" : [
-                        {
-                        "doc_count" : 32,
-                        "sum_sales" : {
-                            "value" : 60797.17
-                        },
-                        "key" : "30-BEVERAGE WINE"
-                    },
-                    {
-                        "sum_sales" : {
-                            "value" : 16197.35
-                        },
-                        "doc_count" : 13,
+                        "doc_count" : 149,
                         "key" : "60-OPEN BEVERAGE"
                     }
                     ]
                 }
-            },
-            {
-                "doc_count" : 48,
-                "terms_type" : {
-                    "buckets" : [
-                        {
-                        "key" : "30-BEVERAGE WINE",
-                        "sum_sales" : {
-                            "value" : 166573.33
-                        },
-                        "doc_count" : 43
-                    },
-                    {
-                        "sum_sales" : {
-                            "value" : 11976
-                        },
-                        "doc_count" : 3,
-                        "key" : "20-BEVERAGE OTHER"
-                    },
-                    {
-                        "key" : "60-OPEN BEVERAGE",
-                        "sum_sales" : {
-                            "value" : 2134
-                        },
-                        "doc_count" : 2
-                    }
-                    ]
-                },
-                "from_as_string" : "900.0",
-                "to_as_string" : "1000.0",
-                "from" : 900,
-                "key" : "900.0-1000.0",
-                "to" : 1000
-            },
-            {
-                "from_as_string" : "1000.0",
-                "doc_count" : 224,
-                "terms_type" : {
-                    "buckets" : [
-                        {
-                        "key" : "60-OPEN BEVERAGE",
-                        "doc_count" : 92,
-                        "sum_sales" : {
-                            "value" : 699151.74
-                        }
-                    },
-                    {
-                        "key" : "20-BEVERAGE OTHER",
-                        "doc_count" : 77,
-                        "sum_sales" : {
-                            "value" : 318493.98
-                        }
-                    },
-                    {
-                        "doc_count" : 55,
-                        "sum_sales" : {
-                            "value" : 208335.19
-                        },
-                        "key" : "30-BEVERAGE WINE"
-                    }
-                    ]
-                },
-                "key" : "1000.0-*",
-                "from" : 1000
             }
             ]
-        },
-        "doc_count" : 18260
+        }
     }
 };
 

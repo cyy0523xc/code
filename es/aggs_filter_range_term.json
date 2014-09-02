@@ -1,14 +1,12 @@
 {
+    "size": 0,
     "aggs": {
         "filter_ym": {
             "filter": {
                 "and": [
                     {
-                        "term": {
-                            "year": 2014
-                        }
+                        "term": {"year": 2014}
                     },
-
                     {
                         "range": {
                             "month": {"gte": 2}
@@ -23,16 +21,11 @@
                     "range": {
                         "field": "Price",
                         "ranges": [
-                            {"to": 100},
-                            {"from": 100, "to": 200},
-                            {"from": 200, "to": 300},
-                            {"from": 300, "to": 400},
-                            {"from": 400, "to": 500},
-                            {"from": 500, "to": 600},
-                            {"from": 600, "to": 700},
-                            {"from": 700, "to": 800},
-                            {"from": 800, "to": 900},
-                            {"from": 900, "to": 1000},
+                            {"to": 50},
+                            {"from": 50,  "to": 100},
+                            {"from": 100, "to": 300},
+                            {"from": 300, "to": 500},
+                            {"from": 500, "to": 1000},
                             {"from": 1000}
                         ]
                     },
@@ -40,7 +33,8 @@
                     "aggs": {
                         "terms_type": {
                             "terms": {
-                                "field": "Type"
+                                "field": "Type",
+                                "order" : {"_term" : "asc"}
                             },
 
                             "aggs": {
