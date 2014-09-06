@@ -2,6 +2,7 @@
 
 # 自定义bashrc
 # 在~/.bashrc中被引用
+# @author cyy053xc@gmail.com
 
 # 服务器快速登陆
 alias ssh179='ssh root@112.124.47.179'
@@ -80,4 +81,29 @@ cyy_md5() {
     echo $1 | md5sum
 }
 
-#
+# git pull all
+# 一次性git pull所有代码
+# 参数说明
+#   $1: 目录，默认为：/home/code/ibbd
+git_pull_all() {
+    if [ 1 -eq $# ]; then 
+        default_dir=$1
+    else
+        default_dir=/home/code/ibbd
+    fi
+
+    # git pull 
+    for dir in $(ls $default_dir);
+    do 
+        echo $default_dir/$dir/
+        cd $default_dir/$dir/
+        git checkout master
+        git pull
+        echo "----- $dir is ok."
+        echo ""
+    done 
+
+    echo "-------------------------------"
+    echo "All is ok!"
+}
+
