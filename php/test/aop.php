@@ -1,6 +1,9 @@
 <?php
 /**
  * 使用PHP近似实现AOP
+ * 测试：
+ * wget https://github.com/cyy0523xc/code/raw/master/php/test/aop.php -O aop.php  
+ *
  * @author cyy0523xc@gmail.com
  */
 
