@@ -49,4 +49,7 @@ sudo add-apt-repository ppa:pinta-maintainers/pinta-stable
 sudo apt-get update
 sudo apt-get install pinta
 
+# install 视频播放器
+sudo apt-get install vlc 
+
 
