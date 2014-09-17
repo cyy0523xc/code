@@ -24,6 +24,8 @@ cd github
 git clone git@github.com:cyy0523xc/code.git
 git clone git@github.com:cyy0523xc/R.git
 git clone git@github.com:cyy0523xc/raw.git
+git clone git@github.com:cyy0523xc/blog.git
+git clone git@github.com:cyy0523xc/cyy0523xc.github.io.git
 
 # ibbd
 cd /home/code/

@@ -107,3 +107,52 @@ git_pull_all() {
     echo "All is ok!"
 }
 
+
+# blog相关操作
+# 
+# blog "filename"     : new blog
+# blog e "filename"   : Edit blog
+# blog d              : deploy blog 
+#
+blog() {
+    if [ "d" -eq $1 ]; then
+        # deploy blog 
+        pushd "/home/code/github/cyy0523xc.github.io/source/"
+        git pull 
+
+        pushd "/home/code/github/cyy0523xc.github.io/"
+        hexo g
+        hexo d
+
+        popd
+        popd 
+    elif [ "e" -eq $1 ]; then
+        # edit blog 
+        if [ -f $2 ]; then 
+            vim $2
+
+            git commit -am "Edited $2"
+            git push
+
+            blog d 
+        else
+            echo "file: \"$2\" is not exists!"
+        fi 
+    else 
+        # write a new blog 
+        cd /home/code/github/blog/ 
+        tmp=$(hexo n $1)
+        echo $tmp
+
+        filename=${tmp##*/}
+        vim $filename
+
+        git commit -am "Created $filename"
+        git push 
+        echo "push ok"
+        
+        blog d
+    fi 
+}
+
+
