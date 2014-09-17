@@ -115,43 +115,55 @@ git_pull_all() {
 # blog d              : deploy blog 
 #
 blog() {
-    if [ "d" -eq $1 ]; then
+    blog_path=/home/code/github/cyy0523xc.github.io/
+    blog_post_path=/home/code/github/blog/
+    blog_source_path="/home/code/github/cyy0523xc.github.io/source/"
+    if [ "d" = $1 ]; then
         # deploy blog 
-        pushd "/home/code/github/cyy0523xc.github.io/source/"
+        echo "Deploy blog begin:"
+        pushd $blog_source_path
         git pull 
 
-        pushd "/home/code/github/cyy0523xc.github.io/"
+        pushd $blog_path
         hexo g
         hexo d
 
         popd
         popd 
-    elif [ "e" -eq $1 ]; then
+
+        echo "Deploy blog end."
+    elif [ "e" = $1 ]; then
         # edit blog 
-        if [ -f $2 ]; then 
-            vim $2
+        cd $blog_post_path 
+        git pull 
+
+        if [ -f _posts/$2 ]; then 
+            echo "Edit blog begin: "
+            vim _posts/$2
 
             git commit -am "Edited $2"
             git push
 
             blog d 
+            echo "Edit blog end."
         else
             echo "file: \"$2\" is not exists!"
         fi 
     else 
         # write a new blog 
-        cd /home/code/github/blog/ 
+        echo "Write a new blog begin:"
+        pushd $blog_path 
         tmp=$(hexo n $1)
         echo $tmp
 
-        filename=${tmp##*/}
-        vim $filename
-
-        git commit -am "Created $filename"
+        pushd $blog_source_path
+        git add _posts/*
+        git commit -am "Created ${tmp##*/}"
         git push 
-        echo "push ok"
-        
-        blog d
+        popd
+
+        popd
+        blog e ${tmp##*/}
     fi 
 }
 
