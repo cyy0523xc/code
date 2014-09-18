@@ -198,11 +198,24 @@ github [hpc] [path]
 usage:
 h              : help
 c  project     : git clone {$my_github}project.git
-
+l  project     : git pull 
+s  project     : git push 
 EOF
             ;;
         "c")
             git clone $my_github$2".git"
+            ;;
+        "l")
+            pushd $my_github$2
+            git pull
+            popd
+            ;;
+        "s")
+            pushd $my_github$2
+            git pull 
+            git commit -am 'script commit'
+            git push 
+            popd
             ;;
         *)
             github h
