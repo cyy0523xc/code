@@ -220,5 +220,5 @@ EOF
         *)
             github h
             ;;
-
+    esac
 }
