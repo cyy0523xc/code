@@ -128,7 +128,8 @@ blog [-hde] [title]
 title      : wrie a new blog 
 d          : deploy blog 
 e title    : edit blog 
-p          : goto the blog path 
+p          : goto the blog path
+a title.md : add new exists blog 
 h          : help
 
 EOF
@@ -166,6 +167,22 @@ EOF
             cd _posts/
         else
             echo "file: \"$2\" is not exists!"
+        fi 
+    elif [ "a" = $1 ]; then
+        # add an md file to blog 
+        if [ -f $2 ]; then 
+            cp $2 $blog_post_path"_posts/"
+            pushd $blog_post_path 
+            git add _posts/$2
+            git commit -am "Add new blog $2"
+            git push 
+            popd
+
+            pushd $blog_source_path
+            git pull 
+            hexo g
+            hexo d
+            popd 
         fi 
     else 
         # write a new blog 
