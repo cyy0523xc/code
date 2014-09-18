@@ -125,7 +125,7 @@ This is help for blog.
 
 blog [-hde] [title]
 
-title      : wrie a new blog 
+n title    : wrie a new blog 
 d          : deploy blog 
 e title    : edit blog 
 p          : goto the blog path
@@ -154,11 +154,13 @@ EOF
         cd $blog_post_path 
         git pull 
 
-        if [ -f _posts/$2 ]; then 
+        filename=$2
+        filename=${filename##*/}
+        if [ -f _posts/$filename ]; then 
             echo "Edit blog begin: "
-            vim _posts/$2
+            vim _posts/$filename
 
-            git commit -am "Edited $2"
+            git commit -am "Edited $filename"
             git push
 
             blog d 
@@ -166,7 +168,7 @@ EOF
 
             cd _posts/
         else
-            echo "file: \"$2\" is not exists!"
+            echo "file: \"$filename\" is not exists!"
         fi 
     elif [ "a" = $1 ]; then
         # add an md file to blog 
@@ -184,8 +186,18 @@ EOF
             hexo d
             popd 
         fi 
-    else 
+    elif [ "n" = $1 ]; then  
         # write a new blog 
+        # 避免同名文件
+        pushd $blog_post_path"_posts/"
+        if [ -f $2 -o -f $2".md" ]
+        then 
+            echo "the file is exists!"
+            exit 0
+        fi 
+        popd 
+
+        # begin write 
         echo "Write a new blog begin:"
         pushd $blog_path 
         tmp=$(hexo n $1)
@@ -199,6 +211,8 @@ EOF
 
         popd
         blog e ${tmp##*/}
+    else
+        blog h
     fi 
 }
 
