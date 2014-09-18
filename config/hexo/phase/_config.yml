@@ -1,0 +1,55 @@
+menu:
+  Home: /
+  Archives: /archives
+  Github: http://github.com/cyy0523xc/
+  About: /about
+
+addthis:
+  enable: true
+  pubid:
+  facebook: true
+  twitter: true
+  google: true
+  pinterest: true
+
+facebook:
+google_plus:
+twitter:
+github:
+
+fancybox: true
+google_analytics:
+rss: /atom.xml
+
+# add by alex
+excerpt_link: Read More
+
+# Sidebar
+sidebar: right
+widgets:
+- about_me
+- category
+- tag
+- tagcloud
+- archive
+- calendar
+- recent_posts
+- duoshuo_recent_comments
+- links
+
+# Toc
+toc:
+  article: true   ## show contents in article.
+  aside: true     ## show contents in aside.
+
+# Scroll to top
+go_top: true
+
+# about me
+about:
+  title: ABOUT ME
+  gravatar: cyy0523xc@gmail.com
+  avatar: /images/github.jpg
+  texts:
+  - 心有沉香，何惧浮世！
+
