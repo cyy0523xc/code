@@ -185,4 +185,27 @@ EOF
     fi 
 }
 
+# github相关操作 
+github() {
+    cd_github_code
+    my_github=git@github.com/cyy053xc/
 
+    case $1 in 
+        "h")
+            cat <<EOF
+github [hpc] [path] 
+
+usage:
+h              : help
+c  project     : git clone {$my_github}project.git
+
+EOF
+            ;;
+        "c")
+            git clone $my_github$2".git"
+            ;;
+        *)
+            github h
+            ;;
+
+}
