@@ -118,7 +118,23 @@ blog() {
     blog_path=/home/code/github/cyy0523xc.github.io/
     blog_post_path=/home/code/github/blog/
     blog_source_path="/home/code/github/cyy0523xc.github.io/source/"
-    if [ "d" = $1 ]; then
+    
+    if [ "h" = $1 ]; then
+        cat <<EOF
+This is help for blog.
+
+blog [-hde] [title]
+
+title      : wrie a new blog 
+d          : deploy blog 
+e title    : edit blog 
+p          : goto the blog path 
+h          : help
+
+EOF
+    elif [ "p" = $1 ]; then
+        cd $blog_post_path"_posts/"
+    elif [ "d" = $1 ]; then
         # deploy blog 
         echo "Deploy blog begin:"
         pushd $blog_source_path
@@ -146,6 +162,8 @@ blog() {
 
             blog d 
             echo "Edit blog end."
+
+            cd _posts/
         else
             echo "file: \"$2\" is not exists!"
         fi 
