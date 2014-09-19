@@ -118,9 +118,101 @@ blog() {
     blog_path=/home/code/github/cyy0523xc.github.io/
     blog_post_path=/home/code/github/blog/
     blog_source_path="/home/code/github/cyy0523xc.github.io/source/"
-    
-    if [ "h" = $1 ]; then
-        cat <<EOF
+   
+    case $1 in 
+        "p")
+            cd $blog_post_path"_posts/"
+            ;;
+
+        "d")
+            # deploy blog 
+            echo "Deploy blog begin:"
+            pushd $blog_source_path
+            git pull 
+
+            pushd $blog_path
+            hexo g
+            hexo d
+
+            popd
+            popd 
+
+            echo "Deploy blog end."
+            ;;
+
+        "e")
+            # edit blog 
+            cd $blog_post_path 
+            git pull 
+
+            filename=$2
+            filename=${filename##*/}
+            if [ -f _posts/$filename ]; then 
+                echo "Edit blog begin: "
+                vim _posts/$filename
+
+                git commit -am "Edited $filename"
+                git push
+
+                blog d 
+                echo "Edit blog end."
+
+                cd _posts/
+            else
+                echo "file: \"$filename\" is not exists!"
+            fi 
+            ;;
+
+        "a")
+            # add an md file to blog 
+            if [ -f $2 ]; then 
+                cp $2 $blog_post_path"_posts/"
+                pushd $blog_post_path 
+                git add _posts/$2
+                git commit -am "Add new blog $2"
+                git push 
+                popd
+
+                pushd $blog_source_path
+                git pull 
+                hexo g
+                hexo d
+                popd 
+            fi 
+            ;;
+
+        "n")
+            # write a new blog 
+            filename=$2
+            filename=${filename##*/}
+
+            # 避免同名文件
+            pushd $blog_post_path"_posts/"
+            if [ -f $filename -o -f $filename".md" ]
+            then 
+                echo "the file is exists!"
+                exit 0
+            fi 
+            popd 
+
+            # begin write 
+            echo "Write a new blog begin:"
+            pushd $blog_path 
+            tmp=$(hexo n $filename)
+            echo $tmp
+
+            pushd $blog_source_path
+            git add _posts/*
+            git commit -am "Created ${tmp##*/}"
+            git push 
+            popd
+
+            popd
+            blog e ${tmp##*/}
+            ;;
+
+        "h"|*)
+            cat <<EOF
 This is help for blog.
 
 blog [-hde] [title]
@@ -133,87 +225,9 @@ a title.md : add new exists blog
 h          : help
 
 EOF
-    elif [ "p" = $1 ]; then
-        cd $blog_post_path"_posts/"
-    elif [ "d" = $1 ]; then
-        # deploy blog 
-        echo "Deploy blog begin:"
-        pushd $blog_source_path
-        git pull 
+        ;;
 
-        pushd $blog_path
-        hexo g
-        hexo d
-
-        popd
-        popd 
-
-        echo "Deploy blog end."
-    elif [ "e" = $1 ]; then
-        # edit blog 
-        cd $blog_post_path 
-        git pull 
-
-        filename=$2
-        filename=${filename##*/}
-        if [ -f _posts/$filename ]; then 
-            echo "Edit blog begin: "
-            vim _posts/$filename
-
-            git commit -am "Edited $filename"
-            git push
-
-            blog d 
-            echo "Edit blog end."
-
-            cd _posts/
-        else
-            echo "file: \"$filename\" is not exists!"
-        fi 
-    elif [ "a" = $1 ]; then
-        # add an md file to blog 
-        if [ -f $2 ]; then 
-            cp $2 $blog_post_path"_posts/"
-            pushd $blog_post_path 
-            git add _posts/$2
-            git commit -am "Add new blog $2"
-            git push 
-            popd
-
-            pushd $blog_source_path
-            git pull 
-            hexo g
-            hexo d
-            popd 
-        fi 
-    elif [ "n" = $1 ]; then  
-        # write a new blog 
-        # 避免同名文件
-        pushd $blog_post_path"_posts/"
-        if [ -f $2 -o -f $2".md" ]
-        then 
-            echo "the file is exists!"
-            exit 0
-        fi 
-        popd 
-
-        # begin write 
-        echo "Write a new blog begin:"
-        pushd $blog_path 
-        tmp=$(hexo n $1)
-        echo $tmp
-
-        pushd $blog_source_path
-        git add _posts/*
-        git commit -am "Created ${tmp##*/}"
-        git push 
-        popd
-
-        popd
-        blog e ${tmp##*/}
-    else
-        blog h
-    fi 
+    esac 
 }
 
 # github相关操作 
