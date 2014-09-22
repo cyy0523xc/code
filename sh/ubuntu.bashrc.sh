@@ -96,11 +96,12 @@ git_pull_all() {
     for dir in $(ls $default_dir);
     do 
         echo $default_dir/$dir/
-        cd $default_dir/$dir/
+        pushd $default_dir/$dir/
         git checkout master
         git pull
         echo "----- $dir is ok."
         echo ""
+        popd 
     done 
 
     echo "-------------------------------"
@@ -191,7 +192,6 @@ blog() {
             if [ -f $filename -o -f $filename".md" ]
             then 
                 echo "the file is exists!"
-                exit 0
             fi 
             popd 
 
@@ -236,17 +236,6 @@ github() {
     my_github=git@github.com/cyy053xc/
 
     case $1 in 
-        "h")
-            cat <<EOF
-github [hpc] [path] 
-
-usage:
-h              : help
-c  project     : git clone {$my_github}project.git
-l  project     : git pull 
-s  project     : git push 
-EOF
-            ;;
         "c")
             git clone $my_github$2".git"
             ;;
@@ -262,8 +251,16 @@ EOF
             git push 
             popd
             ;;
-        *)
-            github h
+        "h"|*)
+            cat <<EOF
+github [hpc] [path] 
+
+usage:
+h              : help
+c  project     : git clone {$my_github}project.git
+l  project     : git pull 
+s  project     : git push 
+EOF
             ;;
     esac
 }
