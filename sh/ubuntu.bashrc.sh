@@ -121,11 +121,11 @@ blog() {
     blog_source_path="/home/code/github/cyy0523xc.github.io/source/"
    
     case $1 in 
-        "p")
+        "p"|"path")
             cd $blog_post_path"_posts/"
             ;;
 
-        "d")
+        "d"|"deploy")
             # deploy blog 
             echo "Deploy blog begin:"
             pushd $blog_source_path
@@ -141,7 +141,7 @@ blog() {
             echo "Deploy blog end."
             ;;
 
-        "e")
+        "e"|"edit")
             # edit blog 
             cd $blog_post_path 
             git pull 
@@ -164,7 +164,7 @@ blog() {
             fi 
             ;;
 
-        "a")
+        "a"|"add")
             # add an md file to blog 
             if [ -f $2 ]; then 
                 cp $2 $blog_post_path"_posts/"
@@ -182,7 +182,7 @@ blog() {
             fi 
             ;;
 
-        "n")
+        "n"|"new")
             # write a new blog 
             filename=$2
             filename=${filename##*/}
@@ -211,18 +211,18 @@ blog() {
             blog e ${tmp##*/}
             ;;
 
-        "h"|*)
+        "h"|"help"|*)
             cat <<EOF
 This is help for blog.
 
-blog [-hde] [title]
+blog [-hdenpa] [title]
 
-n title    : wrie a new blog 
-d          : deploy blog 
-e title    : edit blog 
-p          : goto the blog path
-a title.md : add new exists blog 
-h          : help
+n|new    title     : wrie a new blog 
+d|deploy           : deploy blog 
+e|edit   title     : edit blog 
+p|path             : goto the blog path
+a|add    title.md  : add new exists blog 
+h|help             : help
 
 EOF
         ;;

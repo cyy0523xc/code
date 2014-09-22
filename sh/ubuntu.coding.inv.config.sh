@@ -1,10 +1,5 @@
 #!/bin/bash
 
-# 自定义bashrc
-echo "" >> ~/.bashrc 
-echo "# 自定义bashrc" >> ~/.bashrc
-echo "." $(pwd)/ubuntu.bashrc.sh  >> ~/.bashrc
-
 
 # ******************   GIT   ************************
 
@@ -38,4 +33,18 @@ git clone git@git.ibbd.net:ibbd/juketong-intl.git
 git clone git@git.ibbd.net:ibbd/juketong-cafe-deco.git
 git clone git@git.ibbd.net:ibbd/ibbdcrm-tasks.git
 
+
+# ****************** 其他配置 ***********************
+
+self_config_path=/home/alex/github/code
+
+# 自定义bashrc
+echo "" >> ~/.bashrc 
+echo "# 自定义bashrc" >> ~/.bashrc
+echo "." $self_config_path/sh/ubuntu.bashrc.sh  >> ~/.bashrc
+
+# 自定义vim
+echo "" >> ~/.vimrc 
+echo "# 自定义vimrc" >> ~/.vimrc 
+echo "source $self_config_path/vim/cyy.vim" >> ~/.vimrc 
 
