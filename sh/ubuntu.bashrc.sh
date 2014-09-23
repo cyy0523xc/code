@@ -211,6 +211,18 @@ blog() {
             blog e ${tmp##*/}
             ;;
 
+        "b"|"bak"|"backup")
+            cp_all /home/code/github/cyy0523xc.github.io /home/code/github/bak.all.blog 
+            
+            pushd /home/code/github/bak.all.blog/ 
+            git add ./*
+            git commit -am 'bak'
+            git push 
+            popd 
+
+            echo "Backup is ok!"
+            ;;
+
         "h"|"help"|*)
             cat <<EOF
 This is help for blog.
@@ -222,6 +234,7 @@ d|deploy           : deploy blog
 e|edit   title     : edit blog 
 p|path             : goto the blog path
 a|add    title.md  : add new exists blog 
+b|bak|backup       : backup all files 
 h|help             : help
 
 EOF
@@ -236,31 +249,90 @@ github() {
     my_github=git@github.com/cyy053xc/
 
     case $1 in 
-        "c")
+        "c"|"clone")
             git clone $my_github$2".git"
             ;;
-        "l")
+        "l"|"pull")
             pushd $my_github$2
             git pull
             popd
             ;;
-        "s")
+        "s"|"push")
             pushd $my_github$2
             git pull 
             git commit -am 'script commit'
             git push 
             popd
             ;;
-        "h"|*)
+        "h"|"help"|*)
             cat <<EOF
-github [hpc] [path] 
+github [hcls] [path] 
 
 usage:
-h              : help
-c  project     : git clone {$my_github}project.git
-l  project     : git pull 
-s  project     : git push 
+h|help               : help
+c|clone  project     : git clone {$my_github}project.git
+l|pull   project     : git pull 
+s|push   project     : git push 
 EOF
             ;;
     esac
+}
+
+function _github() {
+    COMPREPLY=()
+    local cur=${COMP_WORDS[COMP_CWORD]};
+    local com=${COMP_WORDS[COMP_CWORD-1]};
+    case $com in
+        'github')
+            COMPREPLY=($(compgen -W 'c clone l pull s push h help' -- $cur))
+            ;;
+        'compile')
+            local pro=($(awk '{print $1}' project.list))
+            COMPREPLY=($(compgen -W '${pro[@]}' -- $cur))
+            ;;
+        *)
+            ;;
+    esac
+    return 0
+}
+
+complete -F _github github 
+
+# 把文件从一个目录copy到另一个目录
+# Usage : cp_all  path1 path2
+cp_all() {
+    if [ 2 -ne $# ]; then
+        # 如果不是两个参数，则输出帮助信息
+        echo 'The number of params is not equal 2!'
+        echo <<HELP 
+cp_all: Copy all files from source dir to target dir.
+
+usage:
+cp_all source_dir target_dir
+HELP
+        return
+    fi
+
+    if [ -f $1 ]; then 
+        # if it is file, then copy 
+        cp $1 $2
+    elif [ -d $1 ]; then 
+        # if it is dir, then ls
+        echo $1
+
+        if [ ! -d $2 ]; then 
+            # 如果源路径是一个目录，则目标路径的目录必须存在
+            mkdir $2 
+        fi 
+
+        for i in $(ls $1)
+        do
+            src_path=$1/$i
+            target_path=$2/$i
+            cp_all $src_path $target_path
+        done
+    else
+        echo "$1 : is not a file or a dir!"
+    fi 
+
 }
