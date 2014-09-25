@@ -7,51 +7,52 @@
 // @copyright     2014, cyy0523xc@gmail.com
 // ==/UserScript==
 
-//  return script name
+// return script name
 function script_name()
 {
     return "NoWeiboAd";
 }
 
-//  return debug flag
+// return debug flag
 function debug_flag()
 {
     return true;
 }
 
-//  function return the result of xpath query
+// function return the result of xpath query
 function xpath(query)
 {
     return document.evaluate(query, document, null, XPathResult.UNORDERED_NODE_SNAPSHOT_TYPE, null);
 }
 
-//  common function: remove nodes
+// common function: remove nodes
 function remove_nodes(allNode)
 {
-    //  for each forward
+    var remove_num = 0;
+    // for each forward
     for (var i=0; i<allNode.snapshotLength; ++i)
     {
         var thisNode = allNode.snapshotItem(i);
-        if (debug_flag())
-        {
-            console.log(arguments.callee.name + ': thisNode: ' + thisNode);
-        }
         if (thisNode)
         {
             thisNode.parentNode.removeChild(thisNode);
+            remove_num++;
         }
     }
+
+    return remove_num;
 }
 
 function remove_xpath(node_path)
 {
-    remove_nodes(xpath(node_path));
+    var remove_num = remove_nodes(xpath(node_path));
+    console.log('Remove xpath = ' + node_path + '    num = ' + remove_num);
 }
 
-//  function
+// function
 function remove_ad()
 {
-    //  get '<div>' with attribute 'feedtype="ad"'
+    // get '<div>' with attribute 'feedtype="ad"'
     remove_xpath('//div[@feedtype="ad"]');
     
     remove_xpath('//div[@ad-data]');
@@ -66,26 +67,27 @@ function remove_other()
     }
 }
 
-//  function
+// function
 function remove_feed_spread()
 {
-    //  get '<div>' with attribute 'node-type="feed_spread"'
+    // get '<div>' with attribute 'node-type="feed_spread"'
     remove_xpath('//div[@node-type="feed_spread"]');
 }
 
-//  main function
+// main function
 function main()
 {
     if (debug_flag())
     {
         console.log('Starting ' + script_name());
     }
-    //  remove advertisements
+    // remove advertisements
     remove_ad();
-    //  remove feed spread
+    // remove feed spread
     remove_feed_spread();
     // remove other
     remove_other();
+
     return 0;
 }
 
