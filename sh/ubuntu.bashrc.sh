@@ -10,7 +10,24 @@ alias ssh195='ssh root@115.29.166.195'
 alias ssh35='ssh root@42.120.21.35'
 
 # javascript和css文件压缩
-alias yuic="java -jar /home/code/ibbd/cyy-doc/tools/yuicompressor-2.4.7.jar "
+# yuic input.js [output.js]
+yuicompressor() {
+    input_file=$1
+    if [ 2 -eq $# ]; then 
+        output_file=$2
+    elif [ 1 -eq $# ]
+        # 如果只有一个参数，则文件名使用: input.min.js （假设原来是input.js）
+        file_type=${input_file##*.}
+        len=${#file_type}
+        output_file=${input_file:0:-$len}"min."$file_type
+    else 
+        echo "The number of params is error."
+        return;
+    fi 
+
+    java -jar /home/code/ibbd/cyy-doc/tools/yuicompressor-2.4.7.jar $input_file -o $output_file --charset utf-8
+    echo "yuicompressor OK."
+}
 
 # elasticsearch
 alias es="/home/alex/programs/elasticsearch-1.2.2/bin/elasticsearch"
