@@ -15,7 +15,7 @@ yuicompressor() {
     input_file=$1
     if [ 2 -eq $# ]; then 
         output_file=$2
-    elif [ 1 -eq $# ]
+    elif [ 1 -eq $# ]; then 
         # 如果只有一个参数，则文件名使用: input.min.js （假设原来是input.js）
         file_type=${input_file##*.}
         len=${#file_type}

@@ -1,0 +1,47 @@
+{
+    "size": 0,
+    "aggs": {
+        "filter_ym": {
+            "filter": {
+                "and": [
+                    {
+                        "term": {"year": 2014}
+                    },
+                    {
+                        "range": {
+                            "month": {"gte": 2}
+                        }
+                    }
+
+                ]
+            },
+
+            "aggs": {
+                "range_division": {
+                    "histogram": {
+                        "field": "Price",
+                        "interval": 50
+                    },
+
+                    "aggs": {
+                        "terms_type": {
+                            "terms": {
+                                "field": "Type",
+                                "order" : {"_term" : "asc"}
+                            },
+
+                            "aggs": {
+                                "sum_sales": {
+                                    "sum": {
+                                        "field": "TotalGrossSales"
+                                    }
+                                }
+                            }
+                        }
+                    }
+
+                }
+            }
+        }
+    }
+}

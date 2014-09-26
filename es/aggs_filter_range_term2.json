@@ -1,0 +1,59 @@
+{
+    "size": 0,
+    "aggs": {
+        "filter_ym": {
+            "filter": {
+                "and": [
+                    {
+                        "term": {"year": 2014}
+                    },
+                    {
+                        "range": {
+                            "month": {"gte": 2}
+                        }
+                    }
+
+                ]
+            },
+
+            "aggs": {
+                "range_division": {
+                    "range": {
+                        "field": "Price",
+                        "ranges": [
+                            {"to": 50},
+                            {"from": 50,  "to": 100},
+                            {"from": 100, "to": 150},
+                            {"from": 150, "to": 200},
+                            {"from": 200, "to": 250},
+                            {"from": 250, "to": 300},
+                            {"from": 300, "to": 350},
+                            {"from": 350, "to": 400},
+                            {"from": 400, "to": 450},
+                            {"from": 450, "to": 500},
+                            {"from": 500}
+                        ]
+                    },
+
+                    "aggs": {
+                        "terms_type": {
+                            "terms": {
+                                "field": "Type",
+                                "order" : {"_term" : "asc"}
+                            },
+
+                            "aggs": {
+                                "sum_sales": {
+                                    "sum": {
+                                        "field": "TotalGrossSales"
+                                    }
+                                }
+                            }
+                        }
+                    }
+
+                }
+            }
+        }
+    }
+}
