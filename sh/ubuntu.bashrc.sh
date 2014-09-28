@@ -60,11 +60,6 @@ cd_ibbd_code() {
     cd /home/code/ibbd/ 
 }
 
-# cd博客目录
-cd_blog() {
-    cd /home/code/github/blog/_posts/ 
-}
-
 # gitlab: new project
 # 参数说明：
 #   $1: project name
