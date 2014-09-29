@@ -4,6 +4,13 @@
 # 在~/.bashrc中被引用
 # @author cyy053xc@gmail.com
 
+bashrc_plugin_test() {
+    pwd
+    echo "loaded ok"
+}
+
+export -f bashrc_plugin_test 
+
 # 服务器快速登陆
 alias ssh179='ssh root@112.124.47.179'
 alias ssh195='ssh root@115.29.166.195'

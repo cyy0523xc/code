@@ -24,6 +24,7 @@ set encoding=utf8
 
 "au BufWritePost * :echo "this is vim file."
 
+
 " 如果编辑的是blog目录下的，且后缀为md的文件
 " 在保存并退出vim时，需要自动git push并发布到网上
 "source s:cyy_plugins_path . '/blogdeploy.vim'
