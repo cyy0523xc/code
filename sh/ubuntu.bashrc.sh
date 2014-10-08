@@ -114,13 +114,17 @@ git_pull_all() {
     # git pull 
     for dir in $(ls $default_dir);
     do 
-        echo $default_dir/$dir/
-        pushd $default_dir/$dir/
-        git checkout master
-        git pull
-        echo "----- $dir is ok."
-        echo ""
-        popd 
+        if [ -d $default_dir/$dir ]; then 
+            echo $default_dir/$dir/
+            pushd $default_dir/$dir/
+            git checkout master
+            git pull
+            echo "----- $dir is ok."
+            echo ""
+            popd 
+        else 
+            echo "$default_dir/$dir is not a dir!"
+        fi 
     done 
 
     echo "-------------------------------"

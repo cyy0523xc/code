@@ -53,8 +53,8 @@ var ibbdAddButton = window.ibbdAddButton = function()
     });
 };
 
-//console.log('begin');
-//ibbdPromise('li.item')
-//.done(ibbdAddButton);
+console.log('begin');
+ibbdPromise('li.item')
+.done(ibbdAddButton);
 
 //console.log('end');
