@@ -23,14 +23,17 @@ set encoding=utf8
 
 " align
 " markdown table align by "|"
-nmap tab\| :call CyyAlignBy("\|")<CR>
-nmap tab,  :call CyyAlignBy(",")<CR>
+nmap tab\|   :call CyyAlignBy("\|")<CR>
+nmap tab,    :call CyyAlignBy(",")<CR>
+nmap tab=    :call CyyAlignBy("=")<CR>
+nmap tab=>   :call CyyAlignBy("=>")<CR>
 
 " 根据某字符串对齐
+" 根据区块前后的空行来确定开始和结束的行号
 func CyyAlignBy(string)
-    let __lineno = line('.')
-    let __begin_ln = __lineno
-    let __end_ln = __lineno
+    let __lineno    = line('.')
+    let __begin_ln  = __lineno
+    let __end_ln    = __lineno
 
     " 向前搜索，直到空行
     while "" != getline(__begin_ln)
@@ -45,7 +48,7 @@ func CyyAlignBy(string)
         let __end_ln += 1
     endwhile 
 
-    
+    " 生成执行命令，并执行 
     let __exec = printf('%d,%d Tab /%s', __begin_ln, __end_ln, a:string)
     echo __exec 
     exec __exec
