@@ -15,6 +15,7 @@ export -f bashrc_plugin_test
 alias ssh179='ssh root@112.124.47.179'
 alias ssh195='ssh root@115.29.166.195'
 alias ssh35='ssh root@42.120.21.35'
+alias ssh222='ssh root@182.92.162.222'       # 班级空间服务器 
 
 # javascript和css文件压缩
 # yuic input.js [output.js]
