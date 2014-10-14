@@ -166,7 +166,7 @@ foreach ($lines as $line) {
 
 // 组成最后的sql文件的内容
 $sql  = "# md文件：http://git.ibbd.net/ibbd/ibbd-bc-py/blob/master/doc/db-tables.md\n";
-$sql .= "# Create By http://git.ibbd.net/ibbd/ibbd-bc-py/blob/master/doc/md-table2sql.php\n";
+$sql .= "# Create By http://git.ibbd.net/ibbd/ibbd-bc-py/blob/master/doc/markdown2sql.php\n";
 $sql .= "# Create At " . date("Y-m-d H:i:s") . "\n\n\n";
 $sql .= implode("", $table_sql);
 
