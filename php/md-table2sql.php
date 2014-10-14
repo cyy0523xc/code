@@ -1,6 +1,6 @@
 <?php
 /**
- * 将md文件中的表格转化为对应的sql语句
+ * 将markdown文件中的表格转化为对应的sql语句
  * 表格格式：http://git.ibbd.net/ibbd/ibbd-bc-py/blob/master/doc/db-tables.md 
  *
  * @example
@@ -98,7 +98,7 @@ foreach ($lines as $line) {
                 } 
 
                 // 给sql加上结束标识
-                $table_sql[$table_name] .= "\n} ENGINE=InnoDB COMMENT='{$table_comment}';\n";
+                $table_sql[$table_name] .= "\n} ENGINE=InnoDB DEFAULT CHARSET=utf8 COMMENT='{$table_comment}';\n";
 
                 // 字段结束，重置标识
                 $table_field_begin    = false;
