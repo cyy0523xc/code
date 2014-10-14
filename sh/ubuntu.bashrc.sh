@@ -132,14 +132,85 @@ git_pull_all() {
     echo "All is ok!"
 }
 
+# blog相关操作 
+#
+# blog  d  "git commit msg"  : deploy blog 
+blog() {
+    blog_path=/home/code/github/cyy0523xc.github.io/
+    blog_post_path=/home/code/github/blog/
+    blog_source_path="/home/code/github/cyy0523xc.github.io/source/"
 
-# blog相关操作
+    case $1 in 
+        "p"|"path")
+            cd $blog_post_path"_posts/"
+            ;;
+
+        "d"|"deploy")
+            # 编辑目录提交
+            pushd $blog_post_path
+
+            if [ 2 = $# ]; then 
+                co_msg=$2
+            else
+                co_msg="auto commit"
+            fi 
+
+            git pull
+            git commit -am "$co_msg"
+            git push 
+            echo "$blog_post_path OK!"
+            popd
+
+            # 源目录更新
+            pushd $blog_source_path
+            git pull 
+            popd
+
+            # blog目录重新生成并提交
+            pushd $blog_path
+            hexo g
+            hexo d
+            popd
+
+            echo "blog d is OK!"
+            ;;
+
+        "b"|"bak"|"backup")
+            cp_all /home/code/github/cyy0523xc.github.io /home/code/github/bak.all.blog 
+            
+            pushd /home/code/github/bak.all.blog/ 
+            git add ./*
+            git commit -am 'bak'
+            git push 
+            popd 
+
+            echo "Backup is ok!"
+            ;;
+
+        "h"|"help"|*)
+            cat <<EOF
+This is help for blog.
+
+blog [hdpb] 
+
+d|deploy      msg  : deploy blog 
+p|path             : goto the blog path
+b|bak|backup       : backup all files 
+h|help             : help
+
+EOF
+        ;;
+
+    esac
+}
+
+# blog相关操作(已弃用)
 # 
 # blog "filename"     : new blog
 # blog e "filename"   : Edit blog
 # blog d              : deploy blog 
 #
-blog() {
+bak_blog() {
     blog_path=/home/code/github/cyy0523xc.github.io/
     blog_post_path=/home/code/github/blog/
     blog_source_path="/home/code/github/cyy0523xc.github.io/source/"
