@@ -28,25 +28,40 @@ nmap tab,    :call CyyAlignBy(",")<CR>
 nmap tab=    :call CyyAlignBy("=")<CR>
 nmap tab=>   :call CyyAlignBy("=>")<CR>
 
-" 根据某字符串对齐
+" 根据某字符串对齐，依赖于 tabular 插件
 " 根据区块前后的空行来确定开始和结束的行号
 func CyyAlignBy(string)
     let __lineno    = line('.')
+
+    " 如果当前行为空行
+    if "" == getline(__lineno)
+        return
+    endif
+    
+    " 开始行号和结束行号 
     let __begin_ln  = __lineno
     let __end_ln    = __lineno
 
-    " 向前搜索，直到空行
-    while "" != getline(__begin_ln)
+    " 当前行开头的空格数
+    let __space_num = indent(__lineno)
+    echo __space_num
+
+    " 向前搜索，直到空行或者前面空格不相等的行
+    while "" != getline(__begin_ln-1) && __space_num == indent(__begin_ln-1)
         let __begin_ln -= 1
-        if __begin_ln < 1
+        if __begin_ln == 1
             break
         endif
     endwhile
 
-    " 向后搜索，直到空行 
-    while "" != getline(__end_ln)
+    " 向后搜索，直到空行或者前面空格不相等的行
+    while "" != getline(__end_ln+1) && __space_num == indent(__end_ln+1)
         let __end_ln += 1
-    endwhile 
+    endwhile
+
+    if __end_ln == __begin_ln
+        return 
+    endif
 
     " 生成执行命令，并执行 
     let __exec = printf('%d,%d Tab /%s', __begin_ln, __end_ln, a:string)
