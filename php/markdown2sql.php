@@ -17,7 +17,7 @@ fieldname1 | varchar(50) | index    | 该字段的说明
  * @author Alex <cyy0523xc@gmail.com>
  * @copyright IBBD
  * @see 
- * @todo 组合索引，前缀索引
+ * @todo 前缀索引
  * @version 20141014
  */
 
@@ -31,6 +31,9 @@ define('PATTORN_TABLE_BEGIN',    '/^\-+\s*\|\s*\-+\s*\|\s*\-+/');
 
 // 匹配表格的注释，如匹配tablename中的“用户登陆表”
 define('PATTORN_TABLE_COMMENT',  '/^##+\s*(?P<comment>.*?)(:|：)/');
+
+// 匹配组合索引的类型 
+define('PATTORN_EXT_INDEX_TYPE', '/^\*\*(?P<type>index|unique|primary)\*\*/');
 
 // 字段属性是否默认加上: NOT NULL
 define('DEFAULT_NOT_NULL',       true);
@@ -47,7 +50,7 @@ $create_sql_file = 'ibbd_bc_create_table.sql';
 $lines = file($md_file);
 
 // 表名
-$table_name = '';
+$table_name     = '';
 
 // 是否已经进入了表的字段
 $table_field_begin = false;
@@ -56,7 +59,7 @@ $table_field_begin = false;
 $table_sql = array();
 
 // sql字段开始标志
-$sql_field_begin = false;
+$sql_field_flag = 0;
 
 // 表的注释
 $table_comment = '';
@@ -64,33 +67,27 @@ $table_comment = '';
 // 索引
 $indexs = array();
 
+// 表格是否为空
+$table_empty = true;
+
+// 组合索引的类型：primary, unique, index
+$ext_index_type = '';
+
 // 循环处理每行数据
-foreach ($lines as $line) {
+$max_line_num = count($lines);
+foreach ($lines as $line_no => $line) {
     $line = trim($line);
-    if ('' === $table_name) {
-        // 检查数据表开始的位置 
-        $table_name = getTableName($line);
 
-        // 表的注释
-        if (!empty($table_name)) { 
-            if (1 === preg_match(PATTORN_TABLE_COMMENT, $line, $matchs)) {
-                $table_comment = trim($matchs['comment']);
-            } else {
-                $table_comment = '';
-            }
-        }
-    } else {
-        if (false === $table_field_begin) {
-            // 检查字段开始的位置
-            $table_field_begin = checkTableFieldBegin($line);
+    if ( (!empty($line) && '#' === $line[0]) 
+        || ($line_no === $max_line_num - 1)
+    ) {
+        if (!empty($table_name)) {
+            // 这是上一个数据表的结束
+            // 清空所有标识变量
+            echo "    Table END.\n\n";
 
-            // 如果是数据表开始的位置
-            if (true === $table_field_begin) {
-                $table_sql[$table_name] = "\nCREATE TABLE `{$table_name}` {";
-            }
-        } else {
-            if ('' === $line) {
-
+            // 表格不为空才需要处理
+            if (false === $table_empty) {
                 // 处理索引
                 if (!empty($indexs)) {
                     $index_sql = implode(",\n", $indexs);
@@ -98,19 +95,66 @@ foreach ($lines as $line) {
                 } 
 
                 // 给sql加上结束标识
-                $table_sql[$table_name] .= "\n} ENGINE=InnoDB DEFAULT CHARSET=utf8 COMMENT='{$table_comment}';\n";
-
-                // 字段结束，重置标识
-                $table_field_begin    = false;
-                $table_name           = '';
-                $sql_field_begin      = false;
-                $indexs               = array();
+                $table_sql[$table_name] .= "\n) ENGINE=InnoDB DEFAULT CHARSET=utf8 COMMENT='{$table_comment}';\n";
             } else {
+                // 如果表格为空，则重置为空
+                !empty($table_sql[$table_name]) && $table_sql[$table_name] = '';
+            }
+
+            // 字段结束，重置标识
+            $table_field_begin    = false;
+            $table_name           = '';
+            $sql_field_flag       = 0;
+            $indexs               = array();
+            $table_empty          = true;
+            $ext_index_type       = '';
+        } // end of 上一个表格
+
+        // 检查数据表开始的位置 
+        $table_name = getTableName($line);
+
+        // 如果是表格开始的位置
+        if (!empty($table_name)) { 
+            echo $table_name, " BEGIN:\n";
+
+            // 获取表的注释
+            if (1 === preg_match(PATTORN_TABLE_COMMENT, $line, $matchs)) {
+                $table_comment = trim($matchs['comment']);
+            } else {
+                $table_comment = '';
+            }
+        }
+        
+    } // end of if # === $line[0]
+    elseif (!empty($table_name)) {
+        // 进入表格的处理范围 
+
+        // 如果字段还没开始 
+        if (0 === $sql_field_flag) {
+            // 检查字段开始的位置
+            $table_field_begin = checkTableFieldBegin($line);
+
+            // 如果是数据表开始的位置
+            if (true === $table_field_begin) {
+                $table_sql[$table_name] = "\nCREATE TABLE `{$table_name}` (";
+                $sql_field_flag = 1;
+                
+                echo "    Field BEGIN\n";
+            }
+        } elseif (1 === $sql_field_flag) {
+            // 正在处理字段
+            if (empty($line)) {
+                // 如果遇到空行，则表示表格结束
+                $sql_field_flag = 2;
+                echo "    Field END\n";
+            } else {
+                // 如果不是空行，则为有效字段
+
                 // 如果不是第一次进入的话，需要在前一个语句上加逗号
-                if (true === $sql_field_begin) {
-                    $table_sql[$table_name] .= ',';
+                if ($table_empty) {
+                    $table_empty = false;
                 } else {
-                    $sql_field_begin = true;
+                    $table_sql[$table_name] .= ',';
                 }
 
                 // 生成sql语句
@@ -159,21 +203,60 @@ foreach ($lines as $line) {
 
                 // sql语句
                 $table_sql[$table_name] .= "\n    `{$field_name}` {$field_type} {$ext} COMMENT '{$field_comment}'";
+            } // end of 字段处理
+        } else {
+            // 正在处理组合索引
+            if (empty($ext_index_type)) {
+                if (1 === preg_match(PATTORN_EXT_INDEX_TYPE, $line, $matches)) {
+                    $ext_index_type = trim($matches['type']);
+                    echo "    process {$ext_index_type}...\n";
+                    
+                    // 加了一个特殊的前缀：第一次碰到非空行时去掉前缀
+                    $ext_index_type = '--' . $ext_index_type;
+                }
+            } elseif ('--' === substr($ext_index_type, 0, 2)) {
+                if ("" === $line) {
+                    continue;
+                } elseif ('- ' === substr($line, 0, 2)) {
+                    // 碰到一个组合索引
+                    echo "    type: {$ext_index_type}   line: {$line}\n";
+                    $ext_index_type = substr($ext_index_type, 2);
+                    $line = trim(substr($line, 2));
+                    $table_sql["{$line_no}"] = getExtIndexSql($table_name, $ext_index_type, $line);
+                } else {
+                    // 碰到非法的非空行
+                    echo "[ERROR] line : {$line_no}\n";
+                    $ext_index_type = '';
+                }
+            } else {
+                if ('- ' === substr($line, 0, 2)) {
+                    // 碰到一个组合索引
+                    echo "    line: {$line}\n";
+                    $line = trim(substr($line, 2));
+                    $table_sql["{$line_no}"] = getExtIndexSql($table_name, $ext_index_type, $line);
+                } else {
+                    // 碰到空行或者其他不符合规范的行
+                    $ext_index_type = '';
+                }
             }
         }
-    }
+    } // end of if !empty($table_name)
+
 } // end of foreach
 
 // 组成最后的sql文件的内容
 $sql  = "# md文件：http://git.ibbd.net/ibbd/ibbd-bc-py/blob/master/doc/db-tables.md\n";
+$sql .= "# Desc 该生成的sql文档暂不包含前缀索引，请自行添加。\n";
 $sql .= "# Create By http://git.ibbd.net/ibbd/ibbd-bc-py/blob/master/doc/markdown2sql.php\n";
-$sql .= "# Create At " . date("Y-m-d H:i:s") . "\n\n\n";
+$sql .= "# Create At " . date("Y-m-d H:i:s") . "\n";
+$sql .= "# 可以在mysql控制台使用souce导入\n";
+$sql .= "\n\n";
 $sql .= implode("", $table_sql);
 
 // 写入文件
-echo $sql;
+//echo $sql;
 file_put_contents($create_sql_file, $sql);
-
+echo "\nAll is OK! You can see the file: {$create_sql_file}.\n\n";
 
 // ******************** 以下是函数 ***********************
 
@@ -188,9 +271,40 @@ function getTableName($line)
 }
 
 // 判断是否为字段的开始位置
-function checkTableFieldBegin($line) {
+function checkTableFieldBegin($line) 
+{
     if (1 === preg_match(PATTORN_TABLE_BEGIN, $line)) {
         return true;
     }
     return false;
+}
+
+// 获取组合索引的sql 
+function getExtIndexSql($table_name, $index_type, $line) 
+{
+    $fields = explode(',', $line);
+    $fields = array_map("processFieldName", $fields);
+
+    $sql = "\nALTER TABLE `{$table_name}`";
+    switch ($index_type) {
+    case 'primary':
+        $sql .= " ADD PRIMARY KEY";
+        break;
+    case 'unique':
+        $sql .= " ADD UNIQUE INDEX";
+        break;
+    case 'index':
+        $sql .= " ADD INDEX";
+        break;
+    default:
+        return "";
+    }
+
+    $sql .= "(" . implode(',', $fields) . ");\n";
+    return $sql;
+}
+
+function processFieldName($field_name) 
+{
+    return "`" . str_replace("\\", '', trim($field_name)) . "`";
 }

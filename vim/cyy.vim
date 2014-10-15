@@ -31,6 +31,34 @@ nmap tab=>   :call CyyAlignBy("=>")<CR>
 " 根据某字符串对齐，依赖于 tabular 插件
 " 根据区块前后的空行来确定开始和结束的行号
 func CyyAlignBy(string)
+    let lineno    = line('.')
+
+    " 如果当前行为空行
+    if "" == getline(lineno)
+        return
+    endif
+
+    " 计算首行和尾行
+    let indent_pat = '^' . matchstr(getline(lineno), '^\s*') . '\S'
+    let firstline  = search('^\%('. indent_pat . '\)\@!','bnW') + 1
+    let lastline   = search('^\%('. indent_pat . '\)\@!', 'nW') - 1
+    if lastline < 0
+        let lastline = line('$')
+    endif
+
+    if firstline == lastline
+        return 
+    endif
+
+    " 生成执行命令，并执行 
+    let __exec = printf('%d,%d Tab /%s', firstline, lastline, a:string)
+    echo __exec 
+    exec __exec
+endfunc
+
+
+" 该函数仅作备份使用
+func BakCyyAlignBy(string)
     let __lineno    = line('.')
 
     " 如果当前行为空行
