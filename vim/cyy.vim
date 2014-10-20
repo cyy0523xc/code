@@ -8,10 +8,13 @@ let s:cyy_plugins_path = '/home/code/github/code/vim/plugins'
 "!ls R/
 
 " 测试 
-function! Helloworld()
+function! Helloworld() range
     echo "hello,world"
+    echo a:firstline
+    echo a:lastline
 endfunction
 command! -nargs=0 Helloworld call Helloworld()
+
 
 " php_beautifier
 map <C-b> :% ! php_beautifier --filters "Pear() ArrayNested()"<CR>
@@ -96,6 +99,9 @@ func BakCyyAlignBy(string)
     echo __exec 
     exec __exec
 endfunction
+
+" 根据每行前缀的空格(指定行)进行对齐
+" func CyyAlignPreSpace() range
 
 
 " au BufWritePost * :echo "this is vim file."

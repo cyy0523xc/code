@@ -24,7 +24,7 @@ fieldname1 | varchar(50) | index    | 该字段的说明
 //***************  config begin  **************
 
 // 匹配tablename，md文件中如：## 用户登陆表：user_login （user_login就是tablename）
-define('PATTORN_TABLE_NAME',     '/^##+.*(:|：)(?P<tablename>(data|user|log)_[a-z_]+)\s*$/');
+define('PATTORN_TABLE_NAME',     '/^##+.*(:|：)(?P<tablename>(data|user|log)_[a-z_0-9]+)\s*$/');
 
 // 表格字段开始的标志，格式如：---- | ------ | -----| ------ 
 define('PATTORN_TABLE_BEGIN',    '/^\-+\s*\|\s*\-+\s*\|\s*\-+/');
@@ -50,7 +50,7 @@ $create_sql_file = 'ibbd_bc_create_table.sql';
 $lines = file($md_file);
 
 // 表名
-$table_name     = '';
+$table_name = '';
 
 // 是否已经进入了表的字段
 $table_field_begin = false;
@@ -73,6 +73,9 @@ $table_empty = true;
 // 组合索引的类型：primary, unique, index
 $ext_index_type = '';
 
+// 数据表的个数
+$table_count = 0;
+
 // 循环处理每行数据
 $max_line_num = count($lines);
 foreach ($lines as $line_no => $line) {
@@ -88,6 +91,8 @@ foreach ($lines as $line_no => $line) {
 
             // 表格不为空才需要处理
             if (false === $table_empty) {
+                $table_count++;
+
                 // 处理索引
                 if (!empty($indexs)) {
                     $index_sql = implode(",\n", $indexs);
@@ -136,7 +141,7 @@ foreach ($lines as $line_no => $line) {
 
             // 如果是数据表开始的位置
             if (true === $table_field_begin) {
-                $table_sql[$table_name] = "\nCREATE TABLE `{$table_name}` (";
+                $table_sql[$table_name] = "\nCREATE TABLE IF NOT EXISTS `{$table_name}` (";
                 $sql_field_flag = 1;
                 
                 echo "    Field BEGIN\n";
@@ -256,7 +261,7 @@ $sql .= implode("", $table_sql);
 // 写入文件
 //echo $sql;
 file_put_contents($create_sql_file, $sql);
-echo "\nAll is OK! You can see the file: {$create_sql_file}.\n\n";
+echo "\nAll is OK!\nTables Count: {$table_count}\nSave to file: {$create_sql_file}.\n\n";
 
 // ******************** 以下是函数 ***********************
 

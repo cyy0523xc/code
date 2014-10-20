@@ -11,13 +11,21 @@ bashrc_plugin_test() {
 
 export -f bashrc_plugin_test 
 
+# source 
+source /home/code/github/phabricator/arcanist/resources/shell/bash-completion 
+
 # 服务器快速登陆
 alias ssh179='ssh root@112.124.47.179'
 alias ssh195='ssh root@115.29.166.195'
 alias ssh35='ssh root@42.120.21.35'
-alias ssh222='ssh root@182.92.162.222'       # 班级空间服务器 
-alias ssh93='ssh root@121.199.4.93'          # 测试机
-alias sshtest='ssh root@121.199.4.93'        # 测试机
+alias ssh222='ssh root@182.92.162.222'           # 班级空间服务器 
+alias ssh93='ssh root@121.199.4.93'              # 测试机
+alias sshtest='ssh root@121.199.4.93'            # 测试机
+alias sshweketong='ssh zhenhang@115.29.225.15'   # 微客通
+
+# redis
+alias redis-cli="/home/alex/programs/redis-2.8.17/src/redis-cli"
+alias redis-server="/home/alex/programs/redis-2.8.17/src/redis-server"
 
 
 # javascript和css文件压缩
