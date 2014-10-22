@@ -154,36 +154,37 @@ autocmd BufNewFile * normal G
 """"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 "键盘命令
 """"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
-:nmap <silent> <F9> <ESC>:Tlist<RETURN>
-map! <C-Z> <Esc>zzi
-map! <C-O> <C-Y>,
-map <C-A> ggVG$"+y
-map <F12> gg=G
-map <C-w> <C-w>w
-imap <C-k> <C-y>,
-imap <C-j> <ESC>
+":nmap <silent> <F9> <ESC>:Tlist<RETURN>
+"map! <C-Z> <Esc>zzi
+"map! <C-O> <C-Y>,
+"map <C-A> ggVG$"+y
+"map <F12> gg=G
+"map <C-w> <C-w>w
+"imap <C-k> <C-y>,
+"imap <C-j> <ESC>
 " 选中状态下 Ctrl+c 复制
 "map <C-v> "*pa
-imap <C-v> <Esc>"*pa
-imap <C-a> <Esc>^
-imap <C-e> <Esc>$
-vmap <C-c> "+y
+"imap <C-v> <Esc>"*pa
+" <C-a>: 与系统默认的快捷键冲突
+"imap <C-a> <Esc>^
+"imap <C-e> <Esc>$
+"vmap <C-c> "+y
 set mouse=v
 "set clipboard=unnamed
 "去空行  
-nnoremap <F2> :g/^\s*$/d<CR> 
+"nnoremap <F2> :g/^\s*$/d<CR> 
 "比较文件  
-nnoremap <C-F2> :vert diffsplit 
+"nnoremap <C-F2> :vert diffsplit 
 "nnoremap <Leader>fu :CtrlPFunky<Cr>
 "nnoremap <C-n> :CtrlPFunky<Cr>
 "列出当前目录文件  
-map <F3> :NERDTreeToggle<CR>
-imap <F3> <ESC> :NERDTreeToggle<CR>
+"map <F3> :NERDTreeToggle<CR>
+"imap <F3> <ESC> :NERDTreeToggle<CR>
 "打开树状文件目录  
-map <C-F3> \be  
+"map <C-F3> \be  
 :autocmd BufRead,BufNewFile *.dot map <F5> :w<CR>:!dot -Tjpg -o %<.jpg % && eog %<.jpg  <CR><CR> && exec "redr!"
 "C，C++ 按F5编译运行
-map <F5> :call CompileRunGcc()<CR>
+"map <F5> :call CompileRunGcc()<CR>
 func! CompileRunGcc()
 	exec "w"
 	if &filetype == 'c'

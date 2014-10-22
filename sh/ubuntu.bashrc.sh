@@ -442,3 +442,7 @@ HELP
     fi 
 
 }
+
+# 其他脚本
+. /home/code/github/code/sh/ubuntu.bashrc.git.sh 
+
