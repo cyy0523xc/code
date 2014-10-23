@@ -11,6 +11,18 @@ bashrc_plugin_test() {
 
 export -f bashrc_plugin_test 
 
+# 判断函数参数
+check_params() {
+    if [ $# -eq 2 ]; then 
+        if [ $1 -eq $2 ]; then 
+            return 0
+        fi 
+    fi 
+
+    echo "Error function params number is not equel $2"
+    return 1
+}
+
 # source 
 source /home/code/github/phabricator/arcanist/resources/shell/bash-completion 
 
