@@ -124,30 +124,30 @@ cyy_md5() {
     echo $1 | md5sum
 }
 
-# git pull all
-# 一次性git pull所有代码
-# 参数说明
-#   $1: 目录，默认为：/home/code/ibbd
-git_pull_all() {
-    if [ 1 -eq $# ]; then 
-        default_dir=$1
-    else
-        default_dir=/home/code/ibbd
+cyy_find() {
+    if [ 1 -ne $# ]; then
+        echo "find . | xargs grep -ri \$1"
+        return
     fi
+    find . | xargs grep -ri "$1"
+}
 
+# git pull all
+# 在当前目录一次性git pull所有代码
+git_pull_all() {
     # git pull 
-    for dir in $(ls $default_dir);
+    for dir in $(ls);
     do 
-        if [ -d $default_dir/$dir ]; then 
-            echo $default_dir/$dir/
-            pushd $default_dir/$dir/
+        if [ -d $dir ]; then 
+            echo $dir/
+            pushd $dir/
             git checkout master
             git pull
             echo "----- $dir is ok."
             echo ""
             popd 
         else 
-            echo "$default_dir/$dir is not a dir!"
+            echo "$dir is not a dir!"
         fi 
     done 
 

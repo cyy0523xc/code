@@ -98,7 +98,7 @@ au BufRead,BufNewFile *.{go}   set filetype=go
 au BufRead,BufNewFile *.{js}   set filetype=javascript
 "rkdown to HTML  
 nmap md :!~/.vim/markdown.pl % > %.html <CR><CR>
-nmap fi :!firefox %.html & <CR><CR>
+"nmap fi :!firefox %.html & <CR><CR>
 nmap \ \cc
 vmap \ \cc
 
