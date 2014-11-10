@@ -121,7 +121,9 @@ ibbd_git_init() {
 
 # 输出一个字符串的md5值
 cyy_md5() {
-    echo $1 | md5sum
+    #echo $1 | md5sum
+    php -r "echo md5($1);"
+    echo 
 }
 
 cyy_find() {
