@@ -34,6 +34,7 @@ alias ssh222='ssh root@182.92.162.222'           # 班级空间服务器
 alias ssh93='ssh root@121.199.4.93'              # 测试机
 alias sshtest='ssh root@121.199.4.93'            # 测试机
 alias sshweketong='ssh zhenhang@115.29.225.15'   # 微客通
+alias pushwp='git push; ssh zhenhang@wp.ibbd.net "cd /home/wwwroot/wechat_printer; git pull"'      # 更新打印机项目的代码
 
 # redis
 alias redis-cli="/home/alex/programs/redis-2.8.17/src/redis-cli"
