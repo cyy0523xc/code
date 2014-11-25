@@ -1,0 +1,140 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<style type="text/css">
+.rot_box{width:512px; margin:0 auto;}
+.image_box{text-align:center;}
+.image_box img{margin-top:-150px;}
+</style>
+<!--[if IE]><script type="text/javascript" src="../js/excanvas.js"></script><![endif]-->
+<link href="http://cdn.bootcss.com/imgareaselect/0.9.10/css/imgareaselect-animated.css" rel="stylesheet">
+<script src="http://libs.baidu.com/jquery/2.0.0/jquery.min.js"></script>
+<script src="http://cdn.bootcss.com/imgareaselect/0.9.10/js/jquery.imgareaselect.min.js"></script>
+<script type="text/javascript">
+window.onload = function(){
+
+    var ias = window.ias = null;
+    var selectionInit = function() {
+        var cv = $('#canvas'), w = cv.width(), h = cv.height();
+        var sw = w > h ? h : w;
+
+        var pos = {};
+        if (w > h) {
+            var tmp = (w - h) / 2;
+            pos.x1 = tmp;
+            pos.y1 = 0;
+            pos.x2 = w - tmp;
+            pos.y2 = h;
+        } else {
+            var tmp = (h - w) / 2;
+            pos.x1 = 0;
+            pos.y1 = tmp;
+            pos.x2 = w;
+            pos.y2 = h - tmp;
+        }
+        console.log(pos);
+
+        ias = $('#canvas').imgAreaSelect({instance: true, show:true, x1: pos.x1, y1:pos.y1, x2: pos.x2, y2: pos.y2, maxHeight: sw, maxWidth: sw, minHeight: sw, minWidth: sw, onSelectEnd: function (img, selection) {
+                console.log('width: ' + selection.width + '; height: ' + selection.height + '  x1:' + selection.x1 + "  y1:" + selection.y1);
+                }});
+
+    };
+
+    var param = {
+        right: document.getelementbyid("rotRight"),
+        left: document.getElementById("rotLeft"),
+        img: document.getElementById("rotImg"),
+        cv: document.getElementById("canvas"),
+        rot: 0
+    };
+    var rotate = function(canvas,img,rot){
+        //获取图片的高宽
+        var w = img.width;
+        var h = img.height;
+        //角度转为弧度
+        if(!rot){
+            rot = 0;    
+        }
+        var rotation = Math.PI * rot / 180;
+        var c = Math.round(Math.cos(rotation) * 1000) / 1000;
+        var s = Math.round(Math.sin(rotation) * 1000) / 1000;
+        //旋转后canvas标签的大小
+        canvas.height = Math.abs(c*h) + Math.abs(s*w);
+        canvas.width = Math.abs(c*w) + Math.abs(s*h);
+        //绘图开始
+        var context = canvas.getContext("2d");
+        context.save();
+        //改变中心点
+        if (rotation <= Math.PI/2) {
+            context.translate(s*h,0);
+        } else if (rotation <= Math.PI) {
+            context.translate(canvas.width,-c*h);
+        } else if (rotation <= 1.5*Math.PI) {
+            context.translate(-c*w,canvas.height);
+        } else {
+            context.translate(0,-s*w);
+        }
+        //旋转90°
+        context.rotate(rotation);
+        //绘制
+        context.drawImage(img, 0, 0, w, h);
+        context.restore();
+        img.style.display = "none"; 
+
+        ias.cancelSelection();
+        selectionInit();
+    }
+    var fun = {
+        right: function(){
+            param.rot += 90;
+            rotate(param.cv, param.img, param.rot);
+            if(param.rot === 270){
+                param.rot = -90;    
+            }   
+        },
+        left: function(){
+            param.rot -= 90;
+            if(param.rot === -90){
+                param.rot = 270;    
+            }
+            rotate(param.cv, param.img, param.rot);         
+        }
+    };
+    param.right.onclick = function(){
+        fun.right();
+        return false;
+    };
+    param.left.onclick = function(){
+        fun.left();
+        return false;
+    };
+
+    $(document).ready(function(){
+            selectionInit();
+            rotate(param.cv, param.img, 360);
+            });
+};
+</script>
+</head>
+
+<body>
+<div class="zxx_out_box">
+    <div class="zxx_in_box">
+        <h1 class="zxx_title">canvas实现图片旋转效果</h1>
+        <div class="zxx_main_con">
+            <div class="zxx_test_list">
+                <div class="rot_box">
+                    <p class="fix f9 mb10"><a id="rotLeft" class="l" href="javascript:void(0);">&lt;&lt;向左转</a><a id="rotRight" class="r" href="javascript:void(0);">向右转&gt;&gt;</a></p>
+                    <div class="image_box">
+                        <canvas id="canvas"></canvas>
+                        <img id="rotImg" src="1.png" />
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+</body>
+</html>
+
