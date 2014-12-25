@@ -48,7 +48,8 @@ var page_task = {
             // 分页数据
             ,page: {
                 num:  10,                 // 最多获取10页的数据
-                next: 'div.page-bottom a:last-child'
+                next: 'div.page-bottom a:last-child',
+                delay: 3
             }
         }
 
@@ -61,6 +62,14 @@ var page_task = {
 // *********************************************
 
 var IBBD = {
+    sleep: function(sleep_time) {
+        for (var start = Date.now(); Date.now() - start <= sleep_time; ); 
+    },
+
+    getInnerText: function(selector) {
+        return document.querySelector(selector).innerText;
+    },
+
     format: function(val, config) {
         val = val.trim();
         if ('string' === typeof config.type) {
@@ -127,27 +136,39 @@ var IBBD = {
     // 解释分页数据
     parsePages: function(key, val) {
         if ('table' === val.type) {
-            var has_next = true;
             data[key] = [];
             do {
-                casper.waitForSelector(val.xpath, function() {
-                    this.echo("========================" + key);
-                    if (has_next) {
-                        var one_page_data = IBBD.table(val);
-                        data[key].push(one_page_data);
-                        require('utils').dump(data);
-                    }
-                });
-                casper.then(function() {
-                    if (casper.exists(val.page.next)) {
-                        this.click(val.page.next);
-                    } else {
-                        has_next = false;
-                    }
-                }); 
+                IBBD.parseOnePage(IBBD.current_page, key, val);
                 IBBD.current_page++;
-            } while(IBBD.current_page < val.page.num);
+            } while(IBBD.current_page <= val.page.num);
         }
+    },
+
+    parseOnePage: function(current_page, key, val) {
+        casper.waitForSelector(val.xpath, function() {
+            if (current_page != this.evaluate(IBBD.getInnerText)) {
+                return;
+            }
+
+            this.echo("========================" + key);
+            if (casper.exists(val.page.next)) {
+                var one_page_data = IBBD.table(val);
+                data[key].push(one_page_data);
+                require('utils').dump(data);
+            }
+        });
+
+        casper.then(function() {
+            if (current_page != this.evaluate(IBBD.getInnerText)) {
+                return;
+            }
+
+            // 点击页面
+            if (casper.exists(val.page.next)) {
+                this.click(val.page.next);
+                IBBD.sleep(val.page.delay * 1000);
+            }
+        }); 
     },
 
     // 表格数据解释
