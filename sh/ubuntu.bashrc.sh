@@ -135,6 +135,10 @@ cyy_find() {
     find . | xargs grep -ri "$1"
 }
 
+shuangpin() {
+    xrandr --output HDMI1 --mode 1366x768 --pos 0x0 --rotate left --output VIRTUAL1 --off --output VGA1 --mode 1920x1080 --pos 768x0 --rotate normal
+}
+
 # git pull all
 # 在当前目录一次性git pull所有代码
 git_pull_all() {
