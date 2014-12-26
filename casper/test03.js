@@ -43,10 +43,10 @@ var page_task = {
                 number:   {col: 2, type: 'int'},
                 price:    {col: 3},
                 time:     {col: 4, replace: ["\n", ' ']}
-            }
+            },
 
             // 分页数据
-            ,page: {
+            page: {
                 num:  10,                 // 最多获取10页的数据
                 next: 'div.page-bottom a:last-child',
                 delay: 3
@@ -62,6 +62,7 @@ var page_task = {
 // *********************************************
 
 var IBBD = {
+    // @param int sleep_time 单位：毫秒
     sleep: function(sleep_time) {
         for (var start = Date.now(); Date.now() - start <= sleep_time; ); 
     },
@@ -204,6 +205,8 @@ var IBBD = {
     }
 };
 
+//************************* 以下是主体流程 *********************
+
 var casper = require('casper').create({
     verbose: true,
     logLevel: "debug",
@@ -236,7 +239,6 @@ for (var k in page_task.vars) {
 }
 
 casper.run(function() {
-    //require('utils').dump(data);
     require('utils').dump(data.length);
     this.exit();
 });
