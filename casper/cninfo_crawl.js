@@ -1,4 +1,4 @@
-// e互动
+// 深交所互动易：中小企业版
 
 var page_task = {
 
@@ -16,14 +16,14 @@ var page_task = {
     },
 
     // 页面的URL
-    url: 'http://sns.sseinfo.com/list/company.do',
+    url: 'http://irm.cninfo.com.cn/szse/ssgsList.html',
 
     // 前置动作
     pre_op: [
         {
             // 点击动作
             type: 'click',
-            selector: '#r3 a[rel="2"]'
+            selector: '#kulist #one2'
         }
     ],
 
@@ -32,33 +32,25 @@ var page_task = {
         // 获取表格数据
         'company_list': {
             type:  'list',
-            selector: '#allCompany .companyBox',
+            selector: '#con_one_2 li',
             cols: {
-                e_uid: {
-                    selector: 'a[rel="tag"]',
-                    attr: 'uid',           // 这个配置可以不要，默认就是innerText
-                    type: 'int'
-                },
-
                 company_logo: {
-                    selector: 'a[rel="tag"] img',
+                    selector: '.headpic img',
                     attr: 'src'
                 },
 
                 company_id: {
-                    col: 1,
-                    type: 'int',
+                    selector: '.code a',
                     as_id: true            // 作为主键
                 },
 
                 company_name: {
-                    col: 2
+                    selector: '.name a'
                 },
 
                 company_url: {
-                    selector: 'div a:nth-last-child(1)',
+                    selector: '.headpic a',
                     attr:     'href',                      // 获取属性
-                    pre_str:  'http://sns.sseinfo.com/',   // 前缀字符串
 
                     // 获取该url的详细数据
                     tasks: {
@@ -66,21 +58,20 @@ var page_task = {
                         pre_op: [],
                         vars: {
                             'company_id': {
-                                selector: 'div.com_info p',
-                                substr: [1, -1],     // [start, len]
-                                type: 'int'
+                                selector: '.zw_banner_box dd *:nth-last-child(1)'
                             },
 
                             // 直接用父节点的company_name值
                             //'company_name': '@.company_name',
 
-                            'reply_num': {
-                                selector: 'div.com_info ul li:first-child strong',
-                                type: 'int'
-                            },
+                            //'reply_num': {
+                                //selector: 'div.com_info ul li:first-child strong',
+                                //type: 'int'
+                            //},
 
                             'follow_num': {
-                                selector: '#followedNum',
+                                selector: '.gzbtn_text',
+                                //regexp: /\d+/,
                                 type: 'int'
                             }
                         }
@@ -92,8 +83,8 @@ var page_task = {
             page: {
                 num:  2,                 // 最多获取多少页的数据，默认抓取所有数据
                 //num:  "#pagination a:nth-last-child(2)",
-                next: '#pagination .next',
-                current: '#pagination span[class="current"]',
+                next: '#zxPage span[title="Next Page"] a',
+                current: '#zxPage span.current',
                 delay: 2
             }
         } // end of company_list

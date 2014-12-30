@@ -39,8 +39,18 @@ var IBBD = {
     },
 
     format: function(val, config) {
+        if (null === val) {
+            return '';
+        }
+
         // 格式化
         val = val.trim();
+
+        // 字符串替换
+        if ('object' === typeof config.regexp) {
+            val = val.match(config.regexp);
+            val = val[0];
+        }
 
         // 字符串替换
         if ('object' === typeof config.replace) {
@@ -63,7 +73,14 @@ var IBBD = {
         if ('string' === typeof config.type) {
             switch (config.type) {
                 case 'int':
-                    val = parseInt(val, 10);
+                    var p = /[\+\-]?\d+/;
+                    if (p.test(val)) {
+                        val = val.match(p);
+                        val = val[0];
+                        val = parseInt(val, 10);
+                    } else {
+                        val = 0;
+                    }
                 break;
                 case 'float':
                     val = parseFloat(val);
@@ -102,9 +119,123 @@ var IBBD = {
                     casper.waitForSelector(op.selector, function() {
                         this.echo(op.selector);
                         this.click(op.selector);
+                        IBBD.debug("前置动作：" + op.type + "   selector: " + op.selector);
                     });
                 break;
             }
+        }
+    },
+
+    // 任务相关
+    task: {
+        end: 0,         // 任务的结束时间
+        max: 40000,     // 本次任务的执行时间
+        list: [],       // 任务列表
+        is_over: true,  // 任务是否已经完成
+        index: 0,       // 当前的任务序列
+        
+        init: function() {
+            IBBD.task.end = Date.now() + IBBD.task.max;
+        },
+
+        add: function(task) {
+            IBBD.debug('=================增加任务' + IBBD.task.index + '===============');
+            if (IBBD.task.index > 1) {
+                return;
+            }
+            IBBD.task.list.push(task);
+            IBBD.task.index++;
+        },
+
+        process: function() {
+            IBBD.task.is_over = false;
+            if (Date.now() > IBBD.task.end) {
+                IBBD.debug("任务超时退出");
+                return;
+            }
+            var task = IBBD.task.list.shift();
+            IBBD.processVars(task.url, task);
+
+            casper.waitFor(function() {
+                if (IBBD.task.is_over) {
+                    if (IBBD.task.list.length > 0) {
+                        return true;
+                    } else {
+                        IBBD.debug('所有任务已完成');
+                        casper.exit(0);
+                    }
+                }
+                return false;
+            }, function() {
+                IBBD.task.process();
+            }, function() {
+                IBBD.debug('Timeout');
+            });
+        }
+    },
+
+    // 变量处理状态
+    var_process_status: 'begin',
+
+    // 处理一个页面的所有变量
+    processVars: function(url, task_config) {
+        if (task_config.vars.length < 1) {
+            return;
+        }
+
+        IBBD.page_is_over = false;
+        IBBD.debug("正在处理URL：" + url);
+        casper.open(url).then(function() {
+            //IBBD.debug(this.status(true));
+        }).then(function() {
+            this.scrollToBottom();
+        });
+
+        // 前置动作
+        if (task_config.pre_op.length > 0) {
+            IBBD.preOperate(task_config.pre_op);
+        }
+
+        // 获取变量名
+        var key_list = [];
+        for (var key in task_config.vars) {
+            key_list.push(key);
+        }
+        IBBD.debug(key_list);
+
+        casper.then(function() {
+            IBBD.processOneVar(key_list, task_config.vars);
+        })
+    },
+
+    // 处理一个变量
+    processOneVar: function(key_list, vars) {
+        var current_key = key_list.shift();
+        var current_val = vars[current_key];
+
+        IBBD.debug('开始处理变量：' + current_key);
+        IBBD.var_process_status = 'begin';
+        if ('object' === typeof current_val.page) {
+            IBBD.processPages(current_key, current_val);
+        } else {
+            IBBD.parse(current_key, current_val);
+        }
+        IBBD.var_process_status = 'end';
+        IBBD.debug('结束处理变量：' + current_key);
+
+        if (key_list.length > 0) {
+            IBBD.debug('变量列表');
+            casper.waitFor(function() {
+                return 'end' === IBBD.var_process_status;
+            }, function() {
+                IBBD.processOneVar(key_list, vars);
+            }, function() {
+                IBBD.debug('processOneVar Timeout');
+            });
+        } else {
+            IBBD.debug('IBBD.task.is_over is true');
+            IBBD.task.is_over = true;
+            return;
         }
     },
 
@@ -115,19 +246,48 @@ var IBBD = {
             switch (val.type) {
                 case 'table':
                     IBBD.data[key] = IBBD.table(val);
+
+                    // 子任务处理
+                    for (var i in val.cols) {
+                        if ('object' === typeof val.cols[i].tasks) {
+                            var task = val.cols[i].tasks;
+                            for (var j in IBBD.data[key]) {
+                                task.url = IBBD.data[key][j][i];
+                                IBBD.task.add(task);
+                            }
+                        }
+                    }
                     break;
 
                 case 'list':
                     IBBD.data[key] = IBBD.list(val);
+
+                    // 子任务处理
+                    for (var i in val.cols) {
+                        if ('object' === typeof val.cols[i].tasks) {
+                            var task = val.cols[i].tasks;
+                            for (var j in IBBD.data[key]) {
+                                task.url = IBBD.data[key][j][i];
+                                IBBD.task.add(task);
+                            }
+                        }
+                    }
                     break;
 
                 default:
-                    IBBD.data[key] = IBBD.evaluate(val);
+                    IBBD.data[key] = IBBD.evaluateSelector(val.selector);
                     IBBD.data[key] = IBBD.format(IBBD.data[key], val);
+
+                    // 子任务处理
+                    if ('object' === typeof val.tasks) {
+                        var task = val.tasks;
+                        task.url = IBBD.data[key];
+                        IBBD.task.add(task);
+                    }
                     break;
             }
-            this.echo("========================" + key);
-            IBBD.debug(IBBD.data);
+            IBBD.debug("========================" + key);
+            IBBD.debug(IBBD.data[key]);
         });
     },
 
@@ -158,11 +318,20 @@ var IBBD = {
             one_page_data = IBBD.list(val);
         }
         IBBD.data[key].push(one_page_data);
-        //IBBD.data[key] = 'test';
+
+        // 子任务处理
+        for (var i in val.cols) {
+            if ('object' === typeof val.cols[i].tasks) {
+                var task = val.cols[i].tasks;
+                for (var j in one_page_data) {
+                    task.url = one_page_data[j][i];
+                    IBBD.task.add(task);
+                }
+            }
+        }
 
         IBBD.debug(one_page_data[0]);
         IBBD.debug("元素的个数：" + one_page_data.length + "    data length = " + IBBD.data.length + '===' + IBBD.data[key].length);
-        //IBBD.debug(IBBD.data[key]);
         //casper.captureSelector('edy-'+current_page+'.png', '.company_center');
 
         // 判断是否应该结束
@@ -188,7 +357,7 @@ var IBBD = {
         IBBD.debug('抓取表格数据');
         return casper.evaluate(function(ibbd_config, ibbd_format) {
             var rows = document.querySelectorAll(ibbd_config.selector);
-            var table_data = [];
+            var table_data = [];       // 表格数据
             for (var i in rows) {
                 if (false === /\d/.test(i)) {
                     continue;
