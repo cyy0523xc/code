@@ -1,18 +1,8 @@
 // e互动
 
-var page_task = {
-
+exports.config = {
     // 浏览器配置
     browser: {
-        verbose: true,
-        logLevel: "debug",
-
-        // 浏览器size
-        viewportSize: {width: 800, height:1200},
-
-        userAgent: 'Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 (KHTML, like Gecko) Ubuntu Chromium/39.0.2171.65 Chrome/39.0.2171.65 Safari/537.36',
-
-        loadImages:  false
     },
 
     // 页面的URL
@@ -99,35 +89,3 @@ var page_task = {
         } // end of company_list
     }
 };
-
-
-
-//************************* 以下是主体流程 *********************
-
-/**
- * 任务主体逻辑
- * @param object tasks 任务定义配置
- */
-function tasks_start(tasks) {
-    var casper = require('casper').create(tasks.browser);
-    var IBBD = require('libs/ibbd.js').create();
-
-    casper.start();
-
-    // 任务
-    IBBD.task.init();
-    IBBD.task.add(tasks);
-    IBBD.task.process();
-
-    casper.run(function() {
-        this.echo('任务完成');
-        var data = IBBD.getData();
-        for (var key in data) {
-            this.echo(key);
-            //require('utils').dump(data[key]);
-        }
-        this.exit();
-    });
-};
-
-tasks_start(page_task);
