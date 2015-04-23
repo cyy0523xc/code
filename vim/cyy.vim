@@ -7,6 +7,9 @@ let s:cyy_plugins_path = '/home/code/github/code/vim/plugins'
 "echo s:cyy_plugins_path
 "!ls R/
 
+" 键值映射
+au VimEnter * !xmodmap -e 'clear Lock' -e 'keycode 0x42 = Escape'
+
 " 测试 
 function! Helloworld() range
     echo "hello,world"

@@ -4,6 +4,9 @@
 # 在~/.bashrc中被引用
 # @author cyy053xc@gmail.com
 
+# 键盘映射
+#xmodmap -e 'clear Lock' -e 'keycode 0x42 = Escape'
+
 bashrc_plugin_test() {
     pwd
     echo "loaded ok"

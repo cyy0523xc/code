@@ -42,7 +42,9 @@ install-app terminator
 
 install-app tmux
 
+# install git-flow
 
+sudo apt-get install git-flow
 
 # install pinta
 sudo add-apt-repository ppa:pinta-maintainers/pinta-stable
