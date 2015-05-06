@@ -137,6 +137,14 @@ autocmd BufNewFile * normal G
 "normal <Right> <Nop>
 
 
+" 插件
+Plugin 'mattn/emmet-vim'
+let g:user_emmet_mode='n'
+let g:user_emmet_install_global = 0
+autocmd FileType html,css,js,php EmmetInstall
+"let g:user_emmet_leader_key='<C-Z>'
+
+
 " 如果编辑的是blog目录下的，且后缀为md的文件
 " 在保存并退出vim时，需要自动git push并发布到网上
 "source s:cyy_plugins_path . '/blogdeploy.vim'
