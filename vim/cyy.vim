@@ -144,6 +144,17 @@ let g:user_emmet_install_global = 0
 autocmd FileType html,css,js,php EmmetInstall
 "let g:user_emmet_leader_key='<C-Z>'
 
+"Bundle "Yggdroot/indentLine"
+Bundle "airblade/vim-gitgutter"
+Bundle "gregsexton/gitv"
+Bundle "tpope/vim-commentary"
+Bundle "tpope/vim-surround"
+Bundle "Raimondi/delimitMate"
+
+" vim-commentary设置
+" 设置Python注释字符
+autocmd FileType python,shell set commentstring=#\ %s 
+autocmd FileType mako set cms=##\ %s
 
 " 如果编辑的是blog目录下的，且后缀为md的文件
 " 在保存并退出vim时，需要自动git push并发布到网上
