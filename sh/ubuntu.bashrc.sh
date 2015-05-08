@@ -7,12 +7,12 @@
 # 键盘映射
 #xmodmap -e 'clear Lock' -e 'keycode 0x42 = Escape'
 
-bashrc_plugin_test() {
-    pwd
-    echo "loaded ok"
-}
+# bashrc_plugin_test() {
+#     pwd
+#     echo "loaded ok"
+# }
 
-export -f bashrc_plugin_test 
+# export -f bashrc_plugin_test 
 
 # 判断函数参数
 check_params() {
@@ -237,139 +237,6 @@ EOF
     esac
 }
 
-# blog相关操作(已弃用)
-# 
-# blog "filename"     : new blog
-# blog e "filename"   : Edit blog
-# blog d              : deploy blog 
-#
-bak_blog() {
-    blog_path=/home/code/github/cyy0523xc.github.io/
-    blog_post_path=/home/code/github/blog/
-    blog_source_path="/home/code/github/cyy0523xc.github.io/source/"
-   
-    case $1 in 
-        "p"|"path")
-            cd $blog_post_path"_posts/"
-            ;;
-
-        "d"|"deploy")
-            # deploy blog 
-            echo "Deploy blog begin:"
-            pushd $blog_source_path
-            git pull 
-
-            pushd $blog_path
-            hexo g
-            hexo d
-
-            popd
-            popd 
-
-            echo "Deploy blog end."
-            ;;
-
-        "e"|"edit")
-            # edit blog 
-            cd $blog_post_path 
-            git pull 
-
-            filename=$2
-            filename=${filename##*/}
-            if [ -f _posts/$filename ]; then 
-                echo "Edit blog begin: "
-                vim _posts/$filename
-
-                git commit -am "Edited $filename"
-                git push
-
-                blog d 
-                echo "Edit blog end."
-
-                cd _posts/
-            else
-                echo "file: \"$filename\" is not exists!"
-            fi 
-            ;;
-
-        "a"|"add")
-            # add an md file to blog 
-            if [ -f $2 ]; then 
-                cp $2 $blog_post_path"_posts/"
-                pushd $blog_post_path 
-                git add _posts/$2
-                git commit -am "Add new blog $2"
-                git push 
-                popd
-
-                pushd $blog_source_path
-                git pull 
-                hexo g
-                hexo d
-                popd 
-            fi 
-            ;;
-
-        "n"|"new")
-            # write a new blog 
-            filename=$2
-            filename=${filename##*/}
-
-            # 避免同名文件
-            pushd $blog_post_path"_posts/"
-            if [ -f $filename -o -f $filename".md" ]
-            then 
-                echo "the file is exists!"
-            fi 
-            popd 
-
-            # begin write 
-            echo "Write a new blog begin:"
-            pushd $blog_path 
-            tmp=$(hexo n $filename)
-            echo $tmp
-
-            pushd $blog_source_path
-            git add _posts/*
-            git commit -am "Created ${tmp##*/}"
-            git push 
-            popd
-
-            popd
-            blog e ${tmp##*/}
-            ;;
-
-        "b"|"bak"|"backup")
-            cp_all /home/code/github/cyy0523xc.github.io /home/code/github/bak.all.blog 
-            
-            pushd /home/code/github/bak.all.blog/ 
-            git add ./*
-            git commit -am 'bak'
-            git push 
-            popd 
-
-            echo "Backup is ok!"
-            ;;
-
-        "h"|"help"|*)
-            cat <<EOF
-This is help for blog.
-
-blog [-hdenpa] [title]
-
-n|new    title     : wrie a new blog 
-d|deploy           : deploy blog 
-e|edit   title     : edit blog 
-p|path             : goto the blog path
-a|add    title.md  : add new exists blog 
-b|bak|backup       : backup all files 
-h|help             : help
-
-EOF
-        ;;
-
-    esac 
-}
 
 # github相关操作 
 github() {

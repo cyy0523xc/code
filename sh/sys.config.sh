@@ -44,14 +44,14 @@ install-app tmux
 
 # install git-flow
 
-sudo apt-get install git-flow
+install-app git-flow
 
 # install pinta
 sudo add-apt-repository ppa:pinta-maintainers/pinta-stable
 sudo apt-get update
-sudo apt-get install pinta
+install-app pinta
 
 # install 视频播放器
-sudo apt-get install vlc 
+install-app vlc 
 
 
