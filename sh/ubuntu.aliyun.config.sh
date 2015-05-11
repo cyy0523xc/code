@@ -60,6 +60,9 @@ git pull origin master
 
 # 建立登陆用户 
 # 登陆之后记得修改密码
+# 新建用户之后记得修改vim /etc/passwd 文件，在对应的用户最后加上/bin/bash 
+# 配置自动登陆：cat ~/.ssh/id_rsa.pub 
+# 用户在服务器上登陆之后：vim .ssh/authorized_keys
 useradd ibbd 
 passwd scut2092
 
