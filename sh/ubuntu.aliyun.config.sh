@@ -43,4 +43,24 @@ mv composer.phar /usr/local/bin/composer
 # install laravel 
 #composer global require "laravel/installer=~1.1"
 
+# 配置项目目录
+mkdir /home/wwwroot/ 
+mkdir /home/wwwlogs/
+chmod -R 0777 /home/wwwlogs/
+
+# 配置nginx的站点配置目录
+# 需要先在nginx-conf这个项目添加：Deploy keys
+# 生成方法：ssh-keygen -t rsa -C "cyy0523xc@gmail.com"
+cd /etc/nginx/sites-available/
+git init
+git remote add origin git@git.ibbd.net:ibbd/nginx-conf.git
+git pull origin master
+
+# 建立登陆用户 
+# 登陆之后记得修改密码
+useradd ibbd 
+passwd scut2092
+
+mkdir /home/ibbd 
+chown -R ibbd:ibbd /home/ibbd
 
