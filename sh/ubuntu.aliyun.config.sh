@@ -7,6 +7,8 @@
 apt-get install curl
 
 # install php
+# 安装完记得修改 /etc/php5/fpm/pool.d/www.conf
+# listen = 127.0.0.1:9000
 apt-get install libapache2-mod-php5 php-apc php-pear php5  php5-cli php5-common php5-curl php5-dev php5-fpm php5-gd php5-imagick php5-mysqlnd php5-mcrypt php5-msgpack php5-mysql
  
 php5enmod mcrypt 
