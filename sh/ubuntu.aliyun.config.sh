@@ -22,6 +22,8 @@ apt-key add nginx_signing.key
 
 # 不同ubuntu版本需要对应不同的codename
 # see http://nginx.org/en/linux_packages.html#distributions
+echo "" >> /etc/apt/sources.list
+echo "# install nginx" >> /etc/apt/sources.list
 echo "deb http://nginx.org/packages/debian/ trusty nginx" >> /etc/apt/sources.list
 echo "deb-src http://nginx.org/packages/debian/ trusty nginx" >> /etc/apt/sources.list
 
