@@ -15,7 +15,19 @@ php5enmod mcrypt
 apt-get install php5-mysqlnd
 apt-get install php5-mysql
 
-sudo apt-get install nginx
+# install nginx
+#sudo apt-get install nginx
+wget http://nginx.org/keys/nginx_signing.key
+apt-key add nginx_signing.key 
+
+# 不同ubuntu版本需要对应不同的codename
+# see http://nginx.org/en/linux_packages.html#distributions
+echo "deb http://nginx.org/packages/debian/ trusty nginx" >> /etc/apt/sources.list
+echo "deb-src http://nginx.org/packages/debian/ trusty nginx" >> /etc/apt/sources.list
+
+# install
+apt-get update
+apt-get install nginx
  
 # install git
 apt-get install git
