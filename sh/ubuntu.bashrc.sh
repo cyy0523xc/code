@@ -139,7 +139,8 @@ cyy_find() {
 }
 
 shuangpin() {
-    xrandr --output HDMI1 --mode 1366x768 --pos 0x0 --rotate left --output VIRTUAL1 --off --output VGA1 --mode 1920x1080 --pos 768x0 --rotate normal
+    #xrandr --output HDMI1 --mode 1366x768 --pos 0x0 --rotate left --output VIRTUAL1 --off --output VGA1 --mode 1920x1080 --pos 768x0 --rotate normal
+    bash .screenlayout/shuangpin.sh
 }
 
 # git pull all
@@ -331,6 +332,8 @@ HELP
     fi 
 
 }
+
+
 
 # 其他脚本
 . /home/code/github/code/sh/ubuntu.bashrc.git.sh 
