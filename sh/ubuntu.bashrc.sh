@@ -333,6 +333,13 @@ HELP
 
 }
 
+# 直接打开对应后缀的文件
+alias -s html=vim
+alias -s php=vim 
+alias -s py=vim 
+alias -s js=vim 
+alias -s css=vim 
+alias -s md=vim 
 
 
 # 其他脚本
