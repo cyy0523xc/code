@@ -11,7 +11,9 @@ apt-get install libapache2-mod-php5 php-apc php-pear php5  php5-cli php5-common 
  
 php5enmod mcrypt 
 
-apt-get install php5-mysqlnd php5-mysql
+# first install php5-mysqlnd, and then install php5-mysql
+apt-get install php5-mysqlnd
+apt-get install php5-mysql
 
 sudo apt-get install nginx
  
