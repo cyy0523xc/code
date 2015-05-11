@@ -27,7 +27,7 @@ check_params() {
 }
 
 # source 
-source /home/code/github/phabricator/arcanist/resources/shell/bash-completion 
+#source /home/code/github/phabricator/arcanist/resources/shell/bash-completion 
 
 # 服务器快速登陆
 alias ssh179='ssh root@112.124.47.179'
@@ -336,5 +336,5 @@ HELP
 
 
 # 其他脚本
-. /home/code/github/code/sh/ubuntu.bashrc.git.sh 
+#. /home/code/github/code/sh/ubuntu.bashrc.git.sh 
 
