@@ -292,7 +292,7 @@ function _github() {
     return 0
 }
 
-complete -F _github github 
+#complete -F _github github 
 
 # 把文件从一个目录copy到另一个目录
 # Usage : cp_all  path1 path2
