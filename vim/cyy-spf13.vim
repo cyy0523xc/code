@@ -87,6 +87,8 @@ Bundle "airblade/vim-gitgutter"
 Bundle "gregsexton/gitv"
 Bundle "Raimondi/delimitMate"
 
+" 自动换行
+set wrap 
 
 " 键值映射
 "au VimEnter * !xmodmap -e 'clear Lock' -e 'keycode 0x42 = Escape'

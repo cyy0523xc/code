@@ -15,7 +15,7 @@ install-app() {
 install-app nodejs
 
 # begin 配置vim
-wget https://raw.github.com/ma6174/vim/master/setup.sh -O ma6174_vim_setup.sh && bash ma6174_vim_setup.sh
+wget -qO- https://raw.github.com/ma6174/vim/master/setup.sh | sh -x 
 
 # 先安装pathogen.vim   https://github.com/tpope/vim-pathogen
 mkdir -p ~/.vim/autoload ~/.vim/bundle && \
