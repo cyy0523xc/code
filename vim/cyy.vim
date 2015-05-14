@@ -20,12 +20,20 @@ command! -nargs=0 Helloworld call Helloworld()
 
 
 " php_beautifier
-map <C-b> :% ! php_beautifier --filters "Pear() ArrayNested()"<CR>
+"map <C-b> :% ! php_beautifier --filters "Pear() ArrayNested()"<CR>
 
 " powerline插件
+"Bundle "powerline/powerline"
+" Bundle "Lokaltog/vim-powerline"
+" set t_Co=256
+" let g:Powerline_symbols = 'unicode'
+" set encoding=utf8
+
+Plugin 'bling/vim-airline'
+let g:airline_powerline_fonts = 1
 set t_Co=256
-let g:Powerline_symbols = 'unicode'
 set encoding=utf8
+let g:airline_theme = 'powerlineish'
 
 " align
 " markdown table align by "|"
@@ -142,7 +150,6 @@ Plugin 'mattn/emmet-vim'
 let g:user_emmet_mode='n'
 let g:user_emmet_install_global = 0
 autocmd FileType html,css,js,php EmmetInstall
-"let g:user_emmet_leader_key='<C-Z>'
 
 "Bundle "Yggdroot/indentLine"
 Bundle "airblade/vim-gitgutter"
@@ -159,5 +166,5 @@ autocmd FileType mako set cms=##\ %s
 " 如果编辑的是blog目录下的，且后缀为md的文件
 " 在保存并退出vim时，需要自动git push并发布到网上
 "source s:cyy_plugins_path . '/blogdeploy.vim'
-source /home/code/github/code/vim/plugins/blogdeploy.vim 
+"source /home/code/github/code/vim/plugins/blogdeploy.vim 
 
