@@ -1,9 +1,10 @@
 " 
 " Filename: /home/code/github/code/vim/cyy.vim
 " Author:   cyy0523xc@gmail.com
+" 在第一次执行时，需要安装相关的插件，在命令行下执行 :BundleInstall 
 "
 
-let s:cyy_plugins_path = '/home/code/github/code/vim/plugins'
+"let s:cyy_plugins_path = '/home/code/github/code/vim/plugins'
 "echo s:cyy_plugins_path
 "!ls R/
 
