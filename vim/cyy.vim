@@ -126,14 +126,21 @@ func SetCyyTitle()
     let __lineno = 0
     if &filetype == 'php'
         call setline(1, "<?php")
-        call append(line("."),   "\/** ")
-        call append(line(".")+1, " * @author Alex <cyy0523xc@gmail.com>")
-        call append(line(".")+2, " * @copyright IBBD.net")
-        call append(line(".")+3, " * @see ")
-        call append(line(".")+4, " * @todo ")
-        call append(line(".")+5, " * @version " . strftime("%Y-%m-%d"))
-        call append(line(".")+6, " */")
-        call append(line(".")+7, "")
+        call append(line(".") + __lineno,   "\/** ")
+        let __lineno = __lineno + 1
+        call append(line(".") + __lineno, " * @author Alex <cyy0523xc@gmail.com>")
+        let __lineno = __lineno + 1
+        call append(line(".") + __lineno, " * @copyright IBBD.net")
+        let __lineno = __lineno + 1
+        call append(line(".") + __lineno, " * @see ")
+        let __lineno = __lineno + 1
+        call append(line(".") + __lineno, " * @todo ")
+        let __lineno = __lineno + 1
+        call append(line(".") + __lineno, " * @version " . strftime("%Y-%m-%d"))
+        let __lineno = __lineno + 1
+        call append(line(".") + __lineno, " */")
+        let __lineno = __lineno + 1
+        call append(line(".") + __lineno, "")
     endif
 endfunc 
 autocmd BufNewFile * normal G 
