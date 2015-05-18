@@ -172,6 +172,19 @@ Bundle "Raimondi/delimitMate"
 " 全局查找某个字符：\\f{char}
 Plugin 'Lokaltog/vim-easymotion'
 
+" 目录树
+Plugin 'scrooloose/nerdtree'
+"Plugin 'Xuyuanp/nerdtree-git-plugin'
+" 设置NerdTree
+map <F3> :NERDTreeMirror<CR>
+map <F3> :NERDTreeToggle<CR>
+
+" taglist快捷键设置
+" <c-w> 窗口切换
+let Tlist_Inc_Winwidth=0 
+map <F4> :TlistClose<CR>
+map <F4> :TlistToggle<CR>
+
 " vim-commentary设置
 " 设置Python注释字符
 autocmd FileType python,shell set commentstring=#\ %s 
