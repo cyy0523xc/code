@@ -26,15 +26,15 @@ command! -nargs=0 Helloworld call Helloworld()
 " powerline插件
 "Bundle "powerline/powerline"
 " Bundle "Lokaltog/vim-powerline"
-" set t_Co=256
-" let g:Powerline_symbols = 'unicode'
-" set encoding=utf8
-
-Plugin 'bling/vim-airline'
-let g:airline_powerline_fonts = 1
 set t_Co=256
+let g:Powerline_symbols = 'unicode'
 set encoding=utf8
-let g:airline_theme = 'powerlineish'
+
+" Plugin 'bling/vim-airline'
+" let g:airline_powerline_fonts = 1
+" set t_Co=256
+" set encoding=utf8
+" let g:airline_theme = 'powerlineish'
 
 " align
 " markdown table align by "|"
@@ -175,4 +175,3 @@ autocmd FileType mako set cms=##\ %s
 " 在保存并退出vim时，需要自动git push并发布到网上
 "source s:cyy_plugins_path . '/blogdeploy.vim'
 "source /home/code/github/code/vim/plugins/blogdeploy.vim 
-
