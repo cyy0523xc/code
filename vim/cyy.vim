@@ -2,6 +2,7 @@
 " Filename: /home/code/github/code/vim/cyy.vim
 " Author:   cyy0523xc@gmail.com
 " 在第一次执行时，需要安装相关的插件，在命令行下执行 :BundleInstall 
+" :PluginInstall 
 "
 
 "let s:cyy_plugins_path = '/home/code/github/code/vim/plugins'
@@ -165,6 +166,11 @@ Bundle "gregsexton/gitv"
 Bundle "tpope/vim-commentary"
 Bundle "tpope/vim-surround"
 Bundle "Raimondi/delimitMate"
+
+" 快速标签跳转
+" 快捷键：\\w
+" 全局查找某个字符：\\f{char}
+Plugin 'Lokaltog/vim-easymotion'
 
 " vim-commentary设置
 " 设置Python注释字符
