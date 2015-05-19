@@ -341,6 +341,8 @@ alias -s js=vim
 alias -s css=vim 
 alias -s md=vim 
 
+# git commit -am 
+alias gitc="git commit -am "
 
 # 其他脚本
 #. /home/code/github/code/sh/ubuntu.bashrc.git.sh 
