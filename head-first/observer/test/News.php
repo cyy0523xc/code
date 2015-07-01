@@ -8,15 +8,15 @@
  */
 namespace News;
 
-require_once "../ObservableInterface.php";
-require_once "../ObserverInterface.php";
-require_once "./NewsInterface.php";
+require_once "../IObservable.php";
+require_once "../IObserver.php";
+require_once "./INews.php";
 
-use Observer\ObservableInterface;
-use Observer\ObserverInterface;
-use News\NewsInterface;
+use Observer\IObservable;
+use Observer\IObserver;
+use News\INews;
 
-class News implements ObservableInterface, NewsInterface {
+class News implements IObservable, INews {
 
     /**
      * 观察者列表
@@ -35,9 +35,9 @@ class News implements ObservableInterface, NewsInterface {
 
     /**
      * 注册观察者
-     * @param ObserverInterface $observer
+     * @param IObserver $observer
      */
-    public function register(ObserverInterface $observer) 
+    public function register(IObserver $observer) 
     {
         $class_name = get_class($observer);
         $this->observer_list[$class_name] = $observer;
@@ -46,9 +46,9 @@ class News implements ObservableInterface, NewsInterface {
 
     /**
      * 移除观察者
-     * @param ObserverInterface $observer
+     * @param IObserver $observer
      */
-    public function remove(ObserverInterface $observer)
+    public function remove(IObserver $observer)
     {
         $class_name = get_class($observer);
         if (isset($this->observer_list[$class_name])) {

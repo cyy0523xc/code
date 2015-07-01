@@ -8,7 +8,7 @@
  */
 namespace News;
 
-interface NewsInterface {
+interface INews {
 
     /**
      * 添加新闻

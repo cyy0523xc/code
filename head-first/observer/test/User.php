@@ -8,15 +8,15 @@
  */
 namespace News;
 
-require_once "../ObservableInterface.php";
-require_once "../ObserverInterface.php";
+require_once "../IObservable.php";
+require_once "../IObserver.php";
 
-use Observer\ObservableInterface;
-use Observer\ObserverInterface;
+use Observer\IObservable;
+use Observer\IObserver;
 
-class User implements ObserverInterface {
+class User implements IObserver {
 
-    public function update(ObservableInterface $observable) 
+    public function update(IObservable $observable) 
     {
         $author = $observable->getAuthor();
         $news = $observable->getNews();

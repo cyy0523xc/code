@@ -12,11 +12,11 @@ namespace Observer;
 
 //use Observer\ObservableInterface;
 
-interface ObserverInterface {
+interface IObserver {
 
     /**
      * 观察者接受更新数据接口
      * @param ObservableInterface $observable 可观察对象
      */
-    public function update(ObservableInterface $observable);
+    public function update(IObservable $observable);
 }

@@ -8,19 +8,19 @@
  */
 namespace Observer;
 
-interface ObservableInterface {
+interface IObservable {
 
     /**
      * 注册观察者接口
-     * @param ObserverInterface $observer 观察者 
+     * @param IObserver $observer 观察者 
      */
-    public function register(ObserverInterface $observer);
+    public function register(IObserver $observer);
 
     /**
      * 移除观察者 
-     * @param ObserverInterface $observer 观察者 
+     * @param IObserver $observer 观察者 
      */
-    public function remove(ObserverInterface $observer);
+    public function remove(IObserver $observer);
 
     /**
      * 设置通知阀值
