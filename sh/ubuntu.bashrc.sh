@@ -64,27 +64,6 @@ yuicompressor() {
     echo "yuicompressor OK."
 }
 
-# elasticsearch
-alias es="/home/alex/programs/elasticsearch-1.2.2/bin/elasticsearch"
-
-# es的get数据接口
-# 用法：esget cafe order '{...}'
-# 参数说明：
-#   $1: index
-#   $2: type
-#   $3: json字符串
-esget() {
-    echo ""
-    curl -XGET "http://localhost:9200/$1/$2/_search?search_type=count" -d "$3" | python -m json.tool
-    echo ""
-}
-
-esput() {
-    echo ""
-    curl -XPUT "http://localhost:9200/$1/$2/" -d "$3" | python -m json.tool
-
-}
-
 # cd github目录
 cd_github_code() {
     cd /home/code/github/
@@ -110,11 +89,22 @@ ibbd_git_init() {
     mkdir $1
     cd $1
     git init
+
+    # create README.md
     touch README.md
     echo "# 项目：$1" >> README.md
     echo "  Created at " $(date) >> README.md
     echo "  Gitlab: git@git.ibbd.net:${groupname}/$1\.git"
     git add README.md
+
+    # create Changelog.md
+    filename="Changelog.md"
+    touch $filename
+    echo "# 更新说明" >> $filename
+    echo "  $filename is created."
+    git add $filename
+
+    # commit and push 
     git commit -m 'first commit'
     git remote add origin git@git.ibbd.net:${groupname}/$1\.git
     git push -u origin master
