@@ -48,10 +48,21 @@ install-app git-flow
 
 # install pinta
 sudo add-apt-repository ppa:pinta-maintainers/pinta-stable
-sudo apt-get update
-install-app pinta
 
 # install 视频播放器
 install-app vlc 
+
+# mycli mysql
+curl https://packagecloud.io/gpg.key | apt-key add -
+apt-get install -y apt-transport-https
+echo "deb https://packagecloud.io/amjith/mycli/ubuntu/ trusty main" | sudo tee -a /etc/apt/sources.list
+
+# update 
+sudo apt-get update
+
+# install 减少等待时间
+install-app pinta
+sudo apt-get install mycli
+
 
 
