@@ -190,6 +190,10 @@ map <F4> :TlistToggle<CR>
 autocmd FileType python,shell set commentstring=#\ %s 
 autocmd FileType mako set cms=##\ %s
 
+" API文档查询及搜索工具 
+" PluginInstall
+Plugin 'KabbAmine/zeavim.vim'
+
 " 如果编辑的是blog目录下的，且后缀为md的文件
 " 在保存并退出vim时，需要自动git push并发布到网上
 "source s:cyy_plugins_path . '/blogdeploy.vim'

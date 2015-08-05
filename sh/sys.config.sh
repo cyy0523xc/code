@@ -42,6 +42,9 @@ install-app terminator
 
 install-app tmux
 
+# python代码检查
+install-app pep8
+
 # install git-flow
 
 install-app git-flow
