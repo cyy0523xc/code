@@ -45,7 +45,7 @@ R_ab = 101         # 水槽与环境的热阻
 
 
 n = 100                # 循环次数
-zeros = [[0] * (n+1)]  # 生成n+1个全是0的列表, 因为计算温度时,会计算i+1, 所以需要生成n+1
+zeros = [.0] * (n+1)   # 生成n+1个全是0的列表, 因为计算温度时,会计算i+1, 所以需要生成n+1
 
 # 初始化列表变量
 V = zeros              # 风速
@@ -60,6 +60,7 @@ T_c = zeros            # 电池温度
 E_c = zeros            # 电池功率
 q_r_gl = zeros         # 盖板与环境之间的辐射换热量
 mCT_in_out = zeros     # 水的能量平衡方程的左边部分
+h_ab = zeros           # 保温棉与环境之间的对流传热系数
 
 
 # 盖板与环境之间的辐射换热量
@@ -99,7 +100,7 @@ def cal_h_ab(T_b, T_a, V):
     T_a  : 环境温度
     V    : 风速
     '''
-    h_ab = math.sqrt(0.681 * (T_b[i] - T_a[i]) ** 2 + (2.38 * V[i] ** 0.89) ** 2)
+    h_ab = math.sqrt(0.681 * (T_b - T_a) ** 2 + (2.38 * V ** 0.89) ** 2)
     return h_ab
 
 # 循环n次
@@ -111,7 +112,7 @@ for i in range(0, n-1):
     q_r_gl[i] = cal_q_r_g1(T_a[i], T_g1[i])
 
     # 玻璃盖板1的能量平衡方程 
-    T_g1[i+1] = T_g1[i] + (G * A * a_g1 + h_a_g1[i] * A (T_a[i] - T_g1[i]) + h_w_g1 * A * (T_w[i] - T_g1[i]) + q_r_gl[i]) * 10 / (m_g1 * C_g1)
+    T_g1[i+1] = T_g1[i] + (G * A * a_g1 + h_a_g1[i] * A * (T_a[i] - T_g1[i]) + h_w_g1 * A * (T_w[i] - T_g1[i]) + q_r_gl[i]) * 10 / (m_g1 * C_g1)
 
     # 水的能量平衡方程
     mCT_in_out[i] = (h_w_g1 * A * (T_g1[i] - T_w[i]) + h_w_g2 * A * (T_g2[i] - T_in[i]) + 0.94 * G * A * (1 - R_g1) * a_w) * 10
@@ -124,7 +125,7 @@ for i in range(0, n-1):
     T_c[i+1] = T_c[i] + (h_c_g2 * A * (T_g2[i] - T_c[i]) + h_bc * A * (T_b[i] - T_c[i]) + 0.636 * G * A - E_c[i]) * 10 / (m_c * C_c)
 
     # 保温棉的能量平衡方程
-    h_ab = cal_h_ab(T_b[i], T_a[i], V)
+    h_ab[i] = cal_h_ab(T_b[i], T_a[i], V[i])
     T_b[i+1] = T_b[i] + (h_bc * A * (T_c[i] - T_b[i]) + h_ab[i] * A * (T_a[i] - T_b[i])) * 10 / (m_b * C_b)
 
     # 水箱传热模型
