@@ -45,7 +45,7 @@ R_ab = 101         # 水槽与环境的热阻
 
 
 n = 100                # 循环次数
-zeros = [[0] * (n+1)]  # 生成n+1个全是0的列表
+zeros = [[0] * (n+1)]  # 生成n+1个全是0的列表, 因为计算温度时,会计算i+1, 所以需要生成n+1
 
 # 初始化列表变量
 V = zeros              # 风速
@@ -102,8 +102,8 @@ def cal_h_ab(T_b, T_a, V):
     h_ab = math.sqrt(0.681 * (T_b[i] - T_a[i]) ** 2 + (2.38 * V[i] ** 0.89) ** 2)
     return h_ab
 
-# 模型
-for i in range(0, 100):
+# 循环n次
+for i in range(0, n-1):
     # 盖板与环境之间的对流传热系数
     h_a_g1[i] = cal_h_a_g1(T_g1[i-1], T_a[i], V[i])
 
@@ -111,7 +111,7 @@ for i in range(0, 100):
     q_r_gl[i] = cal_q_r_g1(T_a[i], T_g1[i])
 
     # 玻璃盖板1的能量平衡方程 
-    T_g1[i + 1] = T_g1[i] + (G * A * a_g1 + h_a_g1[i] * A (T_a[i] - T_g1[i]) + h_w_g1 * A * (T_w[i] - T_g1[i]) + q_r_gl[i]) * 10 / (m_g1 * C_g1)
+    T_g1[i+1] = T_g1[i] + (G * A * a_g1 + h_a_g1[i] * A (T_a[i] - T_g1[i]) + h_w_g1 * A * (T_w[i] - T_g1[i]) + q_r_gl[i]) * 10 / (m_g1 * C_g1)
 
     # 水的能量平衡方程
     mCT_in_out[i] = (h_w_g1 * A * (T_g1[i] - T_w[i]) + h_w_g2 * A * (T_g2[i] - T_in[i]) + 0.94 * G * A * (1 - R_g1) * a_w) * 10
