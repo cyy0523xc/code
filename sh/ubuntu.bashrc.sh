@@ -125,7 +125,21 @@ cyy_find() {
         echo "find . | xargs grep -ri \$1"
         return
     fi
-    find . | xargs grep -ri "$1"
+    find . | xargs grep -s $1 \
+        | awk -F: 'BEGIN {last_file = $1}
+    {
+        if (keyword) {
+            gsub(/'$1'/, "\033[1;31m"keyword"\033[0m", $2)
+        }
+        if (last_file == $1) {
+            print $2;
+        } else {
+            last_file = $1;
+            print "";
+            print "\033[40;33m"$1"\033[0m";
+            print $2
+        }
+    }' keyword=$1
 }
 
 shuangpin() {
