@@ -66,12 +66,12 @@ yuicompressor() {
 
 # cd github目录
 cd_github_code() {
-    cd /home/code/github/
+    cd /var/www/github/
 }
 
 # cd开发目录
 cd_ibbd_code() {
-    cd /home/code/ibbd/ 
+    cd /var/www
 }
 
 # gitlab: new project
