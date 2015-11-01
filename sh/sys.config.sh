@@ -49,6 +49,9 @@ install-app pep8
 
 install-app git-flow
 
+# ab测试工具
+install-app apache2-utils
+
 # install pinta
 sudo add-apt-repository ppa:pinta-maintainers/pinta-stable
 
