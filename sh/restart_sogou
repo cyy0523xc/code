@@ -1,0 +1,16 @@
+#!/bin/sh
+
+if pidof fcitx; then
+    pidof fcitx | xargs kill
+fi
+
+if pidof sogou-qimpanel; then
+    pidof sogou-qimpanel | xargs kill
+fi
+
+nohup fcitx  1>/dev/null 2>/dev/null &
+nohup sogou-qimpanel  1>/dev/null 2>/dev/null &
+
+# cp to /usr/bin
+sudo cp ./restart_sogou /usr/bin/
+sudo chmod a+x /usr/bin/restart_sogou
