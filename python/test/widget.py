@@ -1,9 +1,8 @@
 # -*- coding: utf-8 -*-
+
+
 # 将要被测试的类
-
-
 class Widget:
-
     def __init__(self, size=(40, 40)):
         self._size = size
 
@@ -17,3 +16,8 @@ class Widget:
 
     def dispose(self):
         pass
+
+
+# 带测试的函数
+def func(number):
+    return number * 2
