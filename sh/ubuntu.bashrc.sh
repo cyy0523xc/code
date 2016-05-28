@@ -348,6 +348,10 @@ alias -s md=vim
 # git commit -am 
 alias gitc="git commit -am "
 
+export GOROOT=$HOME/golang/go
+export GOPATH=$HOME/golang
+export PATH=$PATH:$GOROOT/bin
+
 # 其他脚本
 #. /home/code/github/code/sh/ubuntu.bashrc.git.sh 
 
