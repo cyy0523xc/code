@@ -83,6 +83,7 @@ alias -s md=vim
 alias gitc="git commit -am "
 
 export GOPATH=/var/www/go-src
-export GOROOT=/home/alex/golang/go-go1.6.2/bin
+export GOROOT=/home/alex/golang/go-go1.6.2
 #export GOROOT_BOOTSTRAP=$GOPATH
-export PATH=/home/alex/golang/go-go1.6.2/bin:$PATH
+#export PATH=/home/alex/golang/go-go1.6.2/bin:$PATH
+export PATH=$GOROOT/bin:$PATH
