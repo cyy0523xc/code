@@ -71,6 +71,23 @@ shuangpin() {
     bash ~/.screenlayout/shuangpin.sh
 }
 
+# 将所有子目录都git pull一遍
+pullall() {
+    curr_pwd=$PWD
+    for p in `ls`; do
+        if [ -d $p ]; then
+            cd $p
+            branch=$(git branch)
+            if [ ${#branch} -gt 0 ]; then
+                branch=${branch:2}
+                echo "Current Dir: $p and branch: $branch"
+                git pull origin "$branch:$branch"
+            fi
+            cd $curr_pwd
+        fi
+    done
+}
+
 # 直接打开对应后缀的文件
 alias -s html=vim
 alias -s php=vim 
