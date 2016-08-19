@@ -81,7 +81,7 @@ pullall() {
             if [ ${#branch} -gt 0 ]; then
                 branch=${branch:2}
                 echo "Current Dir: $p and branch: $branch"
-                git pull origin "$branch:$branch"
+                git pull origin "$branch"
             fi
             cd $curr_pwd
         fi
