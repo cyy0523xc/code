@@ -88,6 +88,11 @@ pullall() {
     done
 }
 
+# cd to golang dev
+cdgo() {
+    cd /var/www/golang/src/git.ibbd.net
+}
+
 # 直接打开对应后缀的文件
 alias -s html=vim
 alias -s php=vim 
@@ -99,7 +104,7 @@ alias -s md=vim
 # git commit -am 
 alias gitc="git commit -am "
 
-export GOPATH=/var/www/go-src
+export GOPATH=/var/www/golang
 export GOROOT=/home/alex/golang/go-go1.7
 #export GOROOT=/home/alex/golang/go-go1.6.2
 #export GOROOT_BOOTSTRAP=$GOPATH
