@@ -71,18 +71,15 @@ shuangpin() {
     bash ~/.screenlayout/shuangpin.sh
 }
 
-# 将所有子目录都git pull一遍
-pullall() {
+# 循环在所有子目录执行命令
+# example: fordir git pull
+fordir() {
     curr_pwd=$PWD
     for p in `ls`; do
-        if [ -d $p ]; then
+        if [ -d $p ]; then 
             cd $p
-            branch=$(git branch)
-            if [ ${#branch} -gt 0 ]; then
-                branch=${branch:2}
-                echo "Current Dir: $p and branch: $branch"
-                git pull origin "$branch"
-            fi
+            pwd
+            $*
             cd $curr_pwd
         fi
     done
