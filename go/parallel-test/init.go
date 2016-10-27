@@ -8,7 +8,12 @@ func init() {
 	for {
 		select {
 		case <-timer.C:
-			fmt.Printf(time.Now().Format("2006-01-02 03:04:05"))
+			fmt.Println(time.Now().Format("2006-01-02 03:04:05"))
+			time.Sleep(time.Second)
 		}
 	}
+}
+
+func Hello() {
+	fmt.Println("======>")
 }

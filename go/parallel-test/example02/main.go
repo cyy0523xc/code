@@ -5,6 +5,5 @@ import "time"
 
 func main() {
 	parallel.Hello()
-	hello()
 	time.Sleep(time.Second * 60)
 }
