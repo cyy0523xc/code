@@ -19,6 +19,10 @@ class GoogleSpider(scrapy.Spider):
             yield scrapy.Request(url=url, callback=self.parse)
 
     def parse(self, response):
+        if response.status in [301, 302]:
+            url = response.xpath("/a/@href").extract()
+            yield scrapy.Request(url=url[0], callback=self.parse)
+
         r = response.xpath("//div").extract()
         print("Length of div: %d" % len(r))
 
