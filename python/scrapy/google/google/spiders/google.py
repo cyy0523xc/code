@@ -9,6 +9,7 @@ import scrapy
 
 class GoogleSpider(scrapy.Spider):
     name = "google"
+    handle_httpstatus_list = [301, 302]
 
     def start_requests(self):
         urls = [

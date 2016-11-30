@@ -56,6 +56,9 @@ DEFAULT_REQUEST_HEADERS = {
 DOWNLOADER_MIDDLEWARES = {
     #'google.middlewares.MyCustomDownloaderMiddleware': 543,
     'google.middlewares.user_agent.UserAgent': 400,
+    'scrapy.downloadermiddlewares.cookies.CookiesMiddleware': 410,
+    'scrapy.downloadermiddlewares.defaultheaders.DefaultHeadersMiddleware': 420,
+    'scrapy.downloadermiddlewares.redirect.RedirectMiddleware': 430,
 }
 
 # Enable or disable extensions
@@ -90,3 +93,9 @@ DOWNLOADER_MIDDLEWARES = {
 #HTTPCACHE_DIR = 'httpcache'
 #HTTPCACHE_IGNORE_HTTP_CODES = []
 #HTTPCACHE_STORAGE = 'scrapy.extensions.httpcache.FilesystemCacheStorage'
+
+COOKIES_ENABLED = True
+COOKIES_DEBUG = True
+
+REDIRECT_ENABLED = True
+REDIRECT_MAX_TIMES = 10
