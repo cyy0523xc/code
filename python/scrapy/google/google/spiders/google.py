@@ -10,7 +10,7 @@ from scrapy.http import Request
 
 class GoogleSpider(scrapy.Spider):
     name = "google"
-    handle_httpstatus_list = [301, 302]
+    #handle_httpstatus_list = [301, 302]
 
     start_urls = [
         'https://www.google.com.hk/search?q=%E9%A6%99%E6%B8%AF&newwindow=1&ie=UTF-8&tbm=nws&ei=Afo7WNGeGIzs0ATFtZKgBg&start=20&sa=N',
@@ -27,9 +27,9 @@ class GoogleSpider(scrapy.Spider):
         return requests
 
     def parse(self, response):
-        if response.status in [301, 302]:
-            url = response.xpath("/a/@href").extract()
-            yield scrapy.Request(url=url[0], callback=self.parse)
+        #if response.status in [301, 302]:
+            #url = response.xpath("/a/@href").extract()
+            #yield scrapy.Request(url=url[0], callback=self.parse)
 
         r = response.xpath("//div").extract()
         print("Length of div: %d" % len(r))
