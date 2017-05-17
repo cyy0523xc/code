@@ -101,6 +101,10 @@ alias -s md=vim
 # git commit -am 
 alias gitc="git commit -am "
 
+# thefuck
+# sudo pip3 install thefuck --upgrade
+alias fuck='eval $(thefuck $(fc -ln -1)); history -r'
+
 export GOPATH=/var/www/golang
 export GOROOT=/home/alex/golang/go-go1.7.4
 #export GOROOT=/home/alex/golang/go-go1.6.2
