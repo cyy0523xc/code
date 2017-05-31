@@ -106,7 +106,7 @@ alias gitc="git commit -am "
 alias fuck='eval $(thefuck $(fc -ln -1)); history -r'
 
 export GOPATH=/var/www/golang
-export GOROOT=/home/alex/golang/go-go1.7.4
+export GOROOT=/home/alex/golang/go-go1.8.3
 #export GOROOT=/home/alex/golang/go-go1.6.2
 #export GOROOT_BOOTSTRAP=$GOPATH
 #export PATH=/home/alex/golang/go-go1.6.2/bin:$PATH
