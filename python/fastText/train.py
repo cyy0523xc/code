@@ -37,6 +37,7 @@ def test(test_file):
         topn_num = 1
         topn = [0] * topn_num
         cr = csv.DictReader(r)
+        kinds = set()
         for row in cr:
             words = jieba.cut(row['content'])
             words = [w for w in words if "\n" not in w]
@@ -44,6 +45,7 @@ def test(test_file):
                 continue
 
             res = classifier.predict([" ".join(words)], k=topn_num)
+            kinds.add(row['kind'])
             total += 1
             for i in range(topn_num):
                 if row['kind'] == res[0][i]:
@@ -51,9 +53,10 @@ def test(test_file):
 
         topn = [i/total for i in topn]
         print("Total: %d   topn:" % total, topn, sum(topn))
+        print(kinds)
 
 
 train_file = 'news.train.csv'
 test_file = 'news.test.csv'
-#test(train_file)
-#test(test_file)
+test(train_file)
+test(test_file)
