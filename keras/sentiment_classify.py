@@ -76,7 +76,7 @@ distribution = collections.Counter()
 for i, x in enumerate(sentences):
     sentences[i][1] = [w for w in x[1] if w in word_freqs]
     lw = len(sentences[i][1])
-    distribution[lw//100] += 1
+    distribution[lw//10] += 1
     num_recs += 1
     if lw > maxlen:
         maxlen = lw
@@ -85,12 +85,33 @@ print('单个样本最大长度： ', maxlen)
 print('去重后的有效词的数量： ', len(word_freqs))
 print('样本有效长度分布：', distribution)
 
+
+
 # 准备数据
 # 最大的特征数量
 # 实际预测的时候，可能有些特征并没有在样本里体现，这时可以用UNK来替代
 MAX_FEATURES = len(word_freqs)
+print('MAX_FEATURES: ', MAX_FEATURES)
+
 # 根据样本的最大长度，可以统一文本向量长度
-MAX_SENTENCE_LENGTH = maxlen
+total = 0
+tmp = []
+for k in distribution:
+    total += distribution[k]
+    tmp.append((k, distribution[k]))
+
+t_total = 0
+sample_rate = 0.95
+MAX_SENTENCE_LENGTH = 0
+total *= sample_rate
+tmp.sort(key=lambda x: x[0])
+for i in tmp:
+    t_total += i[1]
+    if t_total > total:
+        break
+    MAX_SENTENCE_LENGTH = i[0] * 10 + 10
+
+print('MAX_SENTENCE_LENGTH: ', MAX_SENTENCE_LENGTH)
 
 # 将文本转化为向量下标
 vocab_size = MAX_FEATURES + 2
