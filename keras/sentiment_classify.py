@@ -101,7 +101,7 @@ for k in distribution:
     tmp.append((k, distribution[k]))
 
 t_total = 0
-sample_rate = 0.95
+sample_rate = 0.98
 MAX_SENTENCE_LENGTH = 0
 total *= sample_rate
 tmp.sort(key=lambda x: x[0])
