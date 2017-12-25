@@ -107,9 +107,9 @@ total *= sample_rate
 tmp.sort(key=lambda x: x[0])
 for i in tmp:
     t_total += i[1]
+    MAX_SENTENCE_LENGTH = i[0] * 10 + 10
     if t_total > total:
         break
-    MAX_SENTENCE_LENGTH = i[0] * 10 + 10
 
 print('MAX_SENTENCE_LENGTH: ', MAX_SENTENCE_LENGTH)
 
