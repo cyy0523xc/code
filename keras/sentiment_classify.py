@@ -42,7 +42,7 @@ with open(neg_fn, 'r') as f:
         for word in words:
             word_freqs[word] += 1
         num_recs += 1
-        sentences.append((1, words))
+        sentences.append([1, words])
         distribution[lw//100] += 1
 
 with open(pos_fn, 'r') as f:
@@ -55,28 +55,32 @@ with open(pos_fn, 'r') as f:
         for word in words:
             word_freqs[word] += 1
         num_recs += 1
-        sentences.append((0, words))
+        sentences.append([0, words])
         distribution[lw//100] += 1
 
-print('单个样本最大长度： ', maxlen)
 print('单个样本最大长度： ', maxlen)
 print('去重后的有效词的数量： ', len(word_freqs))
 print('样本有效长度分布：', distribution)
 
 # 只保留词频大于1的词
 print('只保留词频大于1的')
+tmp = word_freqs
+word_freqs = collections.Counter()
+for i in tmp:
+    if tmp[i] > 1:
+        word_freqs[i] = tmp[i]
+
 maxlen = 0
 num_recs = 0
 distribution = collections.Counter()
-word_freqs = {k:v for k, v in enumerate(word_freqs) if v > 1}
 for i, x in enumerate(sentences):
     sentences[i][1] = [w for w in x[1] if w in word_freqs]
     lw = len(sentences[i][1])
     distribution[lw//100] += 1
+    num_recs += 1
     if lw > maxlen:
         maxlen = lw
 
-print('单个样本最大长度： ', maxlen)
 print('单个样本最大长度： ', maxlen)
 print('去重后的有效词的数量： ', len(word_freqs))
 print('样本有效长度分布：', distribution)
