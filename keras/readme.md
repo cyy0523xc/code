@@ -119,4 +119,36 @@ MAX_SENTENCE_LENGTH:  90
 
 每个epoch耗时155秒，训练集准确度0.9803, 测试集准确度0.940
 
+### 第六次训练：修改层
+
+```python
+# 原来
+model.add(Dense(1))
+model.add(Activation("sigmoid"))
+model.compile(loss="binary_crossentropy", optimizer="adam", metrics=["accuracy"])
+
+# 修改之后
+model.add(Dropout(0.5))
+model.add(Dense(1, activation='sigmoid'))
+model.compile(loss="binary_crossentropy", optimizer="rmsprop", metrics=["accuracy"])
+```
+
+效果如下：
+
+```
+Epoch 5/5
+28099/28099 [==============================] - 137s - loss: 0.1788 - acc: 0.9315 - val_loss: 0.2446 - val_acc: 0.9068
+7008/7025 [============================>.] - ETA: 0s
+Test score: 0.245, accuracy: 0.907
+```
+
+训练时间减少，但是效果变差。放弃修改！
+
+### 优化方法：adam比rmsprop好3个点
+
+其他条件都不变的前提下，在测试集上，使用rmsprop的准确度90.4%，而用adam的准确度93.8%。
+
+
+
+
 

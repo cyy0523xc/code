@@ -7,7 +7,7 @@ import jieba
 import collections
 import numpy as np
 
-from keras.layers.core import Activation, Dense
+from keras.layers.core import Activation, Dense, Dropout
 from keras.layers.embeddings import Embedding
 from keras.layers.recurrent import LSTM
 from keras.models import Sequential
@@ -85,8 +85,6 @@ print('单个样本最大长度： ', maxlen)
 print('去重后的有效词的数量： ', len(word_freqs))
 print('样本有效长度分布：', distribution)
 
-
-
 # 准备数据
 # 最大的特征数量
 # 实际预测的时候，可能有些特征并没有在样本里体现，这时可以用UNK来替代
@@ -114,7 +112,6 @@ for i in tmp:
 print('MAX_SENTENCE_LENGTH: ', MAX_SENTENCE_LENGTH)
 
 # 将文本转化为向量下标
-vocab_size = MAX_FEATURES + 2
 word2index = {x[0]: i+2 for i, x in enumerate(word_freqs.most_common(MAX_FEATURES))}
 word2index["PAD"] = 0
 word2index["UNK"] = 1
@@ -141,11 +138,28 @@ NUM_EPOCHS = 5
 
 # 网络构建
 model = Sequential()
+# Embedding: 嵌入层，只能作为模型的第一层
+# keras.layers.embeddings.Embedding(input_dim, output_dim, embeddings_initializer='uniform', embeddings_regularizer=None, activity_regularizer=None, embeddings_constraint=None, mask_zero=False, input_length=None)
+vocab_size = MAX_FEATURES + 2
 model.add(Embedding(vocab_size, EMBEDDING_SIZE, input_length=MAX_SENTENCE_LENGTH))
+
+# HIDDEN_LAYER_SIZE: 输出维度
+# dropout：0~1之间的浮点数，控制输入线性变换的神经元断开比例
+# recurrent_dropout：0~1之间的浮点数，控制循环状态的线性变换的神经元断开比例
 model.add(LSTM(HIDDEN_LAYER_SIZE, dropout=0.2, recurrent_dropout=0.2))
+
+# 全连接层，实现output = activation(dot(input, kernel)+bias)
 model.add(Dense(1))
+
+# 激活层对一个层的输出施加激活函数
 model.add(Activation("sigmoid"))
+#model.add(Dropout(0.5))
+#model.add(Dense(1, activation='sigmoid'))
+
+# 编译模型
 model.compile(loss="binary_crossentropy", optimizer="adam", metrics=["accuracy"])
+#model.compile(loss="binary_crossentropy", optimizer="rmsprop", metrics=["accuracy"])
+#model.compile(loss="binary_crossentropy", optimizer="adamax", metrics=["accuracy"])
 
 # 网络训练
 model.fit(Xtrain, ytrain, batch_size=BATCH_SIZE, epochs=NUM_EPOCHS, validation_data=(Xtest, ytest))
