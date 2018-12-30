@@ -134,7 +134,7 @@ while camera.isOpened():
         mask_img = deepcopy(bg_img)
         for x in range(cap_region_width):
             for y in range(cap_region_height):
-                if all(new_img[y, x]) == 0:
+                if all(new_img[y, x]) is False:
                     continue
                 mask_img[y, x] = img[y, x]
 
