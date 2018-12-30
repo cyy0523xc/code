@@ -9,8 +9,8 @@ import copy
 import math
 
 # parameters
-cap_region_x_begin = 0.5  # start point/total width
-cap_region_y_end = 0.8  # start point/total width
+cap_region_width = 320
+cap_region_height = 400
 threshold = 60  # BINARY threshold
 blurValue = 41  # GaussianBlur parameter
 
@@ -114,8 +114,8 @@ while camera.isOpened():
     threshold = cv2.getTrackbarPos('trh1', 'trackbar')
     frame = cv2.bilateralFilter(frame, 5, 50, 100)  # smoothing filter
     frame = cv2.flip(frame, 1)  # flip the frame horizontally
-    point_x = int(cap_region_x_begin * frame.shape[1])
-    point_y = int(cap_region_y_end * frame.shape[0])
+    point_x = frame.shape[1] - cap_region_width
+    point_y = frame.shape[0] - cap_region_height
     cv2.rectangle(frame, (point_x, 0), (frame.shape[1], point_y),
                   (255, 0, 0), 2)
     cv2.imshow('original', frame)
