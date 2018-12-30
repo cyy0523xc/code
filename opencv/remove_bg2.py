@@ -131,14 +131,16 @@ while camera.isOpened():
         img = remove_bg(img)
         mask_img = deepcopy(bg_img)
         p_count = 0
+        total = 0
         for x, y in zip(range(cap_region_width), range(cap_region_height)):
             point = img[y, x]
+            total += 1
             if all([i < 2 for i in point]):
                 continue
             mask_img[y, x] = point
             p_count += 1
         cv2.imshow('mask', mask_img)
-        print('==> ', p_count)
+        print('==> ', p_count, total)
 
         # convert the image into binary image
         gray = cv2.cvtColor(img, cv2.COLOR_BGR2GRAY)
