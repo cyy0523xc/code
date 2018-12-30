@@ -14,6 +14,9 @@ cap_region_y_end = 0.8  # start point/total width
 threshold = 60  # BINARY threshold
 blurValue = 41  # GaussianBlur parameter
 
+# Length of the history
+bgHistoryLen = 10
+
 # 背景移除的方差阀值，用于判断当前像素是前景还是背景。
 # 一般默认16，如果光照变化明显，如阳光下的水面，建议设为25,36，
 # 值越大，灵敏度越低；
@@ -141,15 +144,18 @@ while camera.isOpened():
     if k == 27:  # press ESC to exit
         break
     elif k == ord('b'):  # press 'b' to capture the background
-        bgModel = cv2.createBackgroundSubtractorMOG2(0, bgSubThreshold)
+        bgModel = cv2.createBackgroundSubtractorMOG2(bgHistoryLen,
+                                                     bgSubThreshold)
         isBgCaptured = 1
         print('Background Captured: MOG2!')
     elif k == ord('k'):  # press 'b' to capture the background
-        bgModel = cv2.createBackgroundSubtractorKNN(0, bgSubThreshold)
+        bgModel = cv2.createBackgroundSubtractorKNN(bgHistoryLen,
+                                                    bgSubThreshold)
         isBgCaptured = 1
         print('Background Captured: KNN!')
     elif k == ord('g'):
-        bgModel = cv2.bgsegm.createBackgroundSubtractorGMG(0, bgSubThreshold)
+        bgModel = cv2.bgsegm.createBackgroundSubtractorGMG(bgHistoryLen,
+                                                           bgSubThreshold)
         isBgCaptured = 1
         print('Background Captured: GMG!')
     elif k == ord('r'):  # press 'r' to reset the background
