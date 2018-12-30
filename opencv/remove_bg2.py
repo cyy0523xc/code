@@ -130,8 +130,6 @@ while camera.isOpened():
         img = img[0:point_y, point_x:frame.shape[1]]  # clip the ROI
         img = remove_bg(img)
         mask_img = deepcopy(bg_img)
-        # p_count = 0
-        # total = 0
         for x in range(cap_region_width):
             for y in range(cap_region_height):
                 point = img[y, x]
@@ -139,8 +137,8 @@ while camera.isOpened():
                     continue
                 mask_img[y, x] = point
         cv2.imshow('mask', mask_img)
-        # print('==> ', p_count, total)
 
+        """
         # convert the image into binary image
         gray = cv2.cvtColor(img, cv2.COLOR_BGR2GRAY)
         blur = cv2.GaussianBlur(gray, (blurValue, blurValue), 0)
@@ -152,6 +150,7 @@ while camera.isOpened():
         drawing = get_output_drawing(thresh)
         if drawing is not None:
             cv2.imshow('output', drawing)
+        """
 
     # Keyboard OP
     k = cv2.waitKey(10)
