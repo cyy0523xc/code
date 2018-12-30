@@ -147,19 +147,16 @@ while camera.isOpened():
         bgModel = cv2.createBackgroundSubtractorMOG2(bgHistoryLen,
                                                      bgSubThreshold)
         isBgCaptured = 1
-        print("point: %d  %d" % (point_x, point_y), frame.shape)
         print('Background Captured: MOG2!')
     elif k == ord('k'):  # press 'b' to capture the background
         bgModel = cv2.createBackgroundSubtractorKNN(bgHistoryLen,
                                                     bgSubThreshold)
         isBgCaptured = 1
-        print("point: %d  %d" % (point_x, point_y), frame.shape)
         print('Background Captured: KNN!')
     elif k == ord('g'):
         bgModel = cv2.bgsegm.createBackgroundSubtractorGMG(bgHistoryLen,
                                                            bgSubThreshold)
         isBgCaptured = 1
-        print("point: %d  %d" % (point_x, point_y), frame.shape)
         print('Background Captured: GMG!')
     elif k == ord('r'):  # press 'r' to reset the background
         bgModel = None
@@ -173,3 +170,6 @@ while camera.isOpened():
         else:
             triggerSwitch = False
             print('Trigger Off!')
+    elif k == ord('d'):
+        print("point: %d  %d" % (point_x, point_y), frame.shape)
+        print(frame[0:1, 0:1])
