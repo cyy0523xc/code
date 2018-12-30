@@ -133,6 +133,10 @@ while camera.isOpened():
         bgModel = cv2.createBackgroundSubtractorMOG2(0, bgSubThreshold)
         isBgCaptured = 1
         print('Background Captured: MOG2!')
+    elif k == ord('k'):  # press 'b' to capture the background
+        bgModel = cv2.createBackgroundSubtractorKNN(0, bgSubThreshold)
+        isBgCaptured = 1
+        print('Background Captured: KNN!')
     elif k == ord('g'):
         bgModel = cv2.bgsegm.createBackgroundSubtractorGMG(120, bgSubThreshold)
         isBgCaptured = 1
