@@ -124,6 +124,7 @@ while camera.isOpened():
     cv2.imshow('original', frame)
 
     # Main operation
+    img = None
     if isBgCaptured == 1:  # this part wont run until background captured
         img = frame
         img = img[0:point_y, point_x:frame.shape[1]]  # clip the ROI
@@ -131,7 +132,7 @@ while camera.isOpened():
         mask_img = deepcopy(bg_img)
         for x, y in zip(range(cap_region_width), range(cap_region_height)):
             point = img[y, x]
-            if all([i<10 for i in point]):
+            if all([i < 10 for i in point]):
                 continue
             mask_img[y, x] = point
         cv2.imshow('mask', mask_img)
@@ -182,3 +183,4 @@ while camera.isOpened():
     elif k == ord('d'):
         print("point: %d  %d" % (point_x, point_y), frame.shape)
         print(frame[0:1, 0:1])
+        print(img[0:1, 0:1])
