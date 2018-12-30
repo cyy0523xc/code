@@ -41,8 +41,8 @@ def calculateFingers(res, drawing):  # -> finished bool, cnt: finger count
     hull = cv2.convexHull(res, returnPoints=False)
     if len(hull) > 3:
         defects = cv2.convexityDefects(res, hull)
-        if type(defects) != type(None):  # avoid crashing.   (BUG not found)
-
+        # if type(defects) != type(None):  # avoid crashing.   (BUG not found)
+        if defects is not None:  # avoid crashing.   (BUG not found)
             cnt = 0
             for i in range(defects.shape[0]):  # calculate the angle
                 s, e, f, d = defects[i][0]
@@ -97,7 +97,7 @@ cv2.namedWindow('trackbar')
 cv2.createTrackbar('trh1', 'trackbar', threshold, 100, printThreshold)
 
 while camera.isOpened():
-    ret, frame = camera.read()
+    _, frame = camera.read()
     threshold = cv2.getTrackbarPos('trh1', 'trackbar')
     frame = cv2.bilateralFilter(frame, 5, 50, 100)  # smoothing filter
     frame = cv2.flip(frame, 1)  # flip the frame horizontally
@@ -117,7 +117,7 @@ while camera.isOpened():
         gray = cv2.cvtColor(img, cv2.COLOR_BGR2GRAY)
         blur = cv2.GaussianBlur(gray, (blurValue, blurValue), 0)
         cv2.imshow('blur', blur)
-        ret, thresh = cv2.threshold(blur, threshold, 255, cv2.THRESH_BINARY)
+        _, thresh = cv2.threshold(blur, threshold, 255, cv2.THRESH_BINARY)
         cv2.imshow('ori', thresh)
 
         # get the coutours
