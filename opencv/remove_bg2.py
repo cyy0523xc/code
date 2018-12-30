@@ -133,7 +133,7 @@ while camera.isOpened():
         p_count = 0
         for x, y in zip(range(cap_region_width), range(cap_region_height)):
             point = img[y, x]
-            if all([i < 10 for i in point]):
+            if all([i < 2 for i in point]):
                 continue
             mask_img[y, x] = point
             p_count += 1
