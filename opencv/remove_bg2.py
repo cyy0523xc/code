@@ -22,7 +22,7 @@ triggerSwitch = False  # if true, keyborad simulator works
 
 
 def printThreshold(thr):
-    print("! Changed threshold to "+str(thr))
+    print("Changed threshold to "+str(thr))
 
 
 def removeBG(frame):
@@ -60,6 +60,36 @@ def calculateFingers(res, drawing):  # -> finished bool, cnt: finger count
     return False, 0
 
 
+def get_output_drawing(thresh):
+    """"""
+    thresh1 = copy.deepcopy(thresh)
+    _, contours, _ = cv2.findContours(thresh1, cv2.RETR_TREE,
+                                      cv2.CHAIN_APPROX_SIMPLE)
+    length = len(contours)
+    if length == 0:
+        return None
+
+    maxArea = -1
+    for i in range(length):  # find the biggest contour (according to area)
+        temp = contours[i]
+        area = cv2.contourArea(temp)
+        if area > maxArea:
+            maxArea = area
+            ci = i
+
+    res = contours[ci]
+    hull = cv2.convexHull(res)
+    drawing = np.zeros(img.shape, np.uint8)
+    cv2.drawContours(drawing, [res], 0, (0, 255, 0), 2)
+    cv2.drawContours(drawing, [hull], 0, (0, 0, 255), 3)
+
+    isFinishCal, cnt = calculateFingers(res, drawing)
+    if triggerSwitch is True and isFinishCal is True and cnt <= 2:
+        print(cnt)
+
+    return drawing
+
+
 # Camera
 camera = cv2.VideoCapture(0)
 camera.set(10, 200)
@@ -76,7 +106,7 @@ while camera.isOpened():
                   (255, 0, 0), 2)
     cv2.imshow('original', frame)
 
-    #  Main operation
+    # Main operation
     if isBgCaptured == 1:  # this part wont run until background captured
         img = removeBG(frame)
         img = img[0:int(cap_region_y_end * frame.shape[0]),
@@ -91,30 +121,9 @@ while camera.isOpened():
         cv2.imshow('ori', thresh)
 
         # get the coutours
-        thresh1 = copy.deepcopy(thresh)
-        _, contours, hierarchy = cv2.findContours(thresh1, cv2.RETR_TREE, cv2.CHAIN_APPROX_SIMPLE)
-        length = len(contours)
-        maxArea = -1
-        if length > 0:
-            for i in range(length):  # find the biggest contour (according to area)
-                temp = contours[i]
-                area = cv2.contourArea(temp)
-                if area > maxArea:
-                    maxArea = area
-                    ci = i
-
-            res = contours[ci]
-            hull = cv2.convexHull(res)
-            drawing = np.zeros(img.shape, np.uint8)
-            cv2.drawContours(drawing, [res], 0, (0, 255, 0), 2)
-            cv2.drawContours(drawing, [hull], 0, (0, 0, 255), 3)
-
-            isFinishCal, cnt = calculateFingers(res, drawing)
-            if triggerSwitch is True:
-                if isFinishCal is True and cnt <= 2:
-                    print(cnt)
-
-        cv2.imshow('output', drawing)
+        drawing = get_output_drawing(thresh)
+        if drawing is not None:
+            cv2.imshow('output', drawing)
 
     # Keyboard OP
     k = cv2.waitKey(10)
