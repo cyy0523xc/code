@@ -115,7 +115,7 @@ while camera.isOpened():
     frame = cv2.bilateralFilter(frame, 5, 50, 100)  # smoothing filter
     frame = cv2.flip(frame, 1)  # flip the frame horizontally
     point_x = frame.shape[1] - cap_region_width
-    point_y = frame.shape[0] - cap_region_height
+    point_y = cap_region_height
     cv2.rectangle(frame, (point_x, 0), (frame.shape[1], point_y),
                   (255, 0, 0), 2)
     cv2.imshow('original', frame)
