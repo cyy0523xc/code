@@ -182,5 +182,5 @@ while camera.isOpened():
             print('Trigger Off!')
     elif k == ord('d'):
         print("point: %d  %d" % (point_x, point_y), frame.shape)
-        print(frame[0:1, 0:1])
-        print(img[0:1, 0:1])
+        print(frame[0, 0])
+        print(img[0, 0])
