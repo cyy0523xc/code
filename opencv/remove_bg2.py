@@ -17,7 +17,7 @@ blurValue = 41  # GaussianBlur parameter
 # 背景移除的方差阀值，用于判断当前像素是前景还是背景。
 # 一般默认16，如果光照变化明显，如阳光下的水面，建议设为25,36，
 # 值越大，灵敏度越低；
-bgSubThreshold = 16
+bgSubThreshold = 25
 
 # learningRate(0~1)配置背景更新方法，
 # 0表示不更新，
