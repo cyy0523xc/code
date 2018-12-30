@@ -66,7 +66,6 @@ camera.set(10, 200)
 cv2.namedWindow('trackbar')
 cv2.createTrackbar('trh1', 'trackbar', threshold, 100, printThreshold)
 
-
 while camera.isOpened():
     ret, frame = camera.read()
     threshold = cv2.getTrackbarPos('trh1', 'trackbar')
@@ -90,7 +89,6 @@ while camera.isOpened():
         cv2.imshow('blur', blur)
         ret, thresh = cv2.threshold(blur, threshold, 255, cv2.THRESH_BINARY)
         cv2.imshow('ori', thresh)
-
 
         # get the coutours
         thresh1 = copy.deepcopy(thresh)
@@ -125,12 +123,16 @@ while camera.isOpened():
     elif k == ord('b'):  # press 'b' to capture the background
         bgModel = cv2.createBackgroundSubtractorMOG2(0, bgSubThreshold)
         isBgCaptured = 1
-        print('!!!Background Captured!!!')
+        print('Background Captured: MOG2!')
+    elif k == ord('g'):
+        bgModel = cv2.bgsegm.createBackgroundSubtractorGMG(120, bgSubThreshold)
+        isBgCaptured = 1
+        print('Background Captured: GMG!')
     elif k == ord('r'):  # press 'r' to reset the background
         bgModel = None
         triggerSwitch = False
         isBgCaptured = 0
-        print('!!!Reset BackGround!!!')
+        print('Reset BackGround!')
     elif k == ord('n'):
         triggerSwitch = True
-        print('!!!Trigger On!!!')
+        print('Trigger On!')
