@@ -129,13 +129,15 @@ while camera.isOpened():
         img = frame
         img = img[0:point_y, point_x:frame.shape[1]]  # clip the ROI
         img = remove_bg(img)
+        new_img = cv2.erode(img, None, iterations=1)
+        new_img = cv2.dilate(new_img, None, iterations=1)
         mask_img = deepcopy(bg_img)
         for x in range(cap_region_width):
             for y in range(cap_region_height):
-                point = img[y, x]
-                if all([i < 2 for i in point]):
+                if new_img[y, x] == 0:
                     continue
-                mask_img[y, x] = point
+                mask_img[y, x] = img[y, x]
+
         cv2.imshow('mask', mask_img)
 
         """
