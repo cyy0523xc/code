@@ -13,7 +13,16 @@ cap_region_x_begin = 0.5  # start point/total width
 cap_region_y_end = 0.8  # start point/total width
 threshold = 60  # BINARY threshold
 blurValue = 41  # GaussianBlur parameter
-bgSubThreshold = 50
+
+# 背景移除的方差阀值，用于判断当前像素是前景还是背景。
+# 一般默认16，如果光照变化明显，如阳光下的水面，建议设为25,36，
+# 值越大，灵敏度越低；
+bgSubThreshold = 16
+
+# learningRate(0~1)配置背景更新方法，
+# 0表示不更新，
+# 1表示根据最后一帧更新，
+# 负数表示自动更新，(0~1)数字越大，背景更新越快。
 learningRate = 0
 
 # variables
@@ -21,11 +30,12 @@ isBgCaptured = 0   # bool, whether the background captured
 triggerSwitch = False  # if true, keyborad simulator works
 
 
-def printThreshold(thr):
+def print_threshold(thr):
     print("Changed threshold to "+str(thr))
 
 
-def removeBG(frame):
+def remove_bg(frame):
+    # 背景分割器
     fgmask = bgModel.apply(frame, learningRate=learningRate)
     # kernel = cv2.getStructuringElement(cv2.MORPH_ELLIPSE, (3, 3))
     # res = cv2.morphologyEx(fgmask, cv2.MORPH_OPEN, kernel)
@@ -36,7 +46,7 @@ def removeBG(frame):
     return res
 
 
-def calculateFingers(res, drawing):  # -> finished bool, cnt: finger count
+def calculate_fingers(res, drawing):  # -> finished bool, cnt: finger count
     #  convexity defect
     hull = cv2.convexHull(res, returnPoints=False)
     if len(hull) > 3:
@@ -83,7 +93,7 @@ def get_output_drawing(thresh):
     cv2.drawContours(drawing, [res], 0, (0, 255, 0), 2)
     cv2.drawContours(drawing, [hull], 0, (0, 0, 255), 3)
 
-    isFinishCal, cnt = calculateFingers(res, drawing)
+    isFinishCal, cnt = calculate_fingers(res, drawing)
     if triggerSwitch is True and isFinishCal is True and cnt <= 2:
         print(cnt)
 
@@ -94,23 +104,24 @@ def get_output_drawing(thresh):
 camera = cv2.VideoCapture(0)
 camera.set(10, 200)
 cv2.namedWindow('trackbar')
-cv2.createTrackbar('trh1', 'trackbar', threshold, 100, printThreshold)
+cv2.createTrackbar('trh1', 'trackbar', threshold, 100, print_threshold)
 
 while camera.isOpened():
     _, frame = camera.read()
     threshold = cv2.getTrackbarPos('trh1', 'trackbar')
     frame = cv2.bilateralFilter(frame, 5, 50, 100)  # smoothing filter
     frame = cv2.flip(frame, 1)  # flip the frame horizontally
-    cv2.rectangle(frame, (int(cap_region_x_begin * frame.shape[1]), 0),
-                  (frame.shape[1], int(cap_region_y_end * frame.shape[0])),
+    point_x = int(cap_region_x_begin * frame.shape[1])
+    point_y = int(cap_region_y_end * frame.shape[0])
+    cv2.rectangle(frame, (point_x, 0), (frame.shape[1], point_y),
                   (255, 0, 0), 2)
     cv2.imshow('original', frame)
 
     # Main operation
     if isBgCaptured == 1:  # this part wont run until background captured
-        img = removeBG(frame)
-        img = img[0:int(cap_region_y_end * frame.shape[0]),
-                  int(cap_region_x_begin * frame.shape[1]):frame.shape[1]]  # clip the ROI
+        img = frame
+        img = img[0:point_y, point_x:frame.shape[1]]  # clip the ROI
+        img = remove_bg(img)
         cv2.imshow('mask', img)
 
         # convert the image into binary image
@@ -138,7 +149,7 @@ while camera.isOpened():
         isBgCaptured = 1
         print('Background Captured: KNN!')
     elif k == ord('g'):
-        bgModel = cv2.bgsegm.createBackgroundSubtractorGMG(120, bgSubThreshold)
+        bgModel = cv2.bgsegm.createBackgroundSubtractorGMG(0, bgSubThreshold)
         isBgCaptured = 1
         print('Background Captured: GMG!')
     elif k == ord('r'):  # press 'r' to reset the background
