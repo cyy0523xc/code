@@ -5,7 +5,7 @@
 # Created Time: 2018年12月30日 星期日 15时36分26秒
 import cv2
 import numpy as np
-import copy
+from copy import deepcopy
 import math
 
 # parameters
@@ -75,7 +75,7 @@ def calculate_fingers(res, drawing):  # -> finished bool, cnt: finger count
 
 def get_output_drawing(thresh):
     """"""
-    thresh1 = copy.deepcopy(thresh)
+    thresh1 = deepcopy(thresh)
     _, contours, _ = cv2.findContours(thresh1, cv2.RETR_TREE,
                                       cv2.CHAIN_APPROX_SIMPLE)
     length = len(contours)
@@ -109,6 +109,9 @@ camera.set(10, 200)
 cv2.namedWindow('trackbar')
 cv2.createTrackbar('trh1', 'trackbar', threshold, 100, print_threshold)
 
+# read background image
+bg_img = cv2.imread('./bg.png')
+
 while camera.isOpened():
     _, frame = camera.read()
     threshold = cv2.getTrackbarPos('trh1', 'trackbar')
@@ -125,7 +128,13 @@ while camera.isOpened():
         img = frame
         img = img[0:point_y, point_x:frame.shape[1]]  # clip the ROI
         img = remove_bg(img)
-        cv2.imshow('mask', img)
+        mask_img = deepcopy(bg_img)
+        for x, y in zip(range(cap_region_width), range(cap_region_height)):
+            point = img[y, x]
+            if all([i<10 for i in point]):
+                continue
+            mask_img[y, x] = point
+        cv2.imshow('mask', mask_img)
 
         # convert the image into binary image
         gray = cv2.cvtColor(img, cv2.COLOR_BGR2GRAY)
