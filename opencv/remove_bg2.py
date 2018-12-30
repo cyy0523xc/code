@@ -147,5 +147,9 @@ while camera.isOpened():
         isBgCaptured = 0
         print('Reset BackGround!')
     elif k == ord('n'):
-        triggerSwitch = True
-        print('Trigger On!')
+        if triggerSwitch is False:
+            triggerSwitch = True
+            print('Trigger On!')
+        else:
+            triggerSwitch = False
+            print('Trigger Off!')
