@@ -53,6 +53,7 @@ if __name__ == '__main__':
     from imutils.paths import list_images
     rates, rates1, rates2, rates_sum = [], [], [], []
     white_rate = []
+    kernel = np.array([[0, -1, 0], [-1, 5, -1], [0, -1, 0]], np.float32)
     for index, path in enumerate(list_images(sys.argv[1])):
         img = cv2.imread(path, cv2.IMREAD_GRAYSCALE)
         w = img.shape[1]
@@ -89,16 +90,23 @@ if __name__ == '__main__':
         # cv2.imshow('threshold2', th2)
         # cv2.waitKey(0)
 
+        # img = cv2.fastNlMeansDenoising(img, 3, 10, 7, 21)
+        # img = cv2.filter2D(img, -1, kernel=kernel)
+        # cv2.imshow('filter2D', img)
+        # cv2.waitKey(0)
         th3 = cv2.adaptiveThreshold(img, 255, cv2.ADAPTIVE_THRESH_GAUSSIAN_C,
-                                    cv2.THRESH_BINARY, 3, 6)
+                                    cv2.THRESH_BINARY, 3, 5)
         r = th3.sum() / (255*th3.shape[0]*th3.shape[1])
         white_rate.append(r)
         print(th3.shape, r)
+        # th3 = cv2.medianBlur(th3, 3)
+        th3 = cv2.filter2D(th3, -1, kernel=kernel)
         cv2.imshow('threshold3', th3)
         cv2.waitKey(0)
 
         # 检测直线
         # 第4个参数就是阈值，阈值越大，检测精度越高
+        """
         img = cv2.imread(path)
         img = cv2.Canny(img, 50, 200, apertureSize=3)
         img = cv2.cvtColor(img, cv2.COLOR_GRAY2BGR)
@@ -127,6 +135,7 @@ if __name__ == '__main__':
 
         cv2.imshow('lines', th3)
         cv2.waitKey(0)
+        """
 
         # 移除噪声点
         # th4 = cv2.fastNlMeansDenoising(th3,10,10,7,21)
