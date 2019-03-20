@@ -5,11 +5,23 @@
 #
 # Author: alex
 # Created Time: 2019年03月18日 星期一 11时26分49秒
+import re
 import cv2
 import numpy as np
+import pytesseract
 from matplotlib import pyplot as plt
 
 is_plot = False
+# 匹配中文的正则
+zh = '[\u4E00-\u9FA5]'
+
+
+def image_to_text(image, lang="chi_sim"):
+    """识别图片文字"""
+    res = pytesseract.image_to_string(image, lang=lang)
+    res = [s.strip() for s in res.split("\n")]
+    res = re.sub("\n{2,}", "\n", "\n".join([s for s in res if len(s) > 0]))
+    return res
 
 
 def gray_hist(img):
@@ -45,9 +57,6 @@ def color_hist(img):
     plt.show()
 
 
-
-
-
 if __name__ == '__main__':
     import sys
     from imutils.paths import list_images
@@ -56,8 +65,10 @@ if __name__ == '__main__':
     kernel = np.array([[0, -1, 0], [-1, 5, -1], [0, -1, 0]], np.float32)
     for index, path in enumerate(list_images(sys.argv[1])):
         img = cv2.imread(path, cv2.IMREAD_GRAYSCALE)
-        w = img.shape[1]
-        img = img[:, 0:int(w/2)]
+        h, w = img.shape
+        img = img[int(h/5):-int(h/5), int(w/6):int(w/2)]
+        text = image_to_text(img)
+        print("===> OCR中文长度: ", len(re.findall(zh, text)))
         hist = gray_hist_cv2(img)
         hist_rate1 = [hist[i]+hist[i+1]
                      for i in range(len(hist)-1)]
@@ -77,8 +88,10 @@ if __name__ == '__main__':
         # cv2.waitKey(0)
 
         # 二值化
-        # ret, th1 = cv2.threshold(img, 100, 255, cv2.THRESH_BINARY)
+        # _, th1 = cv2.threshold(img, 128, 255, cv2.THRESH_BINARY)
         # cv2.imshow('threshold', th1)
+        # r = th1.sum() / (255*th1.shape[0]*th1.shape[1])
+        # print('二值化：', r)
         # cv2.waitKey(0)
 
         # 自适应阈值：
@@ -98,9 +111,11 @@ if __name__ == '__main__':
                                     cv2.THRESH_BINARY, 3, 5)
         r = th3.sum() / (255*th3.shape[0]*th3.shape[1])
         white_rate.append(r)
-        print(th3.shape, r)
+        text = image_to_text(th3)
+        print("===> OCR中文长度th3: ", len(re.findall(zh, text)))
+        print('自适应二值化', r)
         # th3 = cv2.medianBlur(th3, 3)
-        th3 = cv2.filter2D(th3, -1, kernel=kernel)
+        # th3 = cv2.filter2D(th3, -1, kernel=kernel)
         cv2.imshow('threshold3', th3)
         cv2.waitKey(0)
 
