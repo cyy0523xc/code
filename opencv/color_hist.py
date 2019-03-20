@@ -64,16 +64,24 @@ if __name__ == '__main__':
     white_rate = []
     kernel = np.array([[0, -1, 0], [-1, 5, -1], [0, -1, 0]], np.float32)
     for index, path in enumerate(list_images(sys.argv[1])):
-        img = cv2.imread(path, cv2.IMREAD_GRAYSCALE)
-        h, w = img.shape
-        img = img[int(h/5):-int(h/5), int(w/6):int(w/2)]
+        print("-------------------------------")
+        img = cv2.imread(path)
         text = image_to_text(img)
+        print(text)
         print("===> OCR中文长度: ", len(re.findall(zh, text)))
+
+        img = cv2.cvtColor(img, cv2.COLOR_BGR2GRAY)
+        # img = cv2.imread(path, cv2.IMREAD_GRAYSCALE)
+        # h, w = img.shape
+        # img = img[int(h/5):-int(h/5), int(w/6):int(w/2)]
+        text = image_to_text(img)
+        print(text)
+        print("===> OCR中文长度gray: ", len(re.findall(zh, text)))
         hist = gray_hist_cv2(img)
         hist_rate1 = [hist[i]+hist[i+1]
-                     for i in range(len(hist)-1)]
+                      for i in range(len(hist)-1)]
         hist_rate2 = [hist[i]+hist[i+1]+hist[i+2]
-                     for i in range(len(hist)-2)]
+                      for i in range(len(hist)-2)]
         rates.append(max(hist))
         rates1.append(max(hist_rate1))
         rates2.append(max(hist_rate2))
@@ -112,6 +120,7 @@ if __name__ == '__main__':
         r = th3.sum() / (255*th3.shape[0]*th3.shape[1])
         white_rate.append(r)
         text = image_to_text(th3)
+        print(text)
         print("===> OCR中文长度th3: ", len(re.findall(zh, text)))
         print('自适应二值化', r)
         # th3 = cv2.medianBlur(th3, 3)
