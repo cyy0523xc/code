@@ -32,6 +32,9 @@ def EMSRb(prices, mean, var, cap, alpha=0):
         y.append(min(yi, cap))
 
     y.append(cap)
+    y = np.array(y)
+    y[y < 0] = 0
+    y[np.isnan(y)] = 0
     return np.ceil(y)
 
 
