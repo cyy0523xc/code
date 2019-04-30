@@ -19,7 +19,8 @@ def screenshot(path, output_path, fn_prefix='img_', duration=1000):
     if vc.isOpened() is False:
         raise Exception('视频文件打开失败')
 
-    c = 0
+    c, img_total = 0, 0
+    duration = int(duration)
     fps = int(vc.get(cv2.CAP_PROP_FPS))
     mod = max(int(fps * duration / 1000), 4)  # 计算每多少帧保存一个截图
     while True:
@@ -29,10 +30,12 @@ def screenshot(path, output_path, fn_prefix='img_', duration=1000):
         if c % mod == 0:
             fn = '%s%08d.jpg' % (fn_prefix, c)
             cv2.imwrite(os.path.join(output_path, fn), frame)
+            img_total += 1
 
         c += 1
         cv2.waitKey(1)
 
+    print('count: ', img_total)
     vc.release()
 
 
