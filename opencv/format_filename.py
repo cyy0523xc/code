@@ -15,4 +15,4 @@ def move(path):
         shutil.move(pf, os.path.join(path, new_f))
 
 
-move('/home/alex/文档/汕头/data/out20190504_02')
+move('/home/alex/文档/汕头/data/out20190504')
