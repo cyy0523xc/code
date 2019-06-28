@@ -27,7 +27,8 @@ def EMSRb(prices, mean, var, cap, alpha=0):
         sum_mean = sum(mean[:j])
         sigma = math.sqrt(sum(var[:j]))
         p = sum(mean[:j]*prices[:j]) / sum_mean
-        tmp = norm.ppf(alpha_t*(1 - prices[j]/p))
+        tmp = norm.ppf(min(alpha_t*(1 - prices[j]/p), 0.99))
+        # print((tmp, alpha_t*(1 - prices[j]/p), alpha_t, prices[j], p))
         yi = sum_mean + sigma * tmp
         y.append(min(yi, cap))
 
@@ -40,6 +41,7 @@ def EMSRb(prices, mean, var, cap, alpha=0):
 
 if __name__ == '__main__':
     prices = (1050, 950, 699, 520)
+    prices = (1050, 950, 699, 2)
     mean = (17.3, 45.1, 39.6, 34.0)
     var = np.array((5.8, 15.0, 13.2, 11.3))**2
     cap = 130
