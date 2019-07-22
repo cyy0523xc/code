@@ -4,7 +4,6 @@
 # Author: alex
 # Created Time: 2019年07月22日 星期一 15时10分32秒
 from moviepy.editor import VideoFileClip
-from datetime import datetime
 
 
 def audio_split(path):
@@ -12,9 +11,11 @@ def audio_split(path):
     Args:
         path: 视频地址
     """
-    fn = datetime.now().strftime("%Y%m%d%H%M%S")
+    print(path)
+    save_fn = path.split('/')[-1]
+    save_fn = save_fn.split('.')[0]
     data = {
-        'audio_path': fn + '.wav'  # 获取保存目录
+        'audio_path': save_fn + '.wav'  # 获取保存目录
     }
     videoclip = VideoFileClip(path)
     audioclip = videoclip.audio
@@ -27,4 +28,13 @@ def audio_split(path):
 
 if __name__ == '__main__':
     import sys
-    files = audio_split(sys.argv[1])
+    import os
+    path = sys.argv[1]
+    if os.path.isfile(path):
+        files = audio_split(path)
+    elif os.path.isdir(path):
+        for fn in os.listdir(path):
+            fn = os.path.join(path, fn)
+            files = audio_split(fn)
+    else:
+        raise Exception('缺少参数')
