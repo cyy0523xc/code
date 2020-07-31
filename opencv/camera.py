@@ -46,14 +46,15 @@ def run():
     cams = [
         {
             'id': 0,
-            'uri': 0,
+            # 'uri': 0,
+            'uri': 'rtsp://192.168.80.153:8554/live',
             # 'uri': '/device/video0'
         },
-        {
-            'id': 1,
-            'uri': 2,
+        # {
+            # 'id': 1,
+            # 'uri': 2,
             # 'uri': '/device/video2'
-        },
+        # },
     ]
     processes = [mp.Process(target=queue_img_put,
                             args=(origin_img_q, cam['id'], cam['uri']))
