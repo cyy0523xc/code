@@ -1,0 +1,39 @@
+<!doctype html>
+<html>
+<head>
+  <title>Talisman sample app</title>
+</head>
+<body>
+
+<h1>Talisman + Seasurf Sample</h1>
+
+{% if message: %}
+<h3>Your message:</h3>
+<div>{{message}}</div>
+{% endif %}
+
+<form method="POST" action='/'>
+  <textarea name="message" placeholder="Enter message..."></textarea>
+  <button type="submit">Submit</button>
+</form>
+
+<form method="POST" action='/login'>
+  <textarea name="username" placeholder="Enter message..."></textarea>
+  <button type="submit">Login</button>
+</form>
+
+<script>
+  // This script is forbidden
+  console.log("Oh no, this should not have run!!")
+</script>
+
+<script nonce="">
+  // This one isn't
+  console.log("Yay, nonce allowed to run this.")
+  navigator.geolocation.getCurrentPosition(function(position) {
+    console.log('Oh no, geolocation access should be denied');
+  });
+</script>
+
+</body>
+</html>
