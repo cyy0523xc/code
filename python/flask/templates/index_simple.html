@@ -22,6 +22,10 @@
   <button type="submit">Login</button>
 </form>
 
+<div>
+  <button id='button' type="submit">Click</button>
+</div>
+<script src="https://cdn.bootcdn.net/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
 <script>
   // This script is forbidden
   console.log("Oh no, this should not have run!!")
@@ -33,6 +37,12 @@
   navigator.geolocation.getCurrentPosition(function(position) {
     console.log('Oh no, geolocation access should be denied');
   });
+
+$("#button").click(function(){
+  $.post("/hello", {}, function(result){
+    console.log(result);
+  });
+});
 </script>
 
 </body>

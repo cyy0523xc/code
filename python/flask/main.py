@@ -7,6 +7,7 @@ Created Time: 2020年07月31日 星期五 16时25分24秒
 import time
 from flask import Flask, render_template, request
 from flask import session
+from flask import jsonify
 
 
 app = Flask(__name__)
@@ -17,7 +18,7 @@ app.config.update(
     SESSION_COOKIE_SAMESITE='Lax',
     # 设置session的有效期，即cookie的失效时间，单位是s。
     # 这个参数很重要，因为默认会话是永久性的。
-    PERMANENT_SESSION_LIFETIME=3600,
+    PERMANENT_SESSION_LIFETIME=10,
 )
 
 
@@ -31,6 +32,13 @@ def index():
             session.clear()
 
     return render_template('index_simple.html', message=message+' '+user)
+
+
+@app.route('/hello', methods=['POST'])
+def hello():
+    user = session['user'] if 'user' in session else 'None'
+    print(session)
+    return jsonify({'user': user, 'time': session['time']})
 
 
 @app.route('/login', methods=['POST'])
