@@ -8,21 +8,8 @@ import time
 from flask import Flask, render_template, request
 from flask import session
 from flask import jsonify
-from flask_cors import CORS
-# from flask_session import Session
-
 
 app = Flask(__name__)
-app.secret_key = '123abc'
-app.config.update(
-    SESSION_COOKIE_SECURE=False,
-    SESSION_COOKIE_HTTPONLY=True,
-    SESSION_COOKIE_SAMESITE='Lax',
-    # 设置session的有效期，即cookie的失效时间，单位是s。
-    # 这个参数很重要，因为默认会话是永久性的。
-    PERMANENT_SESSION_LIFETIME=10,
-)
-CORS(app, supports_credentials=True)
 
 
 @app.route('/', methods=['GET', 'POST'])
@@ -34,7 +21,7 @@ def index():
         if session['key'] != get_key():
             session.clear()
 
-    return render_template('index_simple.html', message=message+' '+user)
+    return render_template('index.html', message=message+' '+user)
 
 
 @app.route('/hello', methods=['POST'])
@@ -49,12 +36,7 @@ def login():
     username = request.form.get('username', None)
     set_session(username)
     return jsonify(session)
-    # return render_template('index_simple.html', message=username)
-
-
-@app.route('/embeddable')
-def embeddable():
-    return "<html>I can be embedded.</html>"
+    # return render_template('index.html', message=username)
 
 
 def get_key():

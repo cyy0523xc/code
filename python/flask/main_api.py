@@ -5,7 +5,7 @@ Author: alex
 Created Time: 2020年07月31日 星期五 16时25分24秒
 '''
 import time
-from flask import Flask, render_template, request
+from flask import Flask, request
 from flask import session, make_response
 from flask import jsonify
 from flask_cors import CORS
@@ -15,14 +15,15 @@ from flask_cors import CORS
 app = Flask(__name__)
 app.secret_key = '123abc'
 app.config.update(
-    SESSION_COOKIE_SECURE=False,
     SESSION_COOKIE_HTTPONLY=True,
-    # SESSION_COOKIE_SAMESITE='Lax',
+    SESSION_COOKIE_SECURE=False,
+    SESSION_COOKIE_SAMESITE='Lax',
+    # SESSION_COOKIE_SECURE=True,
+    # SESSION_COOKIE_SAMESITE=None,
     # 设置session的有效期，即cookie的失效时间，单位是s。
     # 这个参数很重要，因为默认会话是永久性的。
     PERMANENT_SESSION_LIFETIME=360,
     SESSION_COOKIE_DOMAIN='.api.eyedmp.com',
-    SESSION_COOKIE_SAMESITE=False,
 )
 resources = {"/hello": {"origins": "*"}}
 resources = ['*']
@@ -39,7 +40,8 @@ def after_request(resp):
     # resp.headers['Access-Control-Allow-Headers'] = 'x-requested-with,content-type'
     # resp.headers['Access-Control-Allow-Headers'] = 'content-type,token'
     # resp.headers['Access-Control-Allow-Origin'] = '*'
-    resp.set_cookie('test', 'test', domain='.api.eyedmp.com')
+    resp.set_cookie('test', 'test', domain='.api.eyedmp.com',
+                    secure=True, samesite=None)
     return resp
 
 
