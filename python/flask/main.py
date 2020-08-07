@@ -8,6 +8,8 @@ import time
 from flask import Flask, render_template, request
 from flask import session
 from flask import jsonify
+from flask_cors import CORS
+# from flask_session import Session
 
 
 app = Flask(__name__)
@@ -20,6 +22,7 @@ app.config.update(
     # 这个参数很重要，因为默认会话是永久性的。
     PERMANENT_SESSION_LIFETIME=10,
 )
+CORS(app, supports_credentials=True)
 
 
 @app.route('/', methods=['GET', 'POST'])
@@ -36,19 +39,17 @@ def index():
 
 @app.route('/hello', methods=['POST'])
 def hello():
-    user = session['user'] if 'user' in session else 'None'
-    print(session)
-    return jsonify({'user': user, 'time': session['time']})
+    if 'user' not in session:
+        return jsonify({})
+    return jsonify(session)
 
 
 @app.route('/login', methods=['POST'])
 def login():
     username = request.form.get('username', None)
-    session.clear()
-    session['user'] = username
-    session['time'] = time.time()
-    session['key'] = get_key()
-    return render_template('index_simple.html', message=username)
+    set_session(username)
+    return jsonify(session)
+    # return render_template('index_simple.html', message=username)
 
 
 @app.route('/embeddable')
@@ -60,5 +61,12 @@ def get_key():
     return request.environ['REMOTE_ADDR']+request.headers.get("User-Agent")
 
 
+def set_session(username):
+    session.clear()
+    session['user'] = username
+    session['time'] = time.time()
+    session['key'] = get_key()
+
+
 if __name__ == '__main__':
-    app.run(host='127.0.0.1', port=8080, debug=True)
+    app.run(host='0.0.0.0', port=8080, debug=True)
